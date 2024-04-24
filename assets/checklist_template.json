@@ -1,0 +1,31 @@
+[
+  {
+    "id": 100,
+    "category": "Flutter Flavors",
+    "tasks": [
+      { "id": 110, "description": "Add Dev, Stg, Prod flavors on iOS" },
+      { "id": 120, "description": "Add Dev, Stg, Prod Flavors on Android" },
+      { "id": 130, "description": "Flavored API keys (dart-define or Envied)" },
+      { "id": 140, "description": "FlutterFire setup with Flavors" }
+    ]
+  },
+  {
+    "id": 200,
+    "category": "App Icons",
+    "tasks": [
+      { "id": 210, "description": "Design your own icon (IconKitchen, Figma, https://logofa.st/)" },
+      { "id": 220, "description": "Generate it with flutter_launcher_icons" },
+      { "id": 230, "description": "Different icons for each flavor" }
+    ]
+  },
+  {
+    "id": 300,
+    "category": "Error Monitoring and Feedback",
+    "tasks": [
+      { "id": 310, "description": "Install and configure Sentry or Crashlytics" },
+      { "id": 320, "description": "Handle uncaught exceptions" },
+      { "id": 330, "description": "Capture User Feedback (user_feedback package)" },
+      { "id": 340, "description": "Start monitoring and fixing issues after launch" }
+    ]
+  }
+]
