@@ -59,7 +59,7 @@
   },  
   {
     "id": 700,
-    "category": "In App Review",
+    "category": "Add In App Review Prompt",
     "tasks": [
       { "id": 710, "description": "Add a button to your about/setting page so users can leave a review" },
       { "id": 710, "description": "Use Analytics to Track KPIs related to in-app review" },
@@ -106,7 +106,7 @@
   },
   {
     "id": 1100,
-    "category": "Automate your builds",
+    "category": "Automate your builds (CI/CD)",
     "tasks": [
       { "id": 1110, "description": "Choose a CI/CD system (GitHub Actions / Codemagic / Fastlane others)" },
       { "id": 1120, "description": "Add workflow to analyze, build, and run tests" },

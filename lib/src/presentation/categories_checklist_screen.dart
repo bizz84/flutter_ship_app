@@ -11,7 +11,20 @@ class CategoriesChecklistScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesAsync = ref.watch(loadFromTemplateProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('App Release Checklist')),
+      appBar: AppBar(
+          title: Column(
+        children: [
+          const Text('<App Name>'),
+          Text(
+            'Release Checklist',
+            // TODO: Styling
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: Colors.white),
+          ),
+        ],
+      )),
       body: categoriesAsync.when(
         data: (categories) =>
             CategoriesChecklistListView(categories: categories),
