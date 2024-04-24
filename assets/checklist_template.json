@@ -81,7 +81,7 @@
   },
   {
     "id": 900,
-    "category": "Submit app to the iOS App Store",
+    "category": "Submit to the iOS App Store",
     "tasks": [
       { "id": 910, "description": "Create a new app and fill all the required metadata" },
       { "id": 920, "description": "Add a PrivacyInfo.xcprivacy to the iOS project" },
@@ -94,7 +94,7 @@
   },
   {
     "id": 1000,
-    "category": "Submit app to the Google Play Store",
+    "category": "Submit to the Google Play Store",
     "tasks": [
       { "id": 1010, "description": "Create a new app and fill all the required metadata" },
       { "id": 1020, "description": "Capture and upload your app screenshots" },

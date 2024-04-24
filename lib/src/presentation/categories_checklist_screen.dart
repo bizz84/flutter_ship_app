@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/data/category.dart';
 import 'package:flutter_ship_app/src/data/template_loader.dart';
+import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 
-class ReleaseChecklistScreen extends ConsumerWidget {
-  const ReleaseChecklistScreen({super.key});
+class CategoriesChecklistScreen extends ConsumerWidget {
+  const CategoriesChecklistScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -12,7 +13,8 @@ class ReleaseChecklistScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('App Release Checklist')),
       body: categoriesAsync.when(
-        data: (categories) => ReleaseChecklistListView(categories: categories),
+        data: (categories) =>
+            CategoriesChecklistListView(categories: categories),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, st) => Center(child: Text(e.toString())),
       ),
@@ -20,8 +22,8 @@ class ReleaseChecklistScreen extends ConsumerWidget {
   }
 }
 
-class ReleaseChecklistListView extends ConsumerWidget {
-  const ReleaseChecklistListView({super.key, required this.categories});
+class CategoriesChecklistListView extends ConsumerWidget {
+  const CategoriesChecklistListView({super.key, required this.categories});
   final List<Category> categories;
 
   @override
@@ -49,6 +51,13 @@ class CategoryListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => TasksChecklistScreen(category: category),
+          ),
+        );
+      },
       leading: completedCount == category.tasks.length
           ? const Icon(Icons.check_circle, color: Colors.green)
           : const Icon(Icons.check_circle_outline_rounded),
