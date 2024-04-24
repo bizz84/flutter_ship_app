@@ -8,7 +8,8 @@ part 'template_loader.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<List<Category>> loadFromTemplate(LoadFromTemplateRef ref) async {
-  String jsonString = await rootBundle.loadString('checklist_template.json');
+  String jsonString =
+      await rootBundle.loadString('assets/checklist_template.json');
   List<dynamic> jsonResponse = jsonDecode(jsonString);
   return jsonResponse.map((category) => Category.fromJson(category)).toList();
 }
