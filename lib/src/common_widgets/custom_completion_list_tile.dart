@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
@@ -42,14 +43,16 @@ class CustomCompletionListTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AutoSizeText(
                     title,
                     style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 2,
                   ),
                   gapH4,
-                  Text(
+                  AutoSizeText(
                     '$completedCount of $totalCount completed',
                     style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
                   ),
                 ],
               ),

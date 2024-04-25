@@ -20,6 +20,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
   shared_preferences: ^2.2.3
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

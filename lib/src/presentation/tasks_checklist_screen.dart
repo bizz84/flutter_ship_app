@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
@@ -22,9 +23,9 @@ class TasksChecklistScreen extends ConsumerWidget {
     final tasks = tasksAsync.valueOrNull ?? epic.tasks;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           epic.epic,
-          overflow: TextOverflow.fade,
+          maxLines: 1,
         ),
       ),
       body: ListView.separated(
