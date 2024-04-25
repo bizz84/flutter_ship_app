@@ -33,6 +33,8 @@ class MainApp extends StatelessWidget {
       theme: light.copyWith(
         textTheme: TextTheme(
           titleLarge: light.textTheme.titleLarge?.copyWith(fontSize: 22.0),
+          titleMedium: light.textTheme.titleMedium?.copyWith(fontSize: 18.0),
+          titleSmall: light.textTheme.titleMedium?.copyWith(fontSize: 14.0),
           bodyLarge: light.textTheme.bodyLarge?.copyWith(fontSize: 20.0),
           bodyMedium: light.textTheme.bodyMedium?.copyWith(fontSize: 18.0),
           bodySmall: light.textTheme.bodySmall?.copyWith(fontSize: 14.0),
