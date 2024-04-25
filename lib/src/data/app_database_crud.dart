@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
+import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
 import 'package:flutter_ship_app/src/domain/task_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -67,6 +68,34 @@ extension AppDatabaseCRUD on AppDatabase {
 
     return epicsMap.values.toList();
   }
+
+  // *************** Apps *****************
+
+  Stream<List<AppEntity>> watchAppsList() {
+    return select(appProjectsTable).watch().map((apps) =>
+        apps.map((app) => AppEntity(id: app.id, name: app.name)).toList());
+  }
+
+  Stream<AppEntity?> watchAppById(int id) {
+    return (select(appProjectsTable)..where((app) => app.id.equals(id)))
+        .watchSingleOrNull()
+        .map((app) =>
+            app != null ? AppEntity(id: app.id, name: app.name) : null);
+  }
+
+  Future<int> createNewApp({required String name}) async {
+    return into(appProjectsTable).insert(AppProjectsTableCompanion(
+      name: Value(name),
+    ));
+  }
+
+  Future<bool> editAppName(
+      {required int projectId, required String newName}) async {
+    return update(appProjectsTable).replace(AppProjectsTableCompanion(
+      id: Value(projectId),
+      name: Value(newName),
+    ));
+  }
 }
 
 @Riverpod(keepAlive: true)
@@ -83,4 +112,14 @@ Future<void> updateDatabaseFromJsonTemplate(
 Future<List<EpicEntity>> loadAllEpicsAndTasks(LoadAllEpicsAndTasksRef ref) {
   final db = ref.watch(appDatabaseProvider);
   return db.loadAllEpicsAndTasks();
+}
+
+@riverpod
+Stream<List<AppEntity>> appsList(AppsListRef ref) {
+  return ref.watch(appDatabaseProvider).watchAppsList();
+}
+
+@riverpod
+Stream<AppEntity?> appById(AppByIdRef ref, int id) {
+  return ref.watch(appDatabaseProvider).watchAppById(id);
 }

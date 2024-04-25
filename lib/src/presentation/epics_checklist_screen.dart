@@ -1,23 +1,29 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
+import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 
 class EpicsChecklistScreen extends ConsumerWidget {
-  const EpicsChecklistScreen({super.key, required this.appName});
-  final String appName;
+  const EpicsChecklistScreen({super.key, required this.app});
+  final AppEntity app;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final epicsAsync = ref.watch(loadAllEpicsAndTasksProvider);
     return Scaffold(
       appBar: AppBar(
         title: Column(
           children: [
-            Text(appName),
+            // * Observe app name since it can change during editing
+            Consumer(
+              builder: (context, ref, child) {
+                final updatedApp =
+                    ref.watch(appByIdProvider(app.id)).valueOrNull ?? app;
+                return Text(updatedApp.name);
+              },
+            ),
             Text(
               'Release Checklist',
               // TODO: Styling
@@ -30,36 +36,41 @@ class EpicsChecklistScreen extends ConsumerWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => log('TODO: Implement me'),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (_) => CreateOrEditAppScreen(app: app),
+              ),
+            ),
             icon: const Icon(Icons.edit),
           )
         ],
       ),
-      body: epicsAsync.when(
-        data: (epics) => EpicsChecklistListView(epics: epics),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text(e.toString())),
-      ),
+      body: const EpicsChecklistListView(),
     );
   }
 }
 
 class EpicsChecklistListView extends ConsumerWidget {
-  const EpicsChecklistListView({super.key, required this.epics});
-  final List<EpicEntity> epics;
+  const EpicsChecklistListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.separated(
-      itemCount: epics.length,
-      separatorBuilder: (context, index) => const Divider(height: 0.5),
-      itemBuilder: (_, index) {
-        final epic = epics[index];
-        return EpicListTile(
-          epic: epic,
-          completedCount: (epic.tasks.length - index) % epic.tasks.length + 1,
-        );
-      },
+    final epicsAsync = ref.watch(loadAllEpicsAndTasksProvider);
+    return epicsAsync.when(
+      data: (epics) => ListView.separated(
+        itemCount: epics.length,
+        separatorBuilder: (context, index) => const Divider(height: 0.5),
+        itemBuilder: (_, index) {
+          final epic = epics[index];
+          return EpicListTile(
+            epic: epic,
+            completedCount: (epic.tasks.length - index) % epic.tasks.length + 1,
+          );
+        },
+      ),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, st) => Center(child: Text(e.toString())),
     );
   }
 }

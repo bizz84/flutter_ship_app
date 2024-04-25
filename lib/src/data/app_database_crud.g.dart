@@ -40,5 +40,166 @@ final loadAllEpicsAndTasksProvider =
 
 typedef LoadAllEpicsAndTasksRef
     = AutoDisposeFutureProviderRef<List<EpicEntity>>;
+String _$appsListHash() => r'581c54ea512d276d0f0352ff0aac61bf4e24452c';
+
+/// See also [appsList].
+@ProviderFor(appsList)
+final appsListProvider = AutoDisposeStreamProvider<List<AppEntity>>.internal(
+  appsList,
+  name: r'appsListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$appsListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AppsListRef = AutoDisposeStreamProviderRef<List<AppEntity>>;
+String _$appByIdHash() => r'f1236f4881910d3fa3421bce0a0083c15e652bc9';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+/// See also [appById].
+@ProviderFor(appById)
+const appByIdProvider = AppByIdFamily();
+
+/// See also [appById].
+class AppByIdFamily extends Family<AsyncValue<AppEntity?>> {
+  /// See also [appById].
+  const AppByIdFamily();
+
+  /// See also [appById].
+  AppByIdProvider call(
+    int id,
+  ) {
+    return AppByIdProvider(
+      id,
+    );
+  }
+
+  @override
+  AppByIdProvider getProviderOverride(
+    covariant AppByIdProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'appByIdProvider';
+}
+
+/// See also [appById].
+class AppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
+  /// See also [appById].
+  AppByIdProvider(
+    int id,
+  ) : this._internal(
+          (ref) => appById(
+            ref as AppByIdRef,
+            id,
+          ),
+          from: appByIdProvider,
+          name: r'appByIdProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$appByIdHash,
+          dependencies: AppByIdFamily._dependencies,
+          allTransitiveDependencies: AppByIdFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  AppByIdProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final int id;
+
+  @override
+  Override overrideWith(
+    Stream<AppEntity?> Function(AppByIdRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: AppByIdProvider._internal(
+        (ref) => create(ref as AppByIdRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<AppEntity?> createElement() {
+    return _AppByIdProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AppByIdProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin AppByIdRef on AutoDisposeStreamProviderRef<AppEntity?> {
+  /// The parameter `id` of this provider.
+  int get id;
+}
+
+class _AppByIdProviderElement
+    extends AutoDisposeStreamProviderElement<AppEntity?> with AppByIdRef {
+  _AppByIdProviderElement(super.provider);
+
+  @override
+  int get id => (origin as AppByIdProvider).id;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

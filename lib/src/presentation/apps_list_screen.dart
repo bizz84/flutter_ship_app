@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
+import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 
 class AppsListScreen extends ConsumerWidget {
@@ -9,42 +12,55 @@ class AppsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Watch list of apps
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Apps'),
         actions: [
           IconButton(
-            onPressed: () => log('TODO: Implement me'),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (_) => const CreateOrEditAppScreen(),
+              ),
+            ),
             icon: const Icon(Icons.add),
           )
         ],
       ),
-      // TODO: Empty UI
       body: const AppsListView(),
     );
   }
 }
 
-class AppsListView extends StatelessWidget {
+class AppsListView extends ConsumerWidget {
   const AppsListView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 1,
-      separatorBuilder: (context, index) => const Divider(height: 0.5),
-      itemBuilder: (_, index) {
-        return ListTile(
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => const EpicsChecklistScreen(
-              appName: 'Flutter Tips',
-            ),
-          )),
-          title: const Text('Flutter Tips'),
-          trailing: const Icon(Icons.chevron_right),
-        );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appsListAsync = ref.watch(appsListProvider);
+    return appsListAsync.when(
+      data: (appsList) {
+        if (appsList.isEmpty) {
+          return const Placeholder();
+        } else {
+          return ListView.separated(
+            itemCount: appsList.length,
+            separatorBuilder: (context, index) => const Divider(height: 0.5),
+            itemBuilder: (_, index) {
+              final app = appsList[index];
+              return ListTile(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => EpicsChecklistScreen(app: app),
+                )),
+                title: Text(app.name),
+                trailing: const Icon(Icons.chevron_right),
+              );
+            },
+          );
+        }
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, st) => Center(child: ErrorPrompt(exception: e)),
     );
   }
 }
