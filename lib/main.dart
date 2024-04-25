@@ -49,7 +49,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       home: const AppsListScreen(),
     );
   }

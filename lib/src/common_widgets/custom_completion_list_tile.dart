@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_checkmark.dart';
 
@@ -17,6 +18,7 @@ class CustomCompletionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -31,6 +33,7 @@ class CustomCompletionListTile extends StatelessWidget {
               child: CustomCheckmark(
                 value: completedCount / totalCount,
                 fillColor: Theme.of(context).colorScheme.secondary,
+                checkmarkColor: Colors.white,
                 strokeWidth: 2.5,
               ),
             ),
@@ -50,10 +53,9 @@ class CustomCompletionListTile extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const Icon(
+            Icon(
               Icons.chevron_right,
-              // TODO: what color to use here?
-              color: Colors.black45,
+              color: AppColors.greyShade500(isLight),
             ),
           ],
         ),

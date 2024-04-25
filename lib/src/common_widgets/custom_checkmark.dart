@@ -4,12 +4,14 @@ import 'dart:math' as math;
 class CustomCheckmark extends StatelessWidget {
   final double value; // Value should be between 0 and 1
   final Color fillColor;
+  final Color checkmarkColor;
   final double strokeWidth;
 
   const CustomCheckmark({
     super.key,
     required this.value,
     required this.fillColor,
+    required this.checkmarkColor,
     this.strokeWidth = 5.0,
   }) : assert(value >= 0 && value <= 1);
 
@@ -19,6 +21,7 @@ class CustomCheckmark extends StatelessWidget {
       painter: _CustomCheckmarkPainter(
         sweepValue: value,
         fillColor: fillColor,
+        checkmarkColor: checkmarkColor,
         strokeWidth: strokeWidth,
       ),
     );
@@ -28,11 +31,13 @@ class CustomCheckmark extends StatelessWidget {
 class _CustomCheckmarkPainter extends CustomPainter {
   final double sweepValue;
   final Color fillColor;
+  final Color checkmarkColor;
   final double strokeWidth;
 
   _CustomCheckmarkPainter({
     required this.sweepValue,
     required this.fillColor,
+    required this.checkmarkColor,
     required this.strokeWidth,
   });
 
@@ -69,7 +74,7 @@ class _CustomCheckmarkPainter extends CustomPainter {
     // Draw the checkmark if the circle is fully filled (value == 1)
     if (sweepValue == 1.0) {
       final checkPaint = Paint()
-        ..color = Colors.white // Use the same fill color for the checkmark
+        ..color = checkmarkColor // Use the same fill color for the checkmark
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
         ..strokeCap = StrokeCap.square; // Round the ends of the checkmark

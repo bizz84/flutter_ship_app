@@ -14,8 +14,8 @@ class AppColors {
       isLight ? Colors.grey.shade300 : Colors.grey.shade800;
   static Color greyShade400(bool isLight) =>
       isLight ? Colors.grey.shade400 : Colors.grey.shade700;
-  static Color shimmerHighlightColor(bool isLight) =>
-      isLight ? Colors.grey.shade100 : Colors.grey.shade900;
+  static Color greyShade500(bool isLight) =>
+      isLight ? Colors.grey.shade500 : Colors.grey.shade600;
 
   static const flexScheme = FlexScheme.bahamaBlue;
 }
