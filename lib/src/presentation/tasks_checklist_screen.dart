@@ -22,8 +22,9 @@ class TasksChecklistListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: tasks.length,
+      separatorBuilder: (context, index) => const Divider(height: 0.5),
       itemBuilder: (_, index) {
         final task = tasks[index];
         return TaskListTile(

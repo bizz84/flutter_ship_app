@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/data/category.dart';
@@ -5,26 +7,34 @@ import 'package:flutter_ship_app/src/data/template_loader.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 
 class CategoriesChecklistScreen extends ConsumerWidget {
-  const CategoriesChecklistScreen({super.key});
+  const CategoriesChecklistScreen({super.key, required this.appName});
+  final String appName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesAsync = ref.watch(loadFromTemplateProvider);
     return Scaffold(
       appBar: AppBar(
-          title: Column(
-        children: [
-          const Text('<App Name>'),
-          Text(
-            'Release Checklist',
-            // TODO: Styling
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.white),
-          ),
+        title: Column(
+          children: [
+            Text(appName),
+            Text(
+              'Release Checklist',
+              // TODO: Styling
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => log('TODO: Implement me'),
+            icon: const Icon(Icons.edit),
+          )
         ],
-      )),
+      ),
       body: categoriesAsync.when(
         data: (categories) =>
             CategoriesChecklistListView(categories: categories),
@@ -41,8 +51,9 @@ class CategoriesChecklistListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: categories.length,
+      separatorBuilder: (context, index) => const Divider(height: 0.5),
       itemBuilder: (_, index) {
         final category = categories[index];
         return CategoryListTile(

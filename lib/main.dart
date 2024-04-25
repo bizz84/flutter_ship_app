@@ -2,7 +2,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/constants/app_colors.dart';
-import 'package:flutter_ship_app/src/presentation/categories_checklist_screen.dart';
+import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 
 void main() {
   runApp(const ProviderScope(
@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
       theme: FlexThemeData.light(scheme: AppColors.flexScheme),
       darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
       themeMode: ThemeMode.light,
-      home: const CategoriesChecklistScreen(),
+      home: const AppsListScreen(),
     );
   }
 }
