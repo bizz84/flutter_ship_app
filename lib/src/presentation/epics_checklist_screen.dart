@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/data/epic_entity.dart';
-import 'package:flutter_ship_app/src/data/template_loader.dart';
+import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/domain/epic_entity.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 
 class EpicsChecklistScreen extends ConsumerWidget {

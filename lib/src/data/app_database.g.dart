@@ -591,12 +591,16 @@ class $TaskStatusesTableTable extends TaskStatusesTable
   @override
   late final GeneratedColumn<int> taskId = GeneratedColumn<int>(
       'task_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES tasks_table(id)');
   static const VerificationMeta _epicIdMeta = const VerificationMeta('epicId');
   @override
   late final GeneratedColumn<int> epicId = GeneratedColumn<int>(
       'epic_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES epics_table(id)');
   static const VerificationMeta _completedMeta =
       const VerificationMeta('completed');
   @override

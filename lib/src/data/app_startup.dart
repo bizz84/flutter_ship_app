@@ -5,8 +5,8 @@ import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/constants/strings.dart';
+import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/app_theme_mode.dart';
-import 'package:flutter_ship_app/src/data/template_loader.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_startup.g.dart';
