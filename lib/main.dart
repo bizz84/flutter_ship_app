@@ -26,18 +26,18 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final light = FlexThemeData.light(scheme: AppColors.flexScheme);
+    // https://docs.flexcolorscheme.com/
+    final theme = FlexThemeData.light(scheme: AppColors.flexScheme);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // https://docs.flexcolorscheme.com/
-      theme: light.copyWith(
+      theme: theme.copyWith(
         textTheme: TextTheme(
-          titleLarge: light.textTheme.titleLarge?.copyWith(fontSize: 22.0),
-          titleMedium: light.textTheme.titleMedium?.copyWith(fontSize: 18.0),
-          titleSmall: light.textTheme.titleMedium?.copyWith(fontSize: 14.0),
-          bodyLarge: light.textTheme.bodyLarge?.copyWith(fontSize: 20.0),
-          bodyMedium: light.textTheme.bodyMedium?.copyWith(fontSize: 18.0),
-          bodySmall: light.textTheme.bodySmall?.copyWith(fontSize: 14.0),
+          titleLarge: theme.textTheme.titleLarge?.copyWith(fontSize: 22.0),
+          titleMedium: theme.textTheme.titleMedium?.copyWith(fontSize: 18.0),
+          titleSmall: theme.textTheme.titleMedium?.copyWith(fontSize: 14.0),
+          bodyLarge: theme.textTheme.bodyLarge?.copyWith(fontSize: 20.0),
+          bodyMedium: theme.textTheme.bodyMedium?.copyWith(fontSize: 18.0),
+          bodySmall: theme.textTheme.bodySmall?.copyWith(fontSize: 14.0),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
