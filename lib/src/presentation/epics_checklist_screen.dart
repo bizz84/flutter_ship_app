@@ -77,7 +77,7 @@ class EpicsChecklistListView extends ConsumerWidget {
   }
 }
 
-class EpicListTile extends StatelessWidget {
+class EpicListTile extends ConsumerWidget {
   const EpicListTile({
     super.key,
     required this.app,
@@ -89,7 +89,10 @@ class EpicListTile extends StatelessWidget {
   final int completedCount;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final completedCountAsync = ref.watch(
+        watchCompletedTasksCountProvider(projectId: app.id, epicId: epic.id));
+    final completedCount = completedCountAsync.valueOrNull ?? 0;
     return ListTile(
       onTap: () {
         Navigator.of(context).push(
