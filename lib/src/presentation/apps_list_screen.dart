@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/presentation/categories_checklist_screen.dart';
+import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 
 class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
@@ -37,7 +37,7 @@ class AppsListView extends StatelessWidget {
       itemBuilder: (_, index) {
         return ListTile(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => const CategoriesChecklistScreen(
+            builder: (_) => const EpicsChecklistScreen(
               appName: 'Flutter Tips',
             ),
           )),

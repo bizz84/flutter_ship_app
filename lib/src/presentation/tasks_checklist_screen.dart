@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/data/category.dart';
-import 'package:flutter_ship_app/src/data/task.dart';
+import 'package:flutter_ship_app/src/data/epic_entity.dart';
+import 'package:flutter_ship_app/src/data/task_entity.dart';
 
 class TasksChecklistScreen extends ConsumerWidget {
-  const TasksChecklistScreen({super.key, required this.category});
-  final Category category;
+  const TasksChecklistScreen({super.key, required this.epic});
+  final EpicEntity epic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text(category.category)),
-      body: TasksChecklistListView(tasks: category.tasks),
+      appBar: AppBar(title: Text(epic.epic)),
+      body: TasksChecklistListView(tasks: epic.tasks),
     );
   }
 }
 
 class TasksChecklistListView extends ConsumerWidget {
   const TasksChecklistListView({super.key, required this.tasks});
-  final List<Task> tasks;
+  final List<TaskEntity> tasks;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +38,7 @@ class TasksChecklistListView extends ConsumerWidget {
 
 class TaskListTile extends StatelessWidget {
   const TaskListTile({super.key, required this.task, required this.completed});
-  final Task task;
+  final TaskEntity task;
   final bool completed;
 
   @override
@@ -48,7 +48,7 @@ class TaskListTile extends StatelessWidget {
           ? const Icon(Icons.check_circle, color: Colors.green)
           : const Icon(Icons.check_circle_outline_rounded),
       title: Text(task.description),
-      //subtitle: Text('$completedCount of ${category.tasks.length} completed'),
+      //subtitle: Text('$completedCount of ${epic.tasks.length} completed'),
       dense: true,
     );
   }

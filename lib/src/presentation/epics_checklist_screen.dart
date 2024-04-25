@@ -2,17 +2,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/data/category.dart';
+import 'package:flutter_ship_app/src/data/epic_entity.dart';
 import 'package:flutter_ship_app/src/data/template_loader.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 
-class CategoriesChecklistScreen extends ConsumerWidget {
-  const CategoriesChecklistScreen({super.key, required this.appName});
+class EpicsChecklistScreen extends ConsumerWidget {
+  const EpicsChecklistScreen({super.key, required this.appName});
   final String appName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesAsync = ref.watch(loadFromTemplateProvider);
+    final epicsAsync = ref.watch(loadAllEpicsAndTasksProvider);
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -35,9 +35,8 @@ class CategoriesChecklistScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: categoriesAsync.when(
-        data: (categories) =>
-            CategoriesChecklistListView(categories: categories),
+      body: epicsAsync.when(
+        data: (epics) => EpicsChecklistListView(epics: epics),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, st) => Center(child: Text(e.toString())),
       ),
@@ -45,31 +44,30 @@ class CategoriesChecklistScreen extends ConsumerWidget {
   }
 }
 
-class CategoriesChecklistListView extends ConsumerWidget {
-  const CategoriesChecklistListView({super.key, required this.categories});
-  final List<Category> categories;
+class EpicsChecklistListView extends ConsumerWidget {
+  const EpicsChecklistListView({super.key, required this.epics});
+  final List<EpicEntity> epics;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView.separated(
-      itemCount: categories.length,
+      itemCount: epics.length,
       separatorBuilder: (context, index) => const Divider(height: 0.5),
       itemBuilder: (_, index) {
-        final category = categories[index];
-        return CategoryListTile(
-          category: category,
-          completedCount:
-              (category.tasks.length - index) % category.tasks.length + 1,
+        final epic = epics[index];
+        return EpicListTile(
+          epic: epic,
+          completedCount: (epic.tasks.length - index) % epic.tasks.length + 1,
         );
       },
     );
   }
 }
 
-class CategoryListTile extends StatelessWidget {
-  const CategoryListTile(
-      {super.key, required this.category, required this.completedCount});
-  final Category category;
+class EpicListTile extends StatelessWidget {
+  const EpicListTile(
+      {super.key, required this.epic, required this.completedCount});
+  final EpicEntity epic;
   final int completedCount;
 
   @override
@@ -78,15 +76,15 @@ class CategoryListTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => TasksChecklistScreen(category: category),
+            builder: (_) => TasksChecklistScreen(epic: epic),
           ),
         );
       },
-      leading: completedCount == category.tasks.length
+      leading: completedCount == epic.tasks.length
           ? const Icon(Icons.check_circle, color: Colors.green)
           : const Icon(Icons.check_circle_outline_rounded),
-      title: Text(category.category),
-      subtitle: Text('$completedCount of ${category.tasks.length} completed'),
+      title: Text(epic.epic),
+      subtitle: Text('$completedCount of ${epic.tasks.length} completed'),
       trailing: const Icon(Icons.chevron_right),
       dense: true,
     );

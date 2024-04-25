@@ -1,121 +1,121 @@
 [
   {
-    "id": 100,
-    "category": "Flutter Flavors",
+    "id": 10,
+    "epic": "Flutter Flavors",
     "tasks": [
-      { "id": 110, "description": "Add Dev, Stg, Prod flavors on iOS" },
-      { "id": 120, "description": "Add Dev, Stg, Prod Flavors on Android" },
-      { "id": 130, "description": "Flavored API keys (dart-define or Envied)" },
-      { "id": 140, "description": "FlutterFire setup with Flavors" }
+      { "id": 10, "description": "Add Dev, Stg, Prod flavors on iOS" },
+      { "id": 20, "description": "Add Dev, Stg, Prod Flavors on Android" },
+      { "id": 30, "description": "Flavored API keys (dart-define or Envied)" },
+      { "id": 40, "description": "FlutterFire setup with Flavors" }
     ]
   },
   {
-    "id": 200,
-    "category": "App Icons",
+    "id": 20,
+    "epic": "App Icons",
     "tasks": [
-      { "id": 210, "description": "Design your own icon (IconKitchen, Figma)" },
-      { "id": 220, "description": "Generate it with flutter_launcher_icons" },
-      { "id": 230, "description": "Different icons for each flavor" }
+      { "id": 10, "description": "Design your own icon (IconKitchen, Figma)" },
+      { "id": 20, "description": "Generate it with flutter_launcher_icons" },
+      { "id": 30, "description": "Different icons for each flavor" }
     ]
   },
   {
-    "id": 300,
-    "category": "Error Monitoring",
+    "id": 30,
+    "epic": "Error Monitoring",
     "tasks": [
-      { "id": 310, "description": "Install and configure Sentry or Crashlytics" },
-      { "id": 320, "description": "Handle uncaught exceptions" },
-      { "id": 330, "description": "Capture User Feedback (user_feedback package)" },
-      { "id": 340, "description": "Start monitoring and fixing issues after launch" }
+      { "id": 10, "description": "Install and configure Sentry or Crashlytics" },
+      { "id": 20, "description": "Handle uncaught exceptions" },
+      { "id": 30, "description": "Capture User Feedback (user_feedback package)" },
+      { "id": 40, "description": "Start monitoring and fixing issues after launch" }
     ]
   },
   {
-    "id": 400,
-    "category": "Analytics",
+    "id": 40,
+    "epic": "Analytics",
     "tasks": [
-      { "id": 410, "description": "Install and configure an analytics SDK of choice" },
-      { "id": 420, "description": "Make a list of all the events you want to track" },
-      { "id": 430, "description": "Add the event tracking code" },
-      { "id": 440, "description": "Add custom properties to relevant events" },
-      { "id": 450, "description": "Provide way to opt-out of data collection" }
+      { "id": 10, "description": "Install and configure an analytics SDK of choice" },
+      { "id": 20, "description": "Make a list of all the events you want to track" },
+      { "id": 30, "description": "Add the event tracking code" },
+      { "id": 40, "description": "Add custom properties to relevant events" },
+      { "id": 50, "description": "Provide way to opt-out of data collection" }
     ]
   },
   {
-    "id": 500,
-    "category": "Force Upgrade",
+    "id": 50,
+    "epic": "Force Upgrade",
     "tasks": [
-      { "id": 510, "description": "Simple Force Upgrade strategy with Upgrader package" },
-      { "id": 520, "description": "Custom Force Upgrade strategy with Firebase Remote Config" },
-      { "id": 530, "description": "Advanced Force Upgrade strategy with Rolling Release Window" }
+      { "id": 10, "description": "Simple Force Upgrade strategy with Upgrader package" },
+      { "id": 20, "description": "Custom Force Upgrade strategy with Firebase Remote Config" },
+      { "id": 30, "description": "Advanced Force Upgrade strategy with Rolling Release Window" }
     ]
   },
   {
-    "id": 600,
-    "category": "About / Settings page",
+    "id": 60,
+    "epic": "About / Settings page",
     "tasks": [
-      { "id": 610, "description": "App configuration settings (light/dark mode, etc)" },
-      { "id": 610, "description": "Links to your app website / privacy policy / terms of use" },
-      { "id": 620, "description": "Show OSS licenses" }
+      { "id": 10, "description": "App configuration settings (light/dark mode, etc)" },
+      { "id": 20, "description": "Links to your app website / privacy policy / terms of use" },
+      { "id": 30, "description": "Show OSS licenses" }
     ]
   },  
   {
-    "id": 700,
-    "category": "Add In App Review Prompt",
+    "id": 70,
+    "epic": "Add In App Review Prompt",
     "tasks": [
-      { "id": 710, "description": "Add a button to your about/setting page so users can leave a review" },
-      { "id": 710, "description": "Use Analytics to Track KPIs related to in-app review" },
-      { "id": 720, "description": "Trigger app store review prompt based on some custom logic" }
+      { "id": 10, "description": "Add a button to your about/setting page so users can leave a review" },
+      { "id": 10, "description": "Use Analytics to Track KPIs related to in-app review" },
+      { "id": 20, "description": "Trigger app store review prompt based on some custom logic" }
     ]
   },
   {
-    "id": 800,
-    "category": "Create a Website for your App",
+    "id": 80,
+    "epic": "Create a Website for your App",
     "tasks": [
-      { "id": 810, "description": "Choose a template to create your app website" },
-      { "id": 820, "description": "Add your app screenshot, icon, metadata" },
-      { "id": 830, "description": "Add your privacy policy and terms of use" },
-      { "id": 840, "description": "Publish your website on a non-branded domain" },
-      { "id": 850, "description": "Publish your website on a custom domain" },
-      { "id": 860, "description": "Add the App Store download button (when app is live)" },
-      { "id": 870, "description": "Add the Play Store download button (when app is live)" }
+      { "id": 10, "description": "Choose a template to create your app website" },
+      { "id": 20, "description": "Add your app screenshot, icon, metadata" },
+      { "id": 30, "description": "Add your privacy policy and terms of use" },
+      { "id": 40, "description": "Publish your website on a non-branded domain" },
+      { "id": 50, "description": "Publish your website on a custom domain" },
+      { "id": 60, "description": "Add the App Store download button (when app is live)" },
+      { "id": 70, "description": "Add the Play Store download button (when app is live)" }
     ]
   },
   {
-    "id": 900,
-    "category": "Submit to the iOS App Store",
+    "id": 90,
+    "epic": "Submit to the iOS App Store",
     "tasks": [
-      { "id": 910, "description": "Create a new app and fill all the required metadata" },
-      { "id": 920, "description": "Add a PrivacyInfo.xcprivacy to the iOS project" },
-      { "id": 930, "description": "Capture and upload your app screenshots" },
-      { "id": 940, "description": "Use a distribution certificate and provisioning profile for code signing" },
-      { "id": 940, "description": "Manually create a release build and upload it" },
-      { "id": 850, "description": "Submit your app for review" },
-      { "id": 860, "description": "Address any app rejections and publish your app" }
+      { "id": 10, "description": "Create a new app and fill all the required metadata" },
+      { "id": 20, "description": "Add a PrivacyInfo.xcprivacy to the iOS project" },
+      { "id": 30, "description": "Capture and upload your app screenshots" },
+      { "id": 40, "description": "Use a distribution certificate and provisioning profile for code signing" },
+      { "id": 50, "description": "Manually create a release build and upload it" },
+      { "id": 60, "description": "Submit your app for review" },
+      { "id": 70, "description": "Address any app rejections and publish your app" }
     ]
   },
   {
-    "id": 1000,
-    "category": "Submit to the Google Play Store",
+    "id": 100,
+    "epic": "Submit to the Google Play Store",
     "tasks": [
-      { "id": 1010, "description": "Create a new app and fill all the required metadata" },
-      { "id": 1020, "description": "Capture and upload your app screenshots" },
-      { "id": 1030, "description": "Generate a signed keystore for release" },
-      { "id": 1040, "description": "Manually create a release build and upload it" },
-      { "id": 1050, "description": "Submit your app for review" },
-      { "id": 1060, "description": "Address any app rejections and publish your app" }
+      { "id": 10, "description": "Create a new app and fill all the required metadata" },
+      { "id": 20, "description": "Capture and upload your app screenshots" },
+      { "id": 30, "description": "Generate a signed keystore for release" },
+      { "id": 40, "description": "Manually create a release build and upload it" },
+      { "id": 50, "description": "Submit your app for review" },
+      { "id": 60, "description": "Address any app rejections and publish your app" }
     ]
   },
   {
-    "id": 1100,
-    "category": "Automate your builds (CI/CD)",
+    "id": 110,
+    "epic": "Automate your builds (CI/CD)",
     "tasks": [
-      { "id": 1110, "description": "Choose a CI/CD system (GitHub Actions / Codemagic / Fastlane others)" },
-      { "id": 1120, "description": "Add workflow to analyze, build, and run tests" },
-      { "id": 1130, "description": "Add workflow to build for release, distribute to App Store (Publishing)" },
-      { "id": 1140, "description": "Add workflow to build for release, distribute to App Store (Testing)" },
-      { "id": 1150, "description": "Add workflow to build for release, distribute to Play Store (Publishing)" },
-      { "id": 1160, "description": "Add workflow to build for release, distribute to Play Store (Testing)" },
-      { "id": 1170, "description": "Automate the increment of the build number for each release" },
-      { "id": 1180, "description": "Automate the screenshot generation" }
+      { "id": 10, "description": "Choose a CI/CD system (GitHub Actions / Codemagic / Fastlane others)" },
+      { "id": 20, "description": "Add workflow to analyze, build, and run tests" },
+      { "id": 30, "description": "Add workflow to build for release, distribute to App Store (Publishing)" },
+      { "id": 40, "description": "Add workflow to build for release, distribute to App Store (Testing)" },
+      { "id": 50, "description": "Add workflow to build for release, distribute to Play Store (Publishing)" },
+      { "id": 60, "description": "Add workflow to build for release, distribute to Play Store (Testing)" },
+      { "id": 70, "description": "Automate the increment of the build number for each release" },
+      { "id": 80, "description": "Automate the screenshot generation" }
     ]
   }
 ]
