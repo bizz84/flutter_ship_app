@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
@@ -25,6 +26,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
                 return Text(updatedApp.name);
               },
             ),
+            gapH4,
             Text(
               'Release Checklist',
               // TODO: Styling

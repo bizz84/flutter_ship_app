@@ -26,12 +26,12 @@ class CustomCompletionListTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              width: 20,
-              height: 20,
+              width: Sizes.p24,
+              height: Sizes.p24,
               child: CustomCheckmark(
                 value: completedCount / totalCount,
                 fillColor: Theme.of(context).colorScheme.secondary,
-                strokeWidth: 2,
+                strokeWidth: 2.5,
               ),
             ),
             gapW24,

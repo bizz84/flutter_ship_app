@@ -25,10 +25,18 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final light = FlexThemeData.light(scheme: AppColors.flexScheme);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // https://docs.flexcolorscheme.com/
-      theme: FlexThemeData.light(scheme: AppColors.flexScheme),
+      theme: light.copyWith(
+        textTheme: TextTheme(
+          titleLarge: light.textTheme.titleLarge?.copyWith(fontSize: 22.0),
+          bodyLarge: light.textTheme.bodyLarge?.copyWith(fontSize: 20.0),
+          bodyMedium: light.textTheme.bodyMedium?.copyWith(fontSize: 18.0),
+          bodySmall: light.textTheme.bodySmall?.copyWith(fontSize: 14.0),
+        ),
+      ),
       darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
       themeMode: ThemeMode.light,
       home: const AppsListScreen(),
