@@ -99,6 +99,17 @@ extension AppDatabaseCRUD on AppDatabase {
 
   // *************** Tasks *****************
 
+  /// The total number of tasks loaded from the JSON template
+  Stream<int> watchTotalTasksCount() {
+    // Define the query to count all tasks
+    final query = selectOnly(tasksTable)..addColumns([tasksTable.id.count()]);
+
+    // Create the stream and map the result to the count of tasks
+    return query
+        .watchSingle()
+        .map((row) => row.read<int>(tasksTable.id.count()) ?? 0);
+  }
+
   Stream<List<TaskEntity>> watchTasksForAppAndEpic(
       {required int projectId, required int epicId}) {
     // We use a custom select statement to perform a left join between tasks and task statuses.
@@ -130,14 +141,17 @@ extension AppDatabaseCRUD on AppDatabase {
     });
   }
 
-  Stream<int> watchCompletedTasksCount(
-      {required int projectId, required int epicId}) {
+  Stream<int> watchCompletedTasksCount({required int projectId, int? epicId}) {
     // Define the query to select completed tasks for the given project and epic
+    final whereExpr = epicId != null
+        ? taskStatusesTable.projectId.equals(projectId) &
+            taskStatusesTable.epicId.equals(epicId) &
+            taskStatusesTable.completed.equals(true)
+        : taskStatusesTable.projectId.equals(projectId) &
+            taskStatusesTable.completed.equals(true);
     final query = selectOnly(taskStatusesTable)
       ..addColumns([taskStatusesTable.completed])
-      ..where(taskStatusesTable.projectId.equals(projectId) &
-          taskStatusesTable.epicId.equals(epicId) &
-          taskStatusesTable.completed.equals(true));
+      ..where(whereExpr);
 
     // Create the stream and map the result to the count of completed tasks
     return query.watch().map((rows) => rows.length);
@@ -177,6 +191,8 @@ Future<List<EpicEntity>> loadAllEpicsAndTasks(LoadAllEpicsAndTasksRef ref) {
   return db.loadAllEpicsAndTasks();
 }
 
+// *************** Apps *****************
+
 @riverpod
 Stream<List<AppEntity>> appsList(AppsListRef ref) {
   return ref.watch(appDatabaseProvider).watchAppsList();
@@ -185,6 +201,13 @@ Stream<List<AppEntity>> appsList(AppsListRef ref) {
 @riverpod
 Stream<AppEntity?> appById(AppByIdRef ref, int id) {
   return ref.watch(appDatabaseProvider).watchAppById(id);
+}
+
+// *************** Tasks *****************
+
+@riverpod
+Stream<int> watchTotalTasksCount(WatchTotalTasksCountRef ref) {
+  return ref.watch(appDatabaseProvider).watchTotalTasksCount();
 }
 
 @riverpod
@@ -197,7 +220,7 @@ Stream<List<TaskEntity>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
 
 @riverpod
 Stream<int> watchCompletedTasksCount(WatchCompletedTasksCountRef ref,
-    {required int projectId, required int epicId}) {
+    {required int projectId, int? epicId}) {
   return ref
       .watch(appDatabaseProvider)
       .watchCompletedTasksCount(projectId: projectId, epicId: epicId);

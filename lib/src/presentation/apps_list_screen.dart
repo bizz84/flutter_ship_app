@@ -1,37 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
+import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 
 class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
 
+  Future<void> _createNewApp(BuildContext context) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (_) => const CreateOrEditAppScreen(),
+        ),
+      );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Apps'),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (_) => const CreateOrEditAppScreen(),
-              ),
-            ),
+            onPressed: () => _createNewApp(context),
             icon: const Icon(Icons.add),
           )
         ],
       ),
-      body: const AppsListView(),
+      body: AppsListView(
+        totalTasksCount: totalTasksCount,
+        onNewApp: () => _createNewApp(context),
+      ),
     );
   }
 }
 
 class AppsListView extends ConsumerWidget {
-  const AppsListView({super.key});
+  const AppsListView(
+      {super.key, required this.totalTasksCount, required this.onNewApp});
+  final int? totalTasksCount;
+  final VoidCallback onNewApp;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,19 +52,31 @@ class AppsListView extends ConsumerWidget {
     return appsListAsync.when(
       data: (appsList) {
         if (appsList.isEmpty) {
-          return const Placeholder();
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Add a new app to get started',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                gapH16,
+                ElevatedButton(
+                  onPressed: onNewApp,
+                  child: const Text('New App'),
+                )
+              ],
+            ),
+          );
         } else {
           return ListView.separated(
             itemCount: appsList.length,
             separatorBuilder: (context, index) => const Divider(height: 0.5),
             itemBuilder: (_, index) {
               final app = appsList[index];
-              return ListTile(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => EpicsChecklistScreen(app: app),
-                )),
-                title: Text(app.name),
-                trailing: const Icon(Icons.chevron_right),
+              return AppListTile(
+                totalTasksCount: totalTasksCount,
+                app: app,
               );
             },
           );
@@ -59,6 +84,33 @@ class AppsListView extends ConsumerWidget {
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, st) => Center(child: ErrorPrompt(exception: e)),
+    );
+  }
+}
+
+class AppListTile extends ConsumerWidget {
+  const AppListTile({
+    super.key,
+    required this.totalTasksCount,
+    required this.app,
+  });
+  final int? totalTasksCount;
+  final AppEntity app;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final completedCountAsync =
+        ref.watch(watchCompletedTasksCountProvider(projectId: app.id));
+    final completedCount = completedCountAsync.valueOrNull ?? 0;
+    return CustomCompletionListTile(
+      title: app.name,
+      totalCount: totalTasksCount ?? 0,
+      completedCount: completedCount,
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => EpicsChecklistScreen(app: app),
+        ));
+      },
     );
   }
 }
