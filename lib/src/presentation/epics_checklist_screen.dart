@@ -46,13 +46,14 @@ class EpicsChecklistScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: const EpicsChecklistListView(),
+      body: EpicsChecklistListView(app: app),
     );
   }
 }
 
 class EpicsChecklistListView extends ConsumerWidget {
-  const EpicsChecklistListView({super.key});
+  const EpicsChecklistListView({super.key, required this.app});
+  final AppEntity app;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,6 +65,7 @@ class EpicsChecklistListView extends ConsumerWidget {
         itemBuilder: (_, index) {
           final epic = epics[index];
           return EpicListTile(
+            app: app,
             epic: epic,
             completedCount: (epic.tasks.length - index) % epic.tasks.length + 1,
           );
@@ -76,8 +78,13 @@ class EpicsChecklistListView extends ConsumerWidget {
 }
 
 class EpicListTile extends StatelessWidget {
-  const EpicListTile(
-      {super.key, required this.epic, required this.completedCount});
+  const EpicListTile({
+    super.key,
+    required this.app,
+    required this.epic,
+    required this.completedCount,
+  });
+  final AppEntity app;
   final EpicEntity epic;
   final int completedCount;
 
@@ -87,7 +94,7 @@ class EpicListTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => TasksChecklistScreen(epic: epic),
+            builder: (_) => TasksChecklistScreen(app: app, epic: epic),
           ),
         );
       },

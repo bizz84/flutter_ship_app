@@ -201,5 +201,156 @@ class _AppByIdProviderElement
   @override
   int get id => (origin as AppByIdProvider).id;
 }
+
+String _$watchTasksForAppAndEpicHash() =>
+    r'9a29ca9174f29189049b303fca1b206cd54d9e86';
+
+/// See also [watchTasksForAppAndEpic].
+@ProviderFor(watchTasksForAppAndEpic)
+const watchTasksForAppAndEpicProvider = WatchTasksForAppAndEpicFamily();
+
+/// See also [watchTasksForAppAndEpic].
+class WatchTasksForAppAndEpicFamily
+    extends Family<AsyncValue<List<TaskEntity>>> {
+  /// See also [watchTasksForAppAndEpic].
+  const WatchTasksForAppAndEpicFamily();
+
+  /// See also [watchTasksForAppAndEpic].
+  WatchTasksForAppAndEpicProvider call({
+    required int projectId,
+    required int epicId,
+  }) {
+    return WatchTasksForAppAndEpicProvider(
+      projectId: projectId,
+      epicId: epicId,
+    );
+  }
+
+  @override
+  WatchTasksForAppAndEpicProvider getProviderOverride(
+    covariant WatchTasksForAppAndEpicProvider provider,
+  ) {
+    return call(
+      projectId: provider.projectId,
+      epicId: provider.epicId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'watchTasksForAppAndEpicProvider';
+}
+
+/// See also [watchTasksForAppAndEpic].
+class WatchTasksForAppAndEpicProvider
+    extends AutoDisposeStreamProvider<List<TaskEntity>> {
+  /// See also [watchTasksForAppAndEpic].
+  WatchTasksForAppAndEpicProvider({
+    required int projectId,
+    required int epicId,
+  }) : this._internal(
+          (ref) => watchTasksForAppAndEpic(
+            ref as WatchTasksForAppAndEpicRef,
+            projectId: projectId,
+            epicId: epicId,
+          ),
+          from: watchTasksForAppAndEpicProvider,
+          name: r'watchTasksForAppAndEpicProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$watchTasksForAppAndEpicHash,
+          dependencies: WatchTasksForAppAndEpicFamily._dependencies,
+          allTransitiveDependencies:
+              WatchTasksForAppAndEpicFamily._allTransitiveDependencies,
+          projectId: projectId,
+          epicId: epicId,
+        );
+
+  WatchTasksForAppAndEpicProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.projectId,
+    required this.epicId,
+  }) : super.internal();
+
+  final int projectId;
+  final int epicId;
+
+  @override
+  Override overrideWith(
+    Stream<List<TaskEntity>> Function(WatchTasksForAppAndEpicRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: WatchTasksForAppAndEpicProvider._internal(
+        (ref) => create(ref as WatchTasksForAppAndEpicRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        projectId: projectId,
+        epicId: epicId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<List<TaskEntity>> createElement() {
+    return _WatchTasksForAppAndEpicProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is WatchTasksForAppAndEpicProvider &&
+        other.projectId == projectId &&
+        other.epicId == epicId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, projectId.hashCode);
+    hash = _SystemHash.combine(hash, epicId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin WatchTasksForAppAndEpicRef
+    on AutoDisposeStreamProviderRef<List<TaskEntity>> {
+  /// The parameter `projectId` of this provider.
+  int get projectId;
+
+  /// The parameter `epicId` of this provider.
+  int get epicId;
+}
+
+class _WatchTasksForAppAndEpicProviderElement
+    extends AutoDisposeStreamProviderElement<List<TaskEntity>>
+    with WatchTasksForAppAndEpicRef {
+  _WatchTasksForAppAndEpicProviderElement(super.provider);
+
+  @override
+  int get projectId => (origin as WatchTasksForAppAndEpicProvider).projectId;
+  @override
+  int get epicId => (origin as WatchTasksForAppAndEpicProvider).epicId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

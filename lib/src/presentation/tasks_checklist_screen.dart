@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
 import 'package:flutter_ship_app/src/domain/task_entity.dart';
 
 class TasksChecklistScreen extends ConsumerWidget {
-  const TasksChecklistScreen({super.key, required this.epic});
+  const TasksChecklistScreen(
+      {super.key, required this.app, required this.epic});
+  final AppEntity app;
   final EpicEntity epic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tasksAsync = ref.watch(
+        watchTasksForAppAndEpicProvider(projectId: app.id, epicId: epic.id));
+    final tasks = tasksAsync.valueOrNull ?? epic.tasks;
     return Scaffold(
       appBar: AppBar(title: Text(epic.epic)),
-      body: TasksChecklistListView(tasks: epic.tasks),
+      body: ListView.separated(
+        itemCount: tasks.length,
+        separatorBuilder: (context, index) => const Divider(height: 0.5),
+        itemBuilder: (_, index) {
+          final task = tasks[index];
+          return TaskListTile(
+            task: task,
+            completed: task.completed,
+          );
+        },
+      ),
     );
   }
 }
@@ -43,6 +60,7 @@ class TaskListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Make editable with checkbox
     return ListTile(
       leading: completed
           ? const Icon(Icons.check_circle, color: Colors.green)

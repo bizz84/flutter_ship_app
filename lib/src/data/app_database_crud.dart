@@ -96,6 +96,37 @@ extension AppDatabaseCRUD on AppDatabase {
       name: Value(newName),
     ));
   }
+
+  Stream<List<TaskEntity>> watchTasksForAppAndEpic(
+      {required int projectId, required int epicId}) {
+    // We use a custom select statement to perform a left join between tasks and task statuses.
+    final query = customSelect(
+      'SELECT t.id, t.description, IFNULL(ts.completed, 0) as completed '
+      'FROM tasks_table AS t '
+      'LEFT JOIN task_statuses_table AS ts ON t.id = ts.taskId AND t.epicId = ts.epicId AND ts.projectId = ? '
+      'WHERE t.epicId = ? '
+      'ORDER BY t.id',
+      variables: [
+        Variable<int>(projectId),
+        Variable<int>(epicId),
+      ],
+      readsFrom: {
+        tasksTable,
+        taskStatusesTable
+      }, // Ensuring Drift knows which tables this query depends on
+    ).watch();
+
+    // Transform the query stream into a stream of TaskEntity lists.
+    return query.map((rows) {
+      return rows.map((row) {
+        return TaskEntity(
+          id: row.read<int>('id'),
+          description: row.read<String>('description'),
+          completed: row.read<int>('completed') != 0,
+        );
+      }).toList();
+    });
+  }
 }
 
 @Riverpod(keepAlive: true)
@@ -122,4 +153,12 @@ Stream<List<AppEntity>> appsList(AppsListRef ref) {
 @riverpod
 Stream<AppEntity?> appById(AppByIdRef ref, int id) {
   return ref.watch(appDatabaseProvider).watchAppById(id);
+}
+
+@riverpod
+Stream<List<TaskEntity>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
+    {required int projectId, required int epicId}) {
+  return ref
+      .watch(appDatabaseProvider)
+      .watchTasksForAppAndEpic(projectId: projectId, epicId: epicId);
 }
