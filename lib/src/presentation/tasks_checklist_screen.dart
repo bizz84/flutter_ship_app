@@ -21,7 +21,12 @@ class TasksChecklistScreen extends ConsumerWidget {
         watchTasksForAppAndEpicProvider(projectId: app.id, epicId: epic.id));
     final tasks = tasksAsync.valueOrNull ?? epic.tasks;
     return Scaffold(
-      appBar: AppBar(title: Text(epic.epic)),
+      appBar: AppBar(
+        title: Text(
+          epic.epic,
+          overflow: TextOverflow.fade,
+        ),
+      ),
       body: ListView.separated(
         itemCount: tasks.length,
         separatorBuilder: (context, index) => const Divider(height: 0.5),

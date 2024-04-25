@@ -38,21 +38,23 @@ class CustomCompletionListTile extends StatelessWidget {
               ),
             ),
             gapW24,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                gapH4,
-                Text(
-                  '$completedCount of $totalCount completed',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  gapH4,
+                  Text(
+                    '$completedCount of $totalCount completed',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
+            gapW24,
             Icon(
               Icons.chevron_right,
               color: AppColors.greyShade500(isLight),
