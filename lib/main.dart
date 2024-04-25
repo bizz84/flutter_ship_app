@@ -40,13 +40,10 @@ class MainApp extends StatelessWidget {
           bodySmall: theme.textTheme.bodySmall?.copyWith(fontSize: 14.0),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.all(Sizes.p8),
-            ),
-            textStyle: MaterialStateProperty.all<TextStyle>(
-              const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-            ),
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(Sizes.p8),
+            textStyle:
+                const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
           ),
         ),
       ),
