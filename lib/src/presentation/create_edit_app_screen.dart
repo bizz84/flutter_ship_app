@@ -69,33 +69,27 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
         title: Text(widget.app == null ? 'New App' : 'Edit App'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(Sizes.p8),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.p16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: 'App name'),
-                    keyboardAppearance: Theme.of(context).brightness,
-                    initialValue: _name,
-                    validator: (value) => (value ?? '').isNotEmpty
-                        ? null
-                        : 'Name can\'t be empty',
-                    onSaved: (value) => _name = value ?? '',
-                  ),
-                  gapH16,
-                  ElevatedButton(
-                    onPressed: _submit,
-                    child: const Text('Save'),
-                  ),
-                ],
+        padding: const EdgeInsets.all(Sizes.p24),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'App name'),
+                keyboardAppearance: Theme.of(context).brightness,
+                initialValue: _name,
+                validator: (value) =>
+                    (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
+                onSaved: (value) => _name = value ?? '',
               ),
-            ),
+              gapH16,
+              ElevatedButton(
+                onPressed: _submit,
+                child: const Text('Save'),
+              ),
+            ],
           ),
         ),
       ),
