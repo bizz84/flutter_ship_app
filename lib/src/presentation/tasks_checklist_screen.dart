@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
@@ -57,17 +58,29 @@ class TaskListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      leading: Checkbox(
-        value: completed,
-        onChanged: (bool? newValue) {
-          if (newValue != null) {
-            onChanged(newValue);
-          }
-        },
+    return Padding(
+      padding: const EdgeInsets.only(
+          left: Sizes.p8, top: Sizes.p8, right: Sizes.p24, bottom: Sizes.p8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Checkbox(
+            value: completed,
+            onChanged: (bool? newValue) {
+              if (newValue != null) {
+                onChanged(newValue);
+              }
+            },
+          ),
+          gapW8,
+          Expanded(
+            child: Text(
+              task.description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
       ),
-      title: Text(task.description),
-      dense: true,
     );
   }
 }

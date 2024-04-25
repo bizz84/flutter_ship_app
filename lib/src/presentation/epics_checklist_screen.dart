@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
+import 'package:flutter_ship_app/src/presentation/custom_checkmark.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 
 class EpicsChecklistScreen extends ConsumerWidget {
@@ -93,7 +95,7 @@ class EpicListTile extends ConsumerWidget {
     final completedCountAsync = ref.watch(
         watchCompletedTasksCountProvider(projectId: app.id, epicId: epic.id));
     final completedCount = completedCountAsync.valueOrNull ?? 0;
-    return ListTile(
+    return InkWell(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -101,14 +103,45 @@ class EpicListTile extends ConsumerWidget {
           ),
         );
       },
-      leading: completedCount == epic.tasks.length
-          ? const Icon(Icons.check_circle, color: Colors.green)
-          // TODO: Partially filled circle with custom painter
-          : const Icon(Icons.circle_outlined),
-      title: Text(epic.epic),
-      subtitle: Text('$completedCount of ${epic.tasks.length} completed'),
-      trailing: const Icon(Icons.chevron_right),
-      dense: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.p20, vertical: Sizes.p8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CustomCheckmark(
+                value: completedCount / epic.tasks.length,
+                fillColor: Theme.of(context).colorScheme.secondary,
+                strokeWidth: 2,
+              ),
+            ),
+            gapW24,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  epic.epic,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                gapH4,
+                Text(
+                  '$completedCount of ${epic.tasks.length} completed',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+            const Spacer(),
+            const Icon(
+              Icons.chevron_right,
+              // TODO: what color to use here?
+              color: Colors.black45,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
