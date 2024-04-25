@@ -18,13 +18,13 @@ class CreateOrEditAppScreen extends ConsumerStatefulWidget {
 class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _name;
+  String _name = '';
 
   @override
   void initState() {
     super.initState();
     if (widget.app != null) {
-      _name = widget.app?.name;
+      _name = widget.app?.name ?? '';
     }
   }
 
@@ -43,9 +43,9 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
         final db = ref.read(appDatabaseProvider);
         final existingApp = widget.app;
         if (existingApp != null) {
-          await db.editAppName(projectId: existingApp.id, newName: _name!);
+          await db.editAppName(projectId: existingApp.id, newName: _name);
         } else {
-          await db.createNewApp(name: _name!);
+          await db.createNewApp(name: _name);
         }
         if (mounted) {
           Navigator.of(context).pop();
@@ -64,20 +64,15 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ref.listen<AsyncValue>(
-    //   editJobScreenControllerProvider,
-    //   (_, state) => state.showAlertDialogOnError(context),
-    // );
-    // final state = ref.watch(editJobScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.app == null ? 'New App' : 'Edit App'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(Sizes.p8),
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(Sizes.p16),
             child: Form(
               key: _formKey,
               child: Column(
@@ -86,12 +81,12 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'App name'),
-                    keyboardAppearance: Brightness.light,
+                    keyboardAppearance: Theme.of(context).brightness,
                     initialValue: _name,
                     validator: (value) => (value ?? '').isNotEmpty
                         ? null
                         : 'Name can\'t be empty',
-                    onSaved: (value) => _name = value,
+                    onSaved: (value) => _name = value ?? '',
                   ),
                   gapH16,
                   ElevatedButton(
