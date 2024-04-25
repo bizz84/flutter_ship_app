@@ -103,7 +103,8 @@ class EpicListTile extends ConsumerWidget {
       },
       leading: completedCount == epic.tasks.length
           ? const Icon(Icons.check_circle, color: Colors.green)
-          : const Icon(Icons.check_circle_outline_rounded),
+          // TODO: Partially filled circle with custom painter
+          : const Icon(Icons.circle_outlined),
       title: Text(epic.epic),
       subtitle: Text('$completedCount of ${epic.tasks.length} completed'),
       trailing: const Icon(Icons.chevron_right),
