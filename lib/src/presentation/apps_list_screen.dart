@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -54,9 +55,11 @@ class AppsListScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: AppsListView(
-        totalTasksCount: totalTasksCount,
-        onNewApp: () => _createNewApp(context),
+      body: ResponsiveCenter(
+        child: AppsListView(
+          totalTasksCount: totalTasksCount,
+          onNewApp: () => _createNewApp(context),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
@@ -22,52 +23,54 @@ class SettingsScreen extends ConsumerWidget {
         centerTitle: true,
         title: Text('Settings'.hardcoded),
       ),
-      body: ListView(
-        children: [
-          gapH32,
-          Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(Sizes.p20),
-              child: Image.asset('assets/app-icon.png', height: 120),
+      body: ResponsiveCenter(
+        child: ListView(
+          children: [
+            gapH32,
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.p20),
+                child: Image.asset('assets/app-icon.png', height: 120),
+              ),
             ),
-          ),
-          gapH12,
-          Text(
-            packageInfo.appName,
-            textAlign: TextAlign.center,
-          ),
-          gapH8,
-          Text(
-            'Version ${packageInfo.version}'.hardcoded,
-            style: Theme.of(context).textTheme.bodySmall,
-            textAlign: TextAlign.center,
-          ),
-          gapH32,
-          const Divider(height: 1),
-          const ThemeSelectorListTile(),
-          const Divider(height: 1),
-          ListTile(
-            title: Text('Website'.hardcoded),
-            // TODO: Update with correct URL
-            onTap: () => _openLink('https://fluttertips.dev', ref),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-          const Divider(height: 1),
-          ListTile(
-            title: Text('Privacy Policy'.hardcoded),
-            // TODO: Update with correct URL
-            onTap: () => _openLink('https://fluttertips.dev/privacy', ref),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-          const Divider(height: 1),
-          ListTile(
-            title: Text('Terms of Use'.hardcoded),
-            // TODO: Update with correct URL
-            onTap: () => _openLink('https://fluttertips.dev/terms', ref),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-          const Divider(height: 1),
-        ],
+            gapH12,
+            Text(
+              packageInfo.appName,
+              textAlign: TextAlign.center,
+            ),
+            gapH8,
+            Text(
+              'Version ${packageInfo.version}'.hardcoded,
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+            gapH32,
+            const Divider(height: 1),
+            const ThemeSelectorListTile(),
+            const Divider(height: 1),
+            ListTile(
+              title: Text('Website'.hardcoded),
+              // TODO: Update with correct URL
+              onTap: () => _openLink('https://fluttertips.dev', ref),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+            const Divider(height: 1),
+            ListTile(
+              title: Text('Privacy Policy'.hardcoded),
+              // TODO: Update with correct URL
+              onTap: () => _openLink('https://fluttertips.dev/privacy', ref),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+            const Divider(height: 1),
+            ListTile(
+              title: Text('Terms of Use'.hardcoded),
+              // TODO: Update with correct URL
+              onTap: () => _openLink('https://fluttertips.dev/terms', ref),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+            const Divider(height: 1),
+          ],
+        ),
       ),
     );
   }

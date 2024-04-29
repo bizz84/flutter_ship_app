@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -28,25 +29,27 @@ class TasksChecklistScreen extends ConsumerWidget {
           maxLines: 1,
         ),
       ),
-      body: ListView.separated(
-        itemCount: tasks.length,
-        separatorBuilder: (context, index) => const Divider(height: 0.5),
-        itemBuilder: (_, index) {
-          final task = tasks[index];
-          return TaskListTile(
-            task: task,
-            completed: task.completed,
-            onChanged: (completed) async {
-              log('appId: ${app.id}, epicId: ${epic.id}, taskId: ${task.id}, completed: $completed');
-              await ref.read(appDatabaseProvider).updateTaskCompletionStatus(
-                    projectId: app.id,
-                    epicId: epic.id,
-                    taskId: task.id,
-                    isCompleted: completed,
-                  );
-            },
-          );
-        },
+      body: ResponsiveCenter(
+        child: ListView.separated(
+          itemCount: tasks.length,
+          separatorBuilder: (context, index) => const Divider(height: 0.5),
+          itemBuilder: (_, index) {
+            final task = tasks[index];
+            return TaskListTile(
+              task: task,
+              completed: task.completed,
+              onChanged: (completed) async {
+                log('appId: ${app.id}, epicId: ${epic.id}, taskId: ${task.id}, completed: $completed');
+                await ref.read(appDatabaseProvider).updateTaskCompletionStatus(
+                      projectId: app.id,
+                      epicId: epic.id,
+                      taskId: task.id,
+                      isCompleted: completed,
+                    );
+              },
+            );
+          },
+        ),
       ),
     );
   }

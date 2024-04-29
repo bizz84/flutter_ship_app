@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
 import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
@@ -110,7 +111,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
             ),
         ],
       ),
-      body: Padding(
+      body: ResponsiveCenter(
         padding: const EdgeInsets.all(Sizes.p24),
         child: Form(
           key: _formKey,
