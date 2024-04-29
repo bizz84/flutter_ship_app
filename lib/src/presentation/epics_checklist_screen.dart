@@ -40,13 +40,17 @@ class EpicsChecklistScreen extends ConsumerWidget {
         ),
         actions: [
           IconButton(
+            tooltip: 'Edit this app'.hardcoded,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
                 fullscreenDialog: true,
                 builder: (_) => CreateOrEditAppScreen(app: app),
               ),
             ),
-            icon: const Icon(Icons.edit),
+            icon: Icon(
+              Icons.edit,
+              semanticLabel: 'Edit this app'.hardcoded,
+            ),
           )
         ],
       ),

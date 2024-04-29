@@ -29,8 +29,12 @@ class AppsListScreen extends ConsumerWidget {
         title: Text(Strings.myAppsTitle),
         actions: [
           IconButton(
+            tooltip: 'Create a new app'.hardcoded,
             onPressed: () => _createNewApp(context),
-            icon: const Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              semanticLabel: 'Create a new app'.hardcoded,
+            ),
           )
         ],
       ),

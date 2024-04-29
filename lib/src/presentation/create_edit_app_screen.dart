@@ -101,8 +101,12 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
         actions: [
           if (widget.app != null)
             IconButton(
+              tooltip: 'Delete this app'.hardcoded,
               onPressed: _delete,
-              icon: const Icon(Icons.delete),
+              icon: Icon(
+                Icons.delete,
+                semanticLabel: 'Delete this app'.hardcoded,
+              ),
             ),
         ],
       ),
