@@ -90,6 +90,21 @@
     },
     {
       "id": 90,
+      "epic": "Accessibility",
+      "tasks": [
+        { "id": 10, "description": "Install accessibility_tools package" },
+        { "id": 20, "description": "Do an accessibility audit" },
+        { "id": 30, "description": "Add semantic labels to your widgets" },
+        { "id": 40, "description": "Support large fonts and text scaling" },
+        { "id": 50, "description": "Improve colors and contrast" },
+        { "id": 60, "description": "Test your app with VoiceOver" },
+        { "id": 70, "description": "Test your app with TalkBack" },
+        { "id": 80, "description": "Check accessibility trasversal" },
+        { "id": 90, "description": "Check navigation and touch targets size" }
+      ]
+    },
+    {
+      "id": 100,
       "epic": "Submit to the iOS App Store",
       "tasks": [
         { "id": 10, "description": "Create a new app and fill all the required metadata" },
@@ -102,7 +117,7 @@
       ]
     },
     {
-      "id": 100,
+      "id": 110,
       "epic": "Submit to the Google Play Store",
       "tasks": [
         { "id": 10, "description": "Create a new app and fill all the required metadata" },
@@ -114,7 +129,7 @@
       ]
     },
     {
-      "id": 110,
+      "id": 120,
       "epic": "Automate your builds (CI/CD)",
       "tasks": [
         { "id": 10, "description": "Choose a CI/CD system (GitHub Actions / Codemagic / Fastlane or others)" },
