@@ -56,7 +56,7 @@ class AppStartupLoadingWidget extends ConsumerWidget {
       darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
       themeMode: themeMode,
       home: Scaffold(
-        appBar: AppBar(title: const Text(Strings.appTitle)),
+        appBar: AppBar(title: Text(Strings.myAppsTitle)),
         body: const Padding(
           padding: EdgeInsets.all(Sizes.p16),
           child: Center(child: CircularProgressIndicator()),
@@ -81,7 +81,7 @@ class AppStartupErrorWidget extends ConsumerWidget {
       darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
       themeMode: themeMode,
       home: Scaffold(
-        appBar: AppBar(title: const Text(Strings.appTitle)),
+        appBar: AppBar(title: Text(Strings.myAppsTitle)),
         body: Center(
           child: ErrorPrompt(
             exception: exception,

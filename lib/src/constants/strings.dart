@@ -1,3 +1,5 @@
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
+
 class Strings {
-  static const appTitle = 'My Apps';
+  static final myAppsTitle = 'My Apps'.hardcoded;
 }

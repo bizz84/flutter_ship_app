@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
+import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
@@ -25,7 +26,7 @@ class AppsListScreen extends ConsumerWidget {
     final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Apps'.hardcoded),
+        title: Text(Strings.myAppsTitle),
         actions: [
           IconButton(
             onPressed: () => _createNewApp(context),
