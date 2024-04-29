@@ -64,21 +64,31 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   }
 
   Future<void> _delete() async {
-    final shouldDelete = await showAlertDialog(
-      context: context,
-      title: 'Are you sure?',
-      content: 'This will delete your app along with all the completed tasks',
-      cancelActionText: 'Cancel',
-      defaultActionText: 'Delete',
-      isDestructive: true,
-    );
-    if (shouldDelete == true) {
-      // ignore_for_file: use_build_context_synchronously
-      await showAlertDialog(
+    try {
+      final shouldDelete = await showAlertDialog(
         context: context,
-        title: 'Cache deleted',
-        content: 'All the cached images and data have been deleted.',
-        defaultActionText: 'OK',
+        title: 'Are you sure?',
+        content:
+            'This will delete "${widget.app!.name}" along with all its completed tasks'
+                .hardcoded,
+        cancelActionText: 'Cancel',
+        defaultActionText: 'Delete',
+        isDestructive: true,
+      );
+      if (shouldDelete == true) {
+        ref.read(appDatabaseProvider).deleteAppById(widget.app!.id);
+        // ignore_for_file: use_build_context_synchronously
+        if (mounted) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
+      }
+    } catch (e) {
+      // TODO: Improve error handling
+      showAlertDialog(
+        context: context,
+        title: 'Error Deleting App'.hardcoded,
+        content: e.toString(),
+        defaultActionText: 'OK'.hardcoded,
       );
     }
   }
@@ -89,10 +99,11 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
       appBar: AppBar(
         title: Text((widget.app == null ? 'New App' : 'Edit App').hardcoded),
         actions: [
-          IconButton(
-            onPressed: _delete,
-            icon: const Icon(Icons.delete),
-          ),
+          if (widget.app != null)
+            IconButton(
+              onPressed: _delete,
+              icon: const Icon(Icons.delete),
+            ),
         ],
       ),
       body: Padding(

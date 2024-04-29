@@ -97,6 +97,20 @@ extension AppDatabaseCRUD on AppDatabase {
     ));
   }
 
+  Future<void> deleteAppById(int projectId) async {
+    await transaction(() async {
+      // Delete all associated TaskStatuses for the given projectId
+      await (delete(taskStatusesTable)
+            ..where((taskStatus) => taskStatus.projectId.equals(projectId)))
+          .go();
+
+      // Now, delete the AppProject row with the given projectId
+      await (delete(appProjectsTable)
+            ..where((project) => project.id.equals(projectId)))
+          .go();
+    });
+  }
+
   // *************** Tasks *****************
 
   /// The total number of tasks loaded from the JSON template

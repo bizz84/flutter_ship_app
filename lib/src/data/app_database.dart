@@ -42,6 +42,7 @@ class TasksTable extends Table {
 /// Task completed status for a given app and epic
 @DataClassName('TaskStatus')
 class TaskStatusesTable extends Table {
+  // TODO: ON DELETE CASCADE
   IntColumn get projectId => integer()
       .customConstraint('NOT NULL REFERENCES app_projects_table(id)')();
   IntColumn get taskId =>
