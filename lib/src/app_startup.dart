@@ -1,11 +1,10 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
-import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -54,8 +53,8 @@ class AppStartupLoadingWidget extends ConsumerWidget {
     final themeMode = ref.watch(appThemeModeNotifierProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: FlexThemeData.light(scheme: AppColors.flexScheme),
-      darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
+      theme: AppThemeData.light(),
+      darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
       home: Scaffold(
         appBar: AppBar(title: Text(Strings.myAppsTitle)),
@@ -79,8 +78,8 @@ class AppStartupErrorWidget extends ConsumerWidget {
     final themeMode = ref.watch(appThemeModeNotifierProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: FlexThemeData.light(scheme: AppColors.flexScheme),
-      darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
+      theme: AppThemeData.light(),
+      darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
       home: Scaffold(
         appBar: AppBar(title: Text(Strings.myAppsTitle)),
