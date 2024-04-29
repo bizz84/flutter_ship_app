@@ -1,3 +1,4 @@
+import 'package:accessibility_tools/accessibility_tools.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,12 +37,15 @@ class MainApp extends ConsumerWidget {
           FlexThemeData.dark(scheme: AppColors.flexScheme).customAppTheme(),
       themeMode: themeMode,
       home: const AppsListScreen(),
+      // * Uncomment this line to perform accessibility checks
+      // builder: (context, child) => AccessibilityTools(child: child),
     );
   }
 }
 
 extension AppThemeData on ThemeData {
   ThemeData customAppTheme() {
+    // An updated theme with bigger text sizes
     return copyWith(
       textTheme: TextTheme(
         titleLarge: textTheme.titleLarge?.copyWith(fontSize: 22.0),
