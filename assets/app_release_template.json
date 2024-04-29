@@ -77,7 +77,7 @@
     },
     {
       "id": 80,
-      "epic": "Create a Website for your App",
+      "epic": "Create your App Website",
       "tasks": [
         { "id": 10, "description": "Choose a template to create your app website" },
         { "id": 20, "description": "Add your app screenshot, icon, metadata" },
@@ -99,8 +99,8 @@
         { "id": 50, "description": "Improve colors and contrast" },
         { "id": 60, "description": "Test your app with VoiceOver" },
         { "id": 70, "description": "Test your app with TalkBack" },
-        { "id": 80, "description": "Check accessibility trasversal" },
-        { "id": 90, "description": "Check navigation and touch targets size" }
+        { "id": 80, "description": "Check navigation and touch targets size" },
+        { "id": 90, "description": "Check accessibility trasversal" }
       ]
     },
     {
