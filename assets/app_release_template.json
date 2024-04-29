@@ -28,7 +28,9 @@
         { "id": 10, "description": "Install and configure Sentry or Crashlytics" },
         { "id": 20, "description": "Handle uncaught exceptions" },
         { "id": 30, "description": "Capture User Feedback (user_feedback package)" },
-        { "id": 40, "description": "Start monitoring and fixing issues after launch" }
+        { "id": 40, "description": "Start monitoring and fixing issues after launch" },
+        { "id": 50, "description": "Enable error monitoring in production builds only (if desired)" },
+        { "id": 60, "description": "Test your error monitoring logic" }
       ]
     },
     {
@@ -39,7 +41,9 @@
         { "id": 20, "description": "Make a list of all the events you want to track" },
         { "id": 30, "description": "Add the event tracking code" },
         { "id": 40, "description": "Add custom properties to relevant events" },
-        { "id": 50, "description": "Provide way to opt-out of data collection" }
+        { "id": 50, "description": "Provide way to opt-out of data collection" },
+        { "id": 60, "description": "Enable analytics in production builds only (if desired)" },
+        { "id": 70, "description": "Test your analytics logic" }
       ]
     },
     {
@@ -48,7 +52,9 @@
       "tasks": [
         { "id": 10, "description": "Simple Force Upgrade strategy with Upgrader package" },
         { "id": 20, "description": "Custom Force Upgrade strategy with Firebase Remote Config" },
-        { "id": 30, "description": "Advanced Force Upgrade strategy with Rolling Release Window" }
+        { "id": 30, "description": "Advanced Force Upgrade strategy with Rolling Release Window" },
+        { "id": 40, "description": "Test your force upgrade logic (dev build)" },
+        { "id": 50, "description": "Test your force upgrade logic (production build)" }
       ]
     },
     {
@@ -62,7 +68,7 @@
     },  
     {
       "id": 70,
-      "epic": "Add In App Review Prompt",
+      "epic": "In App Review Prompt",
       "tasks": [
         { "id": 10, "description": "Add a button to your about/setting page so users can leave a review" },
         { "id": 10, "description": "Use Analytics to track KPIs related to in-app review" },
