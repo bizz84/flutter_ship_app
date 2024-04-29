@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_checkmark.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class CustomCompletionListTile extends StatelessWidget {
   const CustomCompletionListTile({
@@ -50,7 +51,7 @@ class CustomCompletionListTile extends StatelessWidget {
                   ),
                   gapH4,
                   AutoSizeText(
-                    '$completedCount of $totalCount completed',
+                    '$completedCount of $totalCount completed'.hardcoded,
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 1,
                   ),

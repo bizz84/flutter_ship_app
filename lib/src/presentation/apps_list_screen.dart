@@ -7,6 +7,7 @@ import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
@@ -24,7 +25,7 @@ class AppsListScreen extends ConsumerWidget {
     final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Apps'),
+        title: Text('My Apps'.hardcoded),
         actions: [
           IconButton(
             onPressed: () => _createNewApp(context),
@@ -57,13 +58,13 @@ class AppsListView extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Add a new app to get started',
+                  'Add a new app to get started'.hardcoded,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 gapH16,
                 ElevatedButton(
                   onPressed: onNewApp,
-                  child: const Text('New App'),
+                  child: Text('New App'.hardcoded),
                 )
               ],
             ),

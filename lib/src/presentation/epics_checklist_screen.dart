@@ -7,6 +7,7 @@ import 'package:flutter_ship_app/src/domain/epic_entity.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class EpicsChecklistScreen extends ConsumerWidget {
   const EpicsChecklistScreen({super.key, required this.app});
@@ -28,7 +29,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
             ),
             gapH4,
             Text(
-              'Release Checklist',
+              'Release Checklist'.hardcoded,
               // TODO: Styling
               style: Theme.of(context)
                   .textTheme

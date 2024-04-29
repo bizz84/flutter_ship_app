@@ -5,6 +5,7 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class CreateOrEditAppScreen extends ConsumerStatefulWidget {
   const CreateOrEditAppScreen({super.key, this.app});
@@ -54,11 +55,31 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
         // TODO: Improve error handling
         showAlertDialog(
           context: context,
-          title: 'Error Saving Data',
+          title: 'Error Saving Data'.hardcoded,
           content: e.toString(),
-          defaultActionText: 'OK',
+          defaultActionText: 'OK'.hardcoded,
         );
       }
+    }
+  }
+
+  Future<void> _delete() async {
+    final shouldDelete = await showAlertDialog(
+      context: context,
+      title: 'Are you sure?',
+      content: 'This will delete your app along with all the completed tasks',
+      cancelActionText: 'Cancel',
+      defaultActionText: 'Delete',
+      isDestructive: true,
+    );
+    if (shouldDelete == true) {
+      // ignore_for_file: use_build_context_synchronously
+      await showAlertDialog(
+        context: context,
+        title: 'Cache deleted',
+        content: 'All the cached images and data have been deleted.',
+        defaultActionText: 'OK',
+      );
     }
   }
 
@@ -66,7 +87,13 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.app == null ? 'New App' : 'Edit App'),
+        title: Text((widget.app == null ? 'New App' : 'Edit App').hardcoded),
+        actions: [
+          IconButton(
+            onPressed: _delete,
+            icon: const Icon(Icons.delete),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(Sizes.p24),
@@ -77,17 +104,18 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'App name'),
+                decoration: InputDecoration(labelText: 'App name'.hardcoded),
                 keyboardAppearance: Theme.of(context).brightness,
                 initialValue: _name,
-                validator: (value) =>
-                    (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
+                validator: (value) => (value ?? '').isNotEmpty
+                    ? null
+                    : 'Name can\'t be empty'.hardcoded,
                 onSaved: (value) => _name = value ?? '',
               ),
               gapH16,
               ElevatedButton(
                 onPressed: _submit,
-                child: const Text('Save'),
+                child: Text('Save'.hardcoded),
               ),
             ],
           ),

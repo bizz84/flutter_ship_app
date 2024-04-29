@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class ErrorPrompt extends StatelessWidget {
   const ErrorPrompt({
@@ -34,7 +35,7 @@ class ErrorPrompt extends StatelessWidget {
             gapH12,
             ElevatedButton(
               onPressed: onRetry,
-              child: const Text('Retry'),
+              child: Text('Retry'.hardcoded),
             ),
           ],
         ],
