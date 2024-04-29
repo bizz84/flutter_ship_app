@@ -24,9 +24,15 @@ extension AppThemeData on ThemeData {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(Sizes.p8),
+          padding: const EdgeInsets.all(Sizes.p16),
           textStyle:
               const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+        ),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+          padding: const EdgeInsets.all(Sizes.p16),
+          textStyle: const TextStyle(fontSize: 18),
         ),
       ),
     );
