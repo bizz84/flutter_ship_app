@@ -6,7 +6,8 @@ import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/data/app_theme_mode.dart';
+import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
+import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_startup.g.dart';
@@ -17,6 +18,7 @@ Future<void> appStartup(AppStartupRef ref) async {
     // ensure we invalidate all the providers we depend on
     ref.invalidate(updateDatabaseFromJsonTemplateProvider);
   });
+  await ref.watch(packageInfoProvider.future);
   // Initially, load the database from JSON
   await ref.watch(updateDatabaseFromJsonTemplateProvider.future);
 }

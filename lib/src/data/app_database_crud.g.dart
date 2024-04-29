@@ -7,7 +7,7 @@ part of 'app_database_crud.dart';
 // **************************************************************************
 
 String _$updateDatabaseFromJsonTemplateHash() =>
-    r'b026e6f473d285a70f950b21fe5ea0172a8377d8';
+    r'eed9896b9d3faf3ddc58f80ffec79a47eb3c75b3';
 
 /// See also [updateDatabaseFromJsonTemplate].
 @ProviderFor(updateDatabaseFromJsonTemplate)

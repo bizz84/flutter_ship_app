@@ -8,6 +8,7 @@ import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
+import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class AppsListScreen extends ConsumerWidget {
@@ -26,6 +27,21 @@ class AppsListScreen extends ConsumerWidget {
     final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          tooltip: 'Settings'.hardcoded,
+          icon: Icon(
+            Icons.settings,
+            semanticLabel: 'Settings'.hardcoded,
+          ),
+          onPressed: () {
+            Navigator.of(context).push<int>(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (_) => const SettingsScreen(),
+              ),
+            );
+          },
+        ),
         title: Text(Strings.myAppsTitle),
         actions: [
           IconButton(

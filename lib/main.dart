@@ -6,6 +6,7 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_startup.dart';
 import 'package:flutter_ship_app/src/data/shared_preferences.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
+import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,35 +22,42 @@ void main() async {
   ));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // https://docs.flexcolorscheme.com/
-    final theme = FlexThemeData.light(scheme: AppColors.flexScheme);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(appThemeModeNotifierProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: theme.copyWith(
-        textTheme: TextTheme(
-          titleLarge: theme.textTheme.titleLarge?.copyWith(fontSize: 22.0),
-          titleMedium: theme.textTheme.titleMedium?.copyWith(fontSize: 18.0),
-          titleSmall: theme.textTheme.titleMedium?.copyWith(fontSize: 14.0),
-          bodyLarge: theme.textTheme.bodyLarge?.copyWith(fontSize: 20.0),
-          bodyMedium: theme.textTheme.bodyMedium?.copyWith(fontSize: 18.0),
-          bodySmall: theme.textTheme.bodySmall?.copyWith(fontSize: 14.0),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(Sizes.p8),
-            textStyle:
-                const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-          ),
+      // https://docs.flexcolorscheme.com/
+      theme: FlexThemeData.light(scheme: AppColors.flexScheme).customAppTheme(),
+      darkTheme:
+          FlexThemeData.dark(scheme: AppColors.flexScheme).customAppTheme(),
+      themeMode: themeMode,
+      home: const AppsListScreen(),
+    );
+  }
+}
+
+extension AppThemeData on ThemeData {
+  ThemeData customAppTheme() {
+    return copyWith(
+      textTheme: TextTheme(
+        titleLarge: textTheme.titleLarge?.copyWith(fontSize: 22.0),
+        titleMedium: textTheme.titleMedium?.copyWith(fontSize: 18.0),
+        titleSmall: textTheme.titleMedium?.copyWith(fontSize: 14.0),
+        bodyLarge: textTheme.bodyLarge?.copyWith(fontSize: 20.0),
+        bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 18.0),
+        bodySmall: textTheme.bodySmall?.copyWith(fontSize: 14.0),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(Sizes.p8),
+          textStyle:
+              const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
         ),
       ),
-      darkTheme: FlexThemeData.dark(scheme: AppColors.flexScheme),
-      themeMode: ThemeMode.system,
-      home: const AppsListScreen(),
     );
   }
 }
