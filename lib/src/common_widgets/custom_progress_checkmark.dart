@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class CustomCheckmark extends StatelessWidget {
+/// Custom checkmark widget used to indicate the progress of a given task/epic
+class CustomProgressCheckmark extends StatelessWidget {
   final double value; // Value should be between 0 and 1
   final Color fillColor;
   final Color checkmarkColor;
   final double strokeWidth;
 
-  const CustomCheckmark({
+  const CustomProgressCheckmark({
     super.key,
     required this.value,
     required this.fillColor,
@@ -18,7 +19,7 @@ class CustomCheckmark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _CustomCheckmarkPainter(
+      painter: _CustomProgressCheckmarkPainter(
         sweepValue: value,
         fillColor: fillColor,
         checkmarkColor: checkmarkColor,
@@ -28,13 +29,13 @@ class CustomCheckmark extends StatelessWidget {
   }
 }
 
-class _CustomCheckmarkPainter extends CustomPainter {
+class _CustomProgressCheckmarkPainter extends CustomPainter {
   final double sweepValue;
   final Color fillColor;
   final Color checkmarkColor;
   final double strokeWidth;
 
-  _CustomCheckmarkPainter({
+  _CustomProgressCheckmarkPainter({
     required this.sweepValue,
     required this.fillColor,
     required this.checkmarkColor,
@@ -98,7 +99,7 @@ class _CustomCheckmarkPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _CustomCheckmarkPainter oldDelegate) {
+  bool shouldRepaint(covariant _CustomProgressCheckmarkPainter oldDelegate) {
     return sweepValue != oldDelegate.sweepValue;
   }
 }

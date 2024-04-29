@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_colors.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
-import 'package:flutter_ship_app/src/common_widgets/custom_checkmark.dart';
+import 'package:flutter_ship_app/src/common_widgets/custom_progress_checkmark.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 class CustomCompletionListTile extends StatelessWidget {
@@ -32,7 +32,7 @@ class CustomCompletionListTile extends StatelessWidget {
             SizedBox(
               width: Sizes.p24,
               height: Sizes.p24,
-              child: CustomCheckmark(
+              child: CustomProgressCheckmark(
                 value: completedCount / totalCount,
                 fillColor: Theme.of(context).colorScheme.secondary,
                 checkmarkColor: Colors.white,
