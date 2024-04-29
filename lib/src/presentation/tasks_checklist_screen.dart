@@ -52,7 +52,7 @@ class TasksChecklistScreen extends ConsumerWidget {
   }
 }
 
-class TaskListTile extends ConsumerWidget {
+class TaskListTile extends StatelessWidget {
   const TaskListTile(
       {super.key,
       required this.task,
@@ -63,30 +63,21 @@ class TaskListTile extends ConsumerWidget {
   final ValueChanged<bool> onChanged;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          left: Sizes.p8, top: Sizes.p8, right: Sizes.p24, bottom: Sizes.p8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Checkbox(
-            value: completed,
-            onChanged: (bool? newValue) {
-              if (newValue != null) {
-                onChanged(newValue);
-              }
-            },
-          ),
-          gapW8,
-          Expanded(
-            child: Text(
-              task.description,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: completed,
+      onChanged: (bool? newValue) {
+        if (newValue != null) {
+          onChanged(newValue);
+        }
+      },
+      title: Text(
+        task.description,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
+      controlAffinity: ListTileControlAffinity.leading,
+      contentPadding: const EdgeInsets.only(
+          left: Sizes.p8, top: Sizes.p8, right: Sizes.p24, bottom: Sizes.p8),
     );
   }
 }
