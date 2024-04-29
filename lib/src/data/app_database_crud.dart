@@ -11,6 +11,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'app_database_crud.g.dart';
 
 extension AppDatabaseCRUD on AppDatabase {
+  // *************** Initialization *****************
+
+  /// Insert the initial JSON data into the database
   Future<void> loadFromJson(Map<String, dynamic> checklistTemplate) async {
     final epics = checklistTemplate['epics'];
     await transaction(() async {
@@ -34,40 +37,6 @@ extension AppDatabaseCRUD on AppDatabase {
         }
       }
     });
-  }
-
-  Future<List<EpicEntity>> loadAllEpicsAndTasks() async {
-    final epicWithTasks = await (select(epicsTable).join(
-      [leftOuterJoin(tasksTable, tasksTable.epicId.equalsExp(epicsTable.id))],
-    )..orderBy([
-            OrderingTerm.asc(epicsTable.id),
-            OrderingTerm.asc(tasksTable.id),
-          ]))
-        .get();
-
-    // Transform the query result into a list of Epics with their associated tasks
-    final Map<int, EpicEntity> epicsMap = {};
-    for (final row in epicWithTasks) {
-      final epicEntry = row.readTable(epicsTable);
-      final taskEntry = row.readTableOrNull(tasksTable);
-
-      final epic = epicsMap.putIfAbsent(
-          epicEntry.id,
-          () => EpicEntity(
-                id: epicEntry.id,
-                epic: epicEntry.name,
-                tasks: [],
-              ));
-
-      if (taskEntry != null) {
-        epic.tasks.add(TaskEntity(
-          id: taskEntry.id,
-          description: taskEntry.description,
-        ));
-      }
-    }
-
-    return epicsMap.values.toList();
   }
 
   // *************** Apps *****************
@@ -110,6 +79,42 @@ extension AppDatabaseCRUD on AppDatabase {
             ..where((project) => project.id.equals(projectId)))
           .go();
     });
+  }
+
+  // *************** Epics *****************
+
+  Future<List<EpicEntity>> loadAllEpicsAndTasks() async {
+    final epicWithTasks = await (select(epicsTable).join(
+      [leftOuterJoin(tasksTable, tasksTable.epicId.equalsExp(epicsTable.id))],
+    )..orderBy([
+            OrderingTerm.asc(epicsTable.id),
+            OrderingTerm.asc(tasksTable.id),
+          ]))
+        .get();
+
+    // Transform the query result into a list of Epics with their associated tasks
+    final Map<int, EpicEntity> epicsMap = {};
+    for (final row in epicWithTasks) {
+      final epicEntry = row.readTable(epicsTable);
+      final taskEntry = row.readTableOrNull(tasksTable);
+
+      final epic = epicsMap.putIfAbsent(
+          epicEntry.id,
+          () => EpicEntity(
+                id: epicEntry.id,
+                epic: epicEntry.name,
+                tasks: [],
+              ));
+
+      if (taskEntry != null) {
+        epic.tasks.add(TaskEntity(
+          id: taskEntry.id,
+          description: taskEntry.description,
+        ));
+      }
+    }
+
+    return epicsMap.values.toList();
   }
 
   // *************** Tasks *****************
@@ -190,6 +195,7 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 }
 
+/// Provider to load the initial data from JSON
 @Riverpod(keepAlive: true)
 Future<void> updateDatabaseFromJsonTemplate(
     UpdateDatabaseFromJsonTemplateRef ref) async {
@@ -199,6 +205,8 @@ Future<void> updateDatabaseFromJsonTemplate(
   final db = ref.watch(appDatabaseProvider);
   await db.loadFromJson(jsonResponse);
 }
+
+// *************** Epics *****************
 
 @riverpod
 Future<List<EpicEntity>> loadAllEpicsAndTasks(LoadAllEpicsAndTasksRef ref) {
