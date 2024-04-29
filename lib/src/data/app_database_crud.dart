@@ -11,9 +11,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'app_database_crud.g.dart';
 
 extension AppDatabaseCRUD on AppDatabase {
-  Future<void> loadFromJson(List<dynamic> checklistTemplate) async {
+  Future<void> loadFromJson(Map<String, dynamic> checklistTemplate) async {
+    final epics = checklistTemplate['epics'];
     await transaction(() async {
-      for (var epicData in checklistTemplate) {
+      for (var epicData in epics) {
         // Insert epic
         final epic = EpicsTableCompanion(
           id: Value(epicData['id']),
@@ -193,8 +194,8 @@ extension AppDatabaseCRUD on AppDatabase {
 Future<void> updateDatabaseFromJsonTemplate(
     UpdateDatabaseFromJsonTemplateRef ref) async {
   String jsonString =
-      await rootBundle.loadString('assets/checklist_template.json');
-  List<dynamic> jsonResponse = jsonDecode(jsonString);
+      await rootBundle.loadString('assets/app_release_template.json');
+  Map<String, dynamic> jsonResponse = jsonDecode(jsonString);
   final db = ref.watch(appDatabaseProvider);
   await db.loadFromJson(jsonResponse);
 }
