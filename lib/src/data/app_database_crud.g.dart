@@ -6,22 +6,6 @@ part of 'app_database_crud.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$updateDatabaseFromJsonTemplateHash() =>
-    r'eed9896b9d3faf3ddc58f80ffec79a47eb3c75b3';
-
-/// See also [updateDatabaseFromJsonTemplate].
-@ProviderFor(updateDatabaseFromJsonTemplate)
-final updateDatabaseFromJsonTemplateProvider = FutureProvider<void>.internal(
-  updateDatabaseFromJsonTemplate,
-  name: r'updateDatabaseFromJsonTemplateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$updateDatabaseFromJsonTemplateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef UpdateDatabaseFromJsonTemplateRef = FutureProviderRef<void>;
 String _$loadAllEpicsAndTasksHash() =>
     r'76ae7136fab9101a3c77e3d0b45769e2579ab551';
 

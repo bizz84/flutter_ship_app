@@ -20,5 +20,24 @@ final appStartupProvider = AutoDisposeFutureProvider<void>.internal(
 );
 
 typedef AppStartupRef = AutoDisposeFutureProviderRef<void>;
+String _$updateDatabaseFromJsonTemplateHash() =>
+    r'e872d0984045f45c77dd40ba9b253b2a735aba45';
+
+/// Provider to load the initial data from JSON
+///
+/// Copied from [updateDatabaseFromJsonTemplate].
+@ProviderFor(updateDatabaseFromJsonTemplate)
+final updateDatabaseFromJsonTemplateProvider =
+    AutoDisposeFutureProvider<void>.internal(
+  updateDatabaseFromJsonTemplate,
+  name: r'updateDatabaseFromJsonTemplateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$updateDatabaseFromJsonTemplateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef UpdateDatabaseFromJsonTemplateRef = AutoDisposeFutureProviderRef<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

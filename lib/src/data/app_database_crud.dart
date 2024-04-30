@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:drift/drift.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
@@ -13,8 +10,9 @@ part 'app_database_crud.g.dart';
 extension AppDatabaseCRUD on AppDatabase {
   // *************** Initialization *****************
 
-  /// Insert the initial JSON data into the database
-  Future<void> loadFromJson(Map<String, dynamic> checklistTemplate) async {
+  /// Insert or update the epics and tasks from the given template data
+  Future<void> loadOrUpdateFromTemplate(
+      Map<String, dynamic> checklistTemplate) async {
     final epics = checklistTemplate['epics'];
     await transaction(() async {
       for (var epicData in epics) {
@@ -82,6 +80,14 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 
   // *************** Epics *****************
+
+  Future<bool> isEpicsTableEmpty() async {
+    final query = selectOnly(epicsTable)..addColumns([epicsTable.id.count()]);
+    final result = await query
+        .map((row) => row.read<int>(epicsTable.id.count()))
+        .getSingle();
+    return result == 0;
+  }
 
   Future<List<EpicEntity>> loadAllEpicsAndTasks() async {
     final epicWithTasks = await (select(epicsTable).join(
@@ -193,17 +199,6 @@ extension AppDatabaseCRUD on AppDatabase {
     // Use upsert to insert or update the task status
     await into(taskStatusesTable).insertOnConflictUpdate(taskStatus);
   }
-}
-
-/// Provider to load the initial data from JSON
-@Riverpod(keepAlive: true)
-Future<void> updateDatabaseFromJsonTemplate(
-    UpdateDatabaseFromJsonTemplateRef ref) async {
-  String jsonString =
-      await rootBundle.loadString('assets/app_release_template.json');
-  Map<String, dynamic> jsonResponse = jsonDecode(jsonString);
-  final db = ref.watch(appDatabaseProvider);
-  await db.loadFromJson(jsonResponse);
 }
 
 // *************** Epics *****************
