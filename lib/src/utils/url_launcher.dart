@@ -13,12 +13,12 @@ class UrlLauncher {
         return await launchUrl(uri, mode: LaunchMode.platformDefault);
       } else {
         log('Cannot launch URL: $uri');
-        // TODO: Handle error
+        // TODO: Error monitoring
         return false;
       }
     } catch (e) {
       log('Failed launching URL: $uri, $e');
-      // TODO: Handle error
+      // TODO: Error monitoring
       return false;
     }
   }

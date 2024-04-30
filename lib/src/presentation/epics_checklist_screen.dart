@@ -32,7 +32,6 @@ class EpicsChecklistScreen extends ConsumerWidget {
             gapH4,
             Text(
               'Release Checklist'.hardcoded,
-              // TODO: Styling
               style: Theme.of(context)
                   .textTheme
                   .bodySmall!
