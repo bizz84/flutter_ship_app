@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
+import 'package:flutter_ship_app/src/common_widgets/custom_page_route.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_progress_checkmark.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
@@ -19,7 +20,7 @@ class AppsListScreen extends ConsumerWidget {
 
   Future<void> _createNewApp(BuildContext context) =>
       Navigator.of(context).push(
-        MaterialPageRoute(
+        CustomPageRoute(
           fullscreenDialog: true,
           builder: (_) => const CreateOrEditAppScreen(),
         ),
@@ -39,7 +40,7 @@ class AppsListScreen extends ConsumerWidget {
           ),
           onPressed: () {
             Navigator.of(context).push<int>(
-              MaterialPageRoute(
+              CustomPageRoute(
                 fullscreenDialog: true,
                 builder: (_) => const SettingsScreen(),
               ),
@@ -129,7 +130,7 @@ class AppListTile extends ConsumerWidget {
       totalCount: totalTasksCount ?? 0,
       completedCount: completedCount,
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(CustomPageRoute(
           builder: (_) => EpicsChecklistScreen(app: app),
         ));
       },

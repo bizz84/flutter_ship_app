@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/src/common_widgets/custom_page_route.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -43,7 +44,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
           IconButton(
             tooltip: 'Edit this app'.hardcoded,
             onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
+              CustomPageRoute(
                 fullscreenDialog: true,
                 builder: (_) => CreateOrEditAppScreen(app: app),
               ),
@@ -116,7 +117,7 @@ class EpicListTile extends ConsumerWidget {
       completedCount: completedCount,
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
+          CustomPageRoute(
             builder: (_) => TasksChecklistScreen(app: app, epic: epic),
           ),
         );
