@@ -22,6 +22,7 @@ deploy:
 
 	@echo "Deploying to git repository"
 	cd build/web && \
+	rm -rf .git/ && \
 	git init && \
 	git add . && \
 	git commit -m "Deploy Version $(BUILD_VERSION)" && \
