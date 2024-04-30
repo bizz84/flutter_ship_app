@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
@@ -16,6 +16,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -55,22 +56,28 @@ class EpicsChecklistScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: ResponsiveCenter(
-        child: EpicsChecklistListView(app: app),
+      body: ResponsiveCenterScrollable(
+        controller: scrollController,
+        child: EpicsChecklistListView(
+          controller: scrollController,
+          app: app,
+        ),
       ),
     );
   }
 }
 
 class EpicsChecklistListView extends ConsumerWidget {
-  const EpicsChecklistListView({super.key, required this.app});
+  const EpicsChecklistListView({super.key, required this.app, this.controller});
   final AppEntity app;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final epicsAsync = ref.watch(loadAllEpicsAndTasksProvider);
     return epicsAsync.when(
       data: (epics) => ListView.separated(
+        controller: controller,
         itemCount: epics.length,
         separatorBuilder: (context, index) => const Divider(height: 0.5),
         itemBuilder: (_, index) {

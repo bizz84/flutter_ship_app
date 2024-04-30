@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -22,6 +22,7 @@ class TasksChecklistScreen extends ConsumerWidget {
     final tasksAsync = ref.watch(
         watchTasksForAppAndEpicProvider(projectId: app.id, epicId: epic.id));
     final tasks = tasksAsync.valueOrNull ?? epic.tasks;
+    final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
         title: AutoSizeText(
@@ -29,8 +30,10 @@ class TasksChecklistScreen extends ConsumerWidget {
           maxLines: 1,
         ),
       ),
-      body: ResponsiveCenter(
+      body: ResponsiveCenterScrollable(
+        controller: scrollController,
         child: ListView.separated(
+          controller: scrollController,
           itemCount: tasks.length,
           separatorBuilder: (context, index) => const Divider(height: 0.5),
           itemBuilder: (_, index) {

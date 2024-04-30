@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
@@ -23,7 +23,7 @@ class SettingsScreen extends ConsumerWidget {
         centerTitle: true,
         title: Text('Settings'.hardcoded),
       ),
-      body: ResponsiveCenter(
+      body: ResponsiveCenterScrollable(
         child: ListView(
           children: [
             gapH32,

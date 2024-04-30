@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
-import 'package:flutter_ship_app/src/common_widgets/responsive_center.dart';
+import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -25,6 +25,7 @@ class AppsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scrollController = ScrollController();
     final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     return Scaffold(
       appBar: AppBar(
@@ -55,8 +56,10 @@ class AppsListScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: ResponsiveCenter(
+      body: ResponsiveCenterScrollable(
+        controller: scrollController,
         child: AppsListView(
+          controller: scrollController,
           totalTasksCount: totalTasksCount,
           onNewApp: () => _createNewApp(context),
         ),
@@ -67,9 +70,13 @@ class AppsListScreen extends ConsumerWidget {
 
 class AppsListView extends ConsumerWidget {
   const AppsListView(
-      {super.key, required this.totalTasksCount, required this.onNewApp});
+      {super.key,
+      required this.totalTasksCount,
+      required this.onNewApp,
+      this.controller});
   final int? totalTasksCount;
   final VoidCallback onNewApp;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -95,6 +102,7 @@ class AppsListView extends ConsumerWidget {
           );
         } else {
           return ListView.separated(
+            controller: controller,
             itemCount: appsList.length,
             separatorBuilder: (context, index) => const Divider(height: 0.5),
             itemBuilder: (_, index) {
