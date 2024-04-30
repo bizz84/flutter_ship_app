@@ -15,6 +15,9 @@ extension AppThemeData on ThemeData {
     // An updated theme with bigger text sizes
     return copyWith(
       textTheme: TextTheme(
+        displayLarge: textTheme.displayLarge?.copyWith(fontSize: 32.0),
+        displayMedium: textTheme.displayMedium?.copyWith(fontSize: 28.0),
+        displaySmall: textTheme.displaySmall?.copyWith(fontSize: 24.0),
         titleLarge: textTheme.titleLarge?.copyWith(fontSize: 22.0),
         titleMedium: textTheme.titleMedium?.copyWith(fontSize: 18.0),
         titleSmall: textTheme.titleMedium?.copyWith(fontSize: 14.0),
