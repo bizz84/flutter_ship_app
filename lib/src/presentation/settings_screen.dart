@@ -48,27 +48,27 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(height: 1),
             const ThemeSelectorListTile(),
             const Divider(height: 1),
-            ListTile(
-              title: Text('Website'.hardcoded),
-              // TODO: Update with correct URL
-              onTap: () => _openLink('https://fluttertips.dev', ref),
-              trailing: const Icon(Icons.chevron_right),
-            ),
-            const Divider(height: 1),
-            ListTile(
-              title: Text('Privacy Policy'.hardcoded),
-              // TODO: Update with correct URL
-              onTap: () => _openLink('https://fluttertips.dev/privacy', ref),
-              trailing: const Icon(Icons.chevron_right),
-            ),
-            const Divider(height: 1),
-            ListTile(
-              title: Text('Terms of Use'.hardcoded),
-              // TODO: Update with correct URL
-              onTap: () => _openLink('https://fluttertips.dev/terms', ref),
-              trailing: const Icon(Icons.chevron_right),
-            ),
-            const Divider(height: 1),
+            // ListTile(
+            //   title: Text('Website'.hardcoded),
+            //   // TODO: Update with correct URL
+            //   onTap: () => _openLink('https://fluttertips.dev', ref),
+            //   trailing: const Icon(Icons.chevron_right),
+            // ),
+            // const Divider(height: 1),
+            // ListTile(
+            //   title: Text('Privacy Policy'.hardcoded),
+            //   // TODO: Update with correct URL
+            //   onTap: () => _openLink('https://fluttertips.dev/privacy', ref),
+            //   trailing: const Icon(Icons.chevron_right),
+            // ),
+            // const Divider(height: 1),
+            // ListTile(
+            //   title: Text('Terms of Use'.hardcoded),
+            //   // TODO: Update with correct URL
+            //   onTap: () => _openLink('https://fluttertips.dev/terms', ref),
+            //   trailing: const Icon(Icons.chevron_right),
+            // ),
+            // const Divider(height: 1),
           ],
         ),
       ),
