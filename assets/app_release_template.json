@@ -1,6 +1,6 @@
 {
   "template": "App Release",
-  "version": 1,
+  "version": 2,
   "epics": [
     {
       "id": 10,
@@ -77,19 +77,6 @@
     },
     {
       "id": 80,
-      "epic": "Create your App Website",
-      "tasks": [
-        { "id": 10, "description": "Choose a template to create your app website" },
-        { "id": 20, "description": "Add your app screenshot, icon, metadata" },
-        { "id": 30, "description": "Add your privacy policy and terms of use" },
-        { "id": 40, "description": "Publish your website on a non-branded domain" },
-        { "id": 50, "description": "Publish your website on your custom domain" },
-        { "id": 60, "description": "Add the App Store download button (when app is live)" },
-        { "id": 70, "description": "Add the Play Store download button (when app is live)" }
-      ]
-    },
-    {
-      "id": 90,
       "epic": "Accessibility",
       "tasks": [
         { "id": 10, "description": "Install accessibility_tools package" },
@@ -104,7 +91,40 @@
       ]
     },
     {
+      "id": 90,
+      "epic": "App Security",
+      "tasks": [
+        { "id": 10, "description": "Store secret API keys on the server, not the client" },
+        { "id": 20, "description": "Obfuscate any API keys that are stored on the client" },
+        { "id": 30, "description": "Do not add API keys to Git" },
+        { "id": 40, "description": "Minimize collection of personally identifiable information (PII)" },
+        { "id": 50, "description": "Anonymize any PII that is stored on device" },
+        { "id": 60, "description": "Encrypt any sensitive data that is stored on device" },
+        { "id": 60, "description": "Avoid logging sensitive data" },
+        { "id": 70, "description": "Implement strong authentication and authorization" },
+        { "id": 80, "description": "Secure data storage and transmission" },
+        { "id": 90, "description": "Prevent user data loss or corruption" },
+        { "id": 100, "description": "Have a data backup strategy" },
+        { "id": 110, "description": "Review and address common vulnerabilities (OWASP Top 10)" },
+        { "id": 120, "description": "Implement Flutter-specific security best practices" },
+        { "id": 130, "description": "Protect user privacy" }
+      ]
+    },
+    {
       "id": 100,
+      "epic": "Create your App Website",
+      "tasks": [
+        { "id": 10, "description": "Choose a template to create your app website" },
+        { "id": 20, "description": "Add your app screenshot, icon, metadata" },
+        { "id": 30, "description": "Add your privacy policy and terms of use" },
+        { "id": 40, "description": "Publish your website on a non-branded domain" },
+        { "id": 50, "description": "Publish your website on your custom domain" },
+        { "id": 60, "description": "Add the App Store download button (when app is live)" },
+        { "id": 70, "description": "Add the Play Store download button (when app is live)" }
+      ]
+    },
+    {
+      "id": 110,
       "epic": "Submit to the iOS App Store",
       "tasks": [
         { "id": 10, "description": "Create a new app and fill all the required metadata" },
@@ -117,7 +137,7 @@
       ]
     },
     {
-      "id": 110,
+      "id": 120,
       "epic": "Submit to the Google Play Store",
       "tasks": [
         { "id": 10, "description": "Create a new app and fill all the required metadata" },
