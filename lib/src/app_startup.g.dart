@@ -6,9 +6,12 @@ part of 'app_startup.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appStartupHash() => r'11290335aa7de7600e0c188b0c032634780ee76d';
+String _$appStartupHash() => r'd17e2b7ccff426a81b18938421d5134ba82fff7e';
 
-/// See also [appStartup].
+/// App startup provider and widget (below)
+/// For more info, read: https://codewithandrea.com/articles/robust-app-initialization-riverpod/
+///
+/// Copied from [appStartup].
 @ProviderFor(appStartup)
 final appStartupProvider = AutoDisposeFutureProvider<void>.internal(
   appStartup,
@@ -21,7 +24,7 @@ final appStartupProvider = AutoDisposeFutureProvider<void>.internal(
 
 typedef AppStartupRef = AutoDisposeFutureProviderRef<void>;
 String _$updateDatabaseFromJsonTemplateHash() =>
-    r'e872d0984045f45c77dd40ba9b253b2a735aba45';
+    r'b680ef3f21e64a71f1b3a884ada192773e03ba12';
 
 /// Provider to load the initial data from JSON
 ///

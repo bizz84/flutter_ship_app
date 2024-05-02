@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// Helper function for showing an adaptive alert dialog
 Future<bool?> showAlertDialog({
   required BuildContext context,
   required String title,

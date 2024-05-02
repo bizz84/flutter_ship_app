@@ -81,13 +81,13 @@ class _CustomProgressCheckmarkPainter extends CustomPainter {
         ..strokeCap = StrokeCap.square; // Round the ends of the checkmark
 
       // Define the checkmark path
-      final Path checkPath = Path();
+      final checkPath = Path();
       // Starting point of the checkmark (bottom of the first line)
-      final Offset start = Offset(size.width * 0.25, size.height * 0.55);
+      final start = Offset(size.width * 0.25, size.height * 0.55);
       // Middle point of the checkmark (intersection point)
-      final Offset middle = Offset(size.width * 0.45, size.height * 0.7);
+      final middle = Offset(size.width * 0.45, size.height * 0.7);
       // End point of the checkmark (end of the second line)
-      final Offset end = Offset(size.width * 0.75, size.height * 0.3);
+      final end = Offset(size.width * 0.75, size.height * 0.3);
 
       checkPath.moveTo(start.dx, start.dy);
       checkPath.lineTo(middle.dx, middle.dy);

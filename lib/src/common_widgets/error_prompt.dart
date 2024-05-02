@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
+/// Custom error prompt widget with retry button
 class ErrorPrompt extends StatelessWidget {
   const ErrorPrompt({
     super.key,

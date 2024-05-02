@@ -6,39 +6,41 @@ part of 'app_database_crud.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loadAllEpicsAndTasksHash() =>
-    r'76ae7136fab9101a3c77e3d0b45769e2579ab551';
+String _$fetchAllEpicsAndTasksHash() =>
+    r'1ca2ce3a880a2e0c9964d595d5e5d85e85f5ca7e';
 
-/// See also [loadAllEpicsAndTasks].
-@ProviderFor(loadAllEpicsAndTasks)
-final loadAllEpicsAndTasksProvider =
+/// See also [fetchAllEpicsAndTasks].
+@ProviderFor(fetchAllEpicsAndTasks)
+final fetchAllEpicsAndTasksProvider =
     AutoDisposeFutureProvider<List<EpicEntity>>.internal(
-  loadAllEpicsAndTasks,
-  name: r'loadAllEpicsAndTasksProvider',
+  fetchAllEpicsAndTasks,
+  name: r'fetchAllEpicsAndTasksProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$loadAllEpicsAndTasksHash,
+      : _$fetchAllEpicsAndTasksHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef LoadAllEpicsAndTasksRef
+typedef FetchAllEpicsAndTasksRef
     = AutoDisposeFutureProviderRef<List<EpicEntity>>;
-String _$appsListHash() => r'581c54ea512d276d0f0352ff0aac61bf4e24452c';
+String _$watchAppsListHash() => r'8e11a97da45360f25a53cd9fc3c42b95f6f73ffc';
 
-/// See also [appsList].
-@ProviderFor(appsList)
-final appsListProvider = AutoDisposeStreamProvider<List<AppEntity>>.internal(
-  appsList,
-  name: r'appsListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appsListHash,
+/// See also [watchAppsList].
+@ProviderFor(watchAppsList)
+final watchAppsListProvider =
+    AutoDisposeStreamProvider<List<AppEntity>>.internal(
+  watchAppsList,
+  name: r'watchAppsListProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$watchAppsListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AppsListRef = AutoDisposeStreamProviderRef<List<AppEntity>>;
-String _$appByIdHash() => r'f1236f4881910d3fa3421bce0a0083c15e652bc9';
+typedef WatchAppsListRef = AutoDisposeStreamProviderRef<List<AppEntity>>;
+String _$watchAppByIdHash() => r'f933eff34afc9a0ebb6e59d3ea2e49be65713eec';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -61,27 +63,27 @@ class _SystemHash {
   }
 }
 
-/// See also [appById].
-@ProviderFor(appById)
-const appByIdProvider = AppByIdFamily();
+/// See also [watchAppById].
+@ProviderFor(watchAppById)
+const watchAppByIdProvider = WatchAppByIdFamily();
 
-/// See also [appById].
-class AppByIdFamily extends Family<AsyncValue<AppEntity?>> {
-  /// See also [appById].
-  const AppByIdFamily();
+/// See also [watchAppById].
+class WatchAppByIdFamily extends Family<AsyncValue<AppEntity?>> {
+  /// See also [watchAppById].
+  const WatchAppByIdFamily();
 
-  /// See also [appById].
-  AppByIdProvider call(
+  /// See also [watchAppById].
+  WatchAppByIdProvider call(
     int id,
   ) {
-    return AppByIdProvider(
+    return WatchAppByIdProvider(
       id,
     );
   }
 
   @override
-  AppByIdProvider getProviderOverride(
-    covariant AppByIdProvider provider,
+  WatchAppByIdProvider getProviderOverride(
+    covariant WatchAppByIdProvider provider,
   ) {
     return call(
       provider.id,
@@ -100,31 +102,32 @@ class AppByIdFamily extends Family<AsyncValue<AppEntity?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'appByIdProvider';
+  String? get name => r'watchAppByIdProvider';
 }
 
-/// See also [appById].
-class AppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
-  /// See also [appById].
-  AppByIdProvider(
+/// See also [watchAppById].
+class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
+  /// See also [watchAppById].
+  WatchAppByIdProvider(
     int id,
   ) : this._internal(
-          (ref) => appById(
-            ref as AppByIdRef,
+          (ref) => watchAppById(
+            ref as WatchAppByIdRef,
             id,
           ),
-          from: appByIdProvider,
-          name: r'appByIdProvider',
+          from: watchAppByIdProvider,
+          name: r'watchAppByIdProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$appByIdHash,
-          dependencies: AppByIdFamily._dependencies,
-          allTransitiveDependencies: AppByIdFamily._allTransitiveDependencies,
+                  : _$watchAppByIdHash,
+          dependencies: WatchAppByIdFamily._dependencies,
+          allTransitiveDependencies:
+              WatchAppByIdFamily._allTransitiveDependencies,
           id: id,
         );
 
-  AppByIdProvider._internal(
+  WatchAppByIdProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -138,12 +141,12 @@ class AppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
 
   @override
   Override overrideWith(
-    Stream<AppEntity?> Function(AppByIdRef provider) create,
+    Stream<AppEntity?> Function(WatchAppByIdRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: AppByIdProvider._internal(
-        (ref) => create(ref as AppByIdRef),
+      override: WatchAppByIdProvider._internal(
+        (ref) => create(ref as WatchAppByIdRef),
         from: from,
         name: null,
         dependencies: null,
@@ -156,12 +159,12 @@ class AppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
 
   @override
   AutoDisposeStreamProviderElement<AppEntity?> createElement() {
-    return _AppByIdProviderElement(this);
+    return _WatchAppByIdProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is AppByIdProvider && other.id == id;
+    return other is WatchAppByIdProvider && other.id == id;
   }
 
   @override
@@ -173,17 +176,17 @@ class AppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
   }
 }
 
-mixin AppByIdRef on AutoDisposeStreamProviderRef<AppEntity?> {
+mixin WatchAppByIdRef on AutoDisposeStreamProviderRef<AppEntity?> {
   /// The parameter `id` of this provider.
   int get id;
 }
 
-class _AppByIdProviderElement
-    extends AutoDisposeStreamProviderElement<AppEntity?> with AppByIdRef {
-  _AppByIdProviderElement(super.provider);
+class _WatchAppByIdProviderElement
+    extends AutoDisposeStreamProviderElement<AppEntity?> with WatchAppByIdRef {
+  _WatchAppByIdProviderElement(super.provider);
 
   @override
-  int get id => (origin as AppByIdProvider).id;
+  int get id => (origin as WatchAppByIdProvider).id;
 }
 
 String _$watchTotalTasksCountHash() =>

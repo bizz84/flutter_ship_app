@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
-import 'package:flutter_ship_app/src/data/shared_preferences.dart';
+import 'package:flutter_ship_app/src/utils/shared_preferences.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
@@ -10,9 +10,10 @@ import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final container = ProviderContainer();
-  // needed to read the theme mode before calling runApp
+  // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
+  // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
-  // run app
+  // run the app
   runApp(UncontrolledProviderScope(
     container: container,
     child: AppStartupWidget(

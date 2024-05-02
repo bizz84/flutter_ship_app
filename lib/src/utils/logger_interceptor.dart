@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+/// A simple interceptor used to log all network requests
+/// For more details, see: https://github.com/bizz84/flutter-tips-and-tricks/blob/main/tips/0152-log-status-code-emoji/index.md
 class LoggerInterceptor implements Interceptor {
   final stopwatches = <String, Stopwatch>{};
 

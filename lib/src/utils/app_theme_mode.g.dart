@@ -9,7 +9,9 @@ part of 'app_theme_mode.dart';
 String _$appThemeModeNotifierHash() =>
     r'7621e0247530a013d2205cb8df27c3fb920dec84';
 
-/// See also [AppThemeModeNotifier].
+/// A notifier used to read and write the themeMode to SharedPreferences
+///
+/// Copied from [AppThemeModeNotifier].
 @ProviderFor(AppThemeModeNotifier)
 final appThemeModeNotifierProvider =
     AutoDisposeNotifierProvider<AppThemeModeNotifier, ThemeMode>.internal(

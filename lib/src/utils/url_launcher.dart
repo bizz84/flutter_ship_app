@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 part 'url_launcher.g.dart';
 
+/// A simple wrapper for the url_launcher package
 class UrlLauncher {
   Future<bool> launch(Uri uri) async {
     try {

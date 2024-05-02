@@ -5,6 +5,8 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_progress_checkmark.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
+/// A list tile for showing the completion status of apps and epics using
+/// a CustomProgressCheckmark
 class CustomCompletionListTile extends StatelessWidget {
   const CustomCompletionListTile({
     super.key,

@@ -6,6 +6,8 @@ import 'connection/connection.dart' as impl;
 
 part 'app_database.g.dart';
 
+// * Table definitions
+
 /// Represents a new app created by the user
 @DataClassName('AppProject')
 class AppProjectsTable extends Table {
@@ -54,6 +56,7 @@ class TaskStatusesTable extends Table {
       ['UNIQUE (project_id, epic_id, task_id)'];
 }
 
+/// The database class declaring all the tables used in this project
 @DriftDatabase(tables: [
   AppProjectsTable,
   EpicsTable,

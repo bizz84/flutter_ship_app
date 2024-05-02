@@ -9,13 +9,13 @@ BUILD_VERSION := $(shell grep 'version:' $(NAME)/pubspec.yaml | awk '{print $$2}
 # Deploy the Flutter web project to GitHub
 deploy:
 	@echo "Clean existing repository"
-	flutter clean
+#	flutter clean
 
 	@echo "Getting packages..."
-	flutter pub get
+#	flutter pub get
 
 	@echo "Running generators..."
-	dart run build_runner -d
+#	dart run build_runner -d
 
 	@echo "Building for web..."
 	flutter build web --base-href $(BASE_HREF) --release

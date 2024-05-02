@@ -8,6 +8,7 @@ import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
+/// Screen used to create a new app or edit an existing one
 class CreateOrEditAppScreen extends ConsumerStatefulWidget {
   const CreateOrEditAppScreen({super.key, this.app});
   final AppEntity? app;
@@ -25,6 +26,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   @override
   void initState() {
     super.initState();
+    // * preload the form with the initial data (useful in edit mode)
     if (widget.app != null) {
       _name = widget.app?.name ?? '';
     }
@@ -42,6 +44,9 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
+        // * Note: while writing to the local DB is an async operation, it is
+        // * very fast and is very unlikely to fail. For this reason, the
+        // * mutation happens here and not inside a dedicated AsyncNotifier.
         final db = ref.read(appDatabaseProvider);
         final existingApp = widget.app;
         if (existingApp != null) {
@@ -53,7 +58,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
           Navigator.of(context).pop();
         }
       } catch (e) {
-        // TODO: Improve error handling
+        // TODO: Error monitoring
         showAlertDialog(
           context: context,
           title: 'Error Saving Data'.hardcoded,
@@ -66,25 +71,30 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
 
   Future<void> _delete() async {
     try {
+      // * Safe to use ! as deletion only happens in edit mode
+      // * when the name is not null
+      final appName = widget.app!.name;
       final shouldDelete = await showAlertDialog(
         context: context,
-        title: 'Are you sure?',
+        title: 'Are you sure?'.hardcoded,
         content:
-            'This will delete "${widget.app!.name}" along with all its completed tasks'
+            'This will delete "$appName" along with all its completed tasks'
                 .hardcoded,
-        cancelActionText: 'Cancel',
-        defaultActionText: 'Delete',
+        cancelActionText: 'Cancel'.hardcoded,
+        defaultActionText: 'Delete'.hardcoded,
         isDestructive: true,
       );
       if (shouldDelete == true) {
-        ref.read(appDatabaseProvider).deleteAppById(widget.app!.id);
-        // ignore_for_file: use_build_context_synchronously
+        // * Note: while deleting from the local DB is an async operation, it is
+        // * very fast and is very unlikely to fail. For this reason, the
+        // * mutation happens here and not inside a dedicated AsyncNotifier.
+        await ref.read(appDatabaseProvider).deleteAppById(widget.app!.id);
         if (mounted) {
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
       }
     } catch (e) {
-      // TODO: Improve error handling
+      // TODO: Error monitoring
       showAlertDialog(
         context: context,
         title: 'Error Deleting App'.hardcoded,
@@ -139,3 +149,5 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
     );
   }
 }
+
+// ignore_for_file: use_build_context_synchronously

@@ -11,6 +11,7 @@ import 'package:flutter_ship_app/src/domain/app_entity.dart';
 import 'package:flutter_ship_app/src/domain/epic_entity.dart';
 import 'package:flutter_ship_app/src/domain/task_entity.dart';
 
+/// Screen for showing a list of tasks for a given epic
 class TasksChecklistScreen extends ConsumerWidget {
   const TasksChecklistScreen(
       {super.key, required this.app, required this.epic});
@@ -19,6 +20,7 @@ class TasksChecklistScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // * Watch tasks and rebuild the UI if their completion status changes
     final tasksAsync = ref.watch(
         watchTasksForAppAndEpicProvider(projectId: app.id, epicId: epic.id));
     final tasks = tasksAsync.valueOrNull ?? epic.tasks;
@@ -38,7 +40,7 @@ class TasksChecklistScreen extends ConsumerWidget {
           separatorBuilder: (context, index) => const Divider(height: 0.5),
           itemBuilder: (_, index) {
             final task = tasks[index];
-            return TaskListTile(
+            return CheckboxTaskListTile(
               task: task,
               completed: task.completed,
               onChanged: (completed) async {
@@ -58,8 +60,9 @@ class TasksChecklistScreen extends ConsumerWidget {
   }
 }
 
-class TaskListTile extends StatelessWidget {
-  const TaskListTile(
+/// A widget for updating the status of a task using a checkbox
+class CheckboxTaskListTile extends StatelessWidget {
+  const CheckboxTaskListTile(
       {super.key,
       required this.task,
       required this.completed,

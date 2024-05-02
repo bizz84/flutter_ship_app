@@ -5,15 +5,10 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
-import 'package:flutter_ship_app/src/utils/url_launcher.dart';
 
+/// The settings screen of the app
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
-
-  Future<void> _openLink(String url, WidgetRef ref) async {
-    final uri = Uri.parse(url);
-    await ref.read(urlLauncherProvider).launch(uri);
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,21 +45,21 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(height: 1),
             // ListTile(
             //   title: Text('Website'.hardcoded),
-            //   // TODO: Update with correct URL
+            //   // TODO: Update with the correct URL
             //   onTap: () => _openLink('https://fluttertips.dev', ref),
             //   trailing: const Icon(Icons.chevron_right),
             // ),
             // const Divider(height: 1),
             // ListTile(
             //   title: Text('Privacy Policy'.hardcoded),
-            //   // TODO: Update with correct URL
+            //   // TODO: Update with the correct URL
             //   onTap: () => _openLink('https://fluttertips.dev/privacy', ref),
             //   trailing: const Icon(Icons.chevron_right),
             // ),
             // const Divider(height: 1),
             // ListTile(
             //   title: Text('Terms of Use'.hardcoded),
-            //   // TODO: Update with correct URL
+            //   // TODO: Update with the correct URL
             //   onTap: () => _openLink('https://fluttertips.dev/terms', ref),
             //   trailing: const Icon(Icons.chevron_right),
             // ),
@@ -74,6 +69,11 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
   }
+
+  // Future<void> _openLink(String url, WidgetRef ref) async {
+  //   final uri = Uri.parse(url);
+  //   await ref.read(urlLauncherProvider).launch(uri);
+  // }
 }
 
 class ThemeSelectorListTile extends ConsumerWidget {

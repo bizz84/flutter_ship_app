@@ -15,6 +15,7 @@ import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
+/// This is the home page for the app
 class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
 
@@ -29,7 +30,6 @@ class AppsListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = ScrollController();
-    final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -38,14 +38,12 @@ class AppsListScreen extends ConsumerWidget {
             Icons.settings,
             semanticLabel: 'Settings'.hardcoded,
           ),
-          onPressed: () {
-            Navigator.of(context).push<int>(
-              CustomPageRoute(
-                fullscreenDialog: true,
-                builder: (_) => const SettingsScreen(),
-              ),
-            );
-          },
+          onPressed: () => Navigator.of(context).push(
+            CustomPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => const SettingsScreen(),
+            ),
+          ),
         ),
         title: Text(Strings.myAppsTitle),
         actions: [
@@ -63,7 +61,6 @@ class AppsListScreen extends ConsumerWidget {
         controller: scrollController,
         child: AppsListView(
           controller: scrollController,
-          totalTasksCount: totalTasksCount,
           onNewApp: () => _createNewApp(context),
         ),
       ),
@@ -71,25 +68,28 @@ class AppsListScreen extends ConsumerWidget {
   }
 }
 
+/// A list view used to show the list of apps, or a WelcomeAppIntro widget
+/// if the list is empty
 class AppsListView extends ConsumerWidget {
-  const AppsListView(
-      {super.key,
-      required this.totalTasksCount,
-      required this.onNewApp,
-      this.controller});
-  final int? totalTasksCount;
+  const AppsListView({
+    super.key,
+    required this.onNewApp,
+    this.controller,
+  });
   final VoidCallback onNewApp;
   final ScrollController? controller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appsListAsync = ref.watch(appsListProvider);
+    // * The totalTasksCount is the same for all apps, because tasks are loaded
+    // * from the same teplate. So we can watch it here and pass it to each
+    // * AppListTile below.
+    final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
+    final appsListAsync = ref.watch(watchAppsListProvider);
     return appsListAsync.when(
       data: (appsList) {
         if (appsList.isEmpty) {
-          return EmptyPlaceholderAppIntro(
-            onNewApp: onNewApp,
-          );
+          return WelcomeAppIntro(onNewApp: onNewApp);
         } else {
           return ListView.separated(
             controller: controller,
@@ -111,6 +111,7 @@ class AppsListView extends ConsumerWidget {
   }
 }
 
+/// A ListTile for showing a single app with its completion status
 class AppListTile extends ConsumerWidget {
   const AppListTile({
     super.key,
@@ -129,17 +130,18 @@ class AppListTile extends ConsumerWidget {
       title: app.name,
       totalCount: totalTasksCount ?? 0,
       completedCount: completedCount,
-      onTap: () {
-        Navigator.of(context).push(CustomPageRoute(
+      onTap: () => Navigator.of(context).push(
+        CustomPageRoute(
           builder: (_) => EpicsChecklistScreen(app: app),
-        ));
-      },
+        ),
+      ),
     );
   }
 }
 
-class EmptyPlaceholderAppIntro extends StatelessWidget {
-  const EmptyPlaceholderAppIntro({super.key, required this.onNewApp});
+/// A welcome widget for when the list of apps is empty
+class WelcomeAppIntro extends StatelessWidget {
+  const WelcomeAppIntro({super.key, required this.onNewApp});
   final VoidCallback onNewApp;
 
   @override
@@ -152,7 +154,7 @@ class EmptyPlaceholderAppIntro extends StatelessWidget {
         children: [
           Text(
             'Welcome to Flutter Ship'.hardcoded,
-            style: Theme.of(context).textTheme.displaySmall,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           gapH4,
           Text(
@@ -167,19 +169,19 @@ class EmptyPlaceholderAppIntro extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   gapH8,
-                  EmptyPlaceholderListTile(
+                  ExampleListTile(
                     title: 'Flutter Flavors'.hardcoded,
                     completedCount: 4,
                     totalCount: 4,
                   ),
                   gapH12,
-                  EmptyPlaceholderListTile(
+                  ExampleListTile(
                     title: 'Error Monitoring'.hardcoded,
                     completedCount: 4,
                     totalCount: 6,
                   ),
                   gapH12,
-                  EmptyPlaceholderListTile(
+                  ExampleListTile(
                     title: 'Analytics'.hardcoded,
                     completedCount: 5,
                     totalCount: 7,
@@ -206,8 +208,9 @@ class EmptyPlaceholderAppIntro extends StatelessWidget {
   }
 }
 
-class EmptyPlaceholderListTile extends StatelessWidget {
-  const EmptyPlaceholderListTile({
+/// An example list tile to be used in the WelcomeAppIntro
+class ExampleListTile extends StatelessWidget {
+  const ExampleListTile({
     super.key,
     required this.title,
     required this.completedCount,

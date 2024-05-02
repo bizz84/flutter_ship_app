@@ -4,13 +4,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gist_client.g.dart';
 
-// * You can fetch your own template by changing these values
+// * Change these values if you want to fetch your own template from elsewhere
 const _owner = 'bizz84';
 const _gistId = '5c2ee79cd103bd43ce97b4d7fcfed103';
 const _templateName = 'app_release_template.json';
 const _gistTemplateUrl =
     'https://gist.githubusercontent.com/$_owner/$_gistId/raw/$_templateName';
 
+/// An API client class for fetching the JSON template from a GitHub gist
 class GistClient {
   GistClient({required this.dio});
   final Dio dio;
@@ -49,7 +50,7 @@ Future<String> fetchJsonTemplate(FetchJsonTemplateRef ref) {
   return ref.watch(gistClientProvider).fetchJsonTemplate();
 }
 
-/// Exceptions
+/// Exceptions supported by the GistClient
 sealed class APIException implements Exception {
   String get message;
   String get displayMessage;
