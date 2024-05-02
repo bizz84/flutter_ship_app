@@ -5,13 +5,13 @@ import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/domain/app_entity.dart';
+import 'package:flutter_ship_app/src/domain/app_model.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 /// Screen used to create a new app or edit an existing one
 class CreateOrEditAppScreen extends ConsumerStatefulWidget {
   const CreateOrEditAppScreen({super.key, this.app});
-  final AppEntity? app;
+  final AppModel? app;
 
   @override
   ConsumerState<CreateOrEditAppScreen> createState() =>

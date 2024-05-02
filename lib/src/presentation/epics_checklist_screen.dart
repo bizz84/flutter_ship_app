@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/domain/app_entity.dart';
-import 'package:flutter_ship_app/src/domain/epic_entity.dart';
+import 'package:flutter_ship_app/src/domain/app_model.dart';
+import 'package:flutter_ship_app/src/domain/epic_model.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 /// Screen used to show all the epics for a given app
 class EpicsChecklistScreen extends ConsumerWidget {
   const EpicsChecklistScreen({super.key, required this.app});
-  final AppEntity app;
+  final AppModel app;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,7 +71,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
 /// The list of epics
 class EpicsChecklistListView extends ConsumerWidget {
   const EpicsChecklistListView({super.key, required this.app, this.controller});
-  final AppEntity app;
+  final AppModel app;
   final ScrollController? controller;
 
   @override
@@ -97,8 +97,8 @@ class EpicsChecklistListView extends ConsumerWidget {
 /// A list tile for an epic
 class EpicListTile extends ConsumerWidget {
   const EpicListTile({super.key, required this.app, required this.epic});
-  final AppEntity app;
-  final EpicEntity epic;
+  final AppModel app;
+  final EpicModel epic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

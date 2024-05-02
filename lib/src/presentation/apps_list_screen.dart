@@ -8,7 +8,7 @@ import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/domain/app_entity.dart';
+import 'package:flutter_ship_app/src/domain/app_model.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
@@ -118,7 +118,7 @@ class AppListTile extends ConsumerWidget {
     required this.app,
   });
   final int? totalTasksCount;
-  final AppEntity app;
+  final AppModel app;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

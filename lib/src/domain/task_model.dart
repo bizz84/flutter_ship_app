@@ -1,6 +1,6 @@
 /// A model class representing a task
-class TaskEntity {
-  TaskEntity({
+class TaskModel {
+  TaskModel({
     required this.id,
     required this.description,
     this.completed = false,
