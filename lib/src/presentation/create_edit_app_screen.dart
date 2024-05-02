@@ -86,8 +86,8 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
       );
       if (shouldDelete == true) {
         // * Note: while deleting from the local DB is an async operation, it is
-        // * very fast and is very unlikely to fail. For this reason, the
-        // * mutation happens here and not inside a dedicated AsyncNotifier.
+        // * very fast and is unlikely to fail. For this reason, the mutation
+        // * happens here and not inside a dedicated AsyncNotifier.
         await ref.read(appDatabaseProvider).deleteAppById(widget.app!.id);
         if (mounted) {
           Navigator.of(context).popUntil((route) => route.isFirst);
