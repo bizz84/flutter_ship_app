@@ -220,8 +220,7 @@ extension AppDatabaseCRUD on AppDatabase {
 
 @riverpod
 Future<List<EpicModel>> fetchAllEpicsAndTasks(FetchAllEpicsAndTasksRef ref) {
-  final db = ref.watch(appDatabaseProvider);
-  return db.fetchAllEpicsAndTasks();
+  return ref.watch(appDatabaseProvider).fetchAllEpicsAndTasks();
 }
 
 // *************** Apps *****************

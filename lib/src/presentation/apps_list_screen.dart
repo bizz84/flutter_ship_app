@@ -70,11 +70,7 @@ class AppsListScreen extends ConsumerWidget {
 /// A list view used to show the list of apps, or a WelcomeAppIntro widget
 /// if the list is empty
 class AppsListView extends ConsumerWidget {
-  const AppsListView({
-    super.key,
-    required this.onNewApp,
-    this.controller,
-  });
+  const AppsListView({super.key, required this.onNewApp, this.controller});
   final VoidCallback onNewApp;
   final ScrollController? controller;
 
