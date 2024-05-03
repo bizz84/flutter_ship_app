@@ -58,7 +58,7 @@
       ]
     },
     {
-      "id": "as",
+      "id": "se",
       "epic": "About / Settings page",
       "tasks": [
         { "id": "9AB92F0F", "name": "App configuration settings (light/dark mode, etc)" },
