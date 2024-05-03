@@ -1,165 +1,165 @@
 {
   "template": "App Release",
-  "version": 2,
+  "version": 3,
   "epics": [
     {
-      "id": 10,
+      "id": "ff",
       "epic": "Flutter Flavors",
       "tasks": [
-        { "id": 10, "description": "Add Dev, Stg, Prod flavors on iOS" },
-        { "id": 20, "description": "Add Dev, Stg, Prod flavors on Android" },
-        { "id": 30, "description": "Flavored API keys (dart-define or Envied)" },
-        { "id": 40, "description": "FlutterFire setup with Flavors" }
+        { "id": "B2A42464", "name": "Add Dev, Stg, Prod flavors on iOS" },
+        { "id": "C9FB1D58", "name": "Add Dev, Stg, Prod flavors on Android" },
+        { "id": "C4F3EEAA", "name": "Flavored API keys (dart-define or Envied)" },
+        { "id": "D88C0DA4", "name": "FlutterFire setup with Flavors" }
       ]
     },
     {
-      "id": 20,
+      "id": "ai",
       "epic": "App Icons",
       "tasks": [
-        { "id": 10, "description": "Design your own icon (IconKitchen, Figma)" },
-        { "id": 20, "description": "Generate it with flutter_launcher_icons" },
-        { "id": 30, "description": "Different icons for each flavor" }
+        { "id": "7DA5766A", "name": "Design your own icon (IconKitchen, Figma)" },
+        { "id": "0A5EEB63", "name": "Generate it with flutter_launcher_icons" },
+        { "id": "029C2183", "name": "Different icons for each flavor" }
       ]
     },
     {
-      "id": 30,
+      "id": "em",
       "epic": "Error Monitoring",
       "tasks": [
-        { "id": 10, "description": "Install and configure Sentry or Crashlytics" },
-        { "id": 20, "description": "Handle uncaught exceptions" },
-        { "id": 30, "description": "Capture User Feedback (user_feedback package)" },
-        { "id": 40, "description": "Start monitoring and fixing issues after launch" },
-        { "id": 50, "description": "Enable error monitoring in production builds only (if desired)" },
-        { "id": 60, "description": "Test your error monitoring logic" }
+        { "id": "0836A3B0", "name": "Install and configure Sentry or Crashlytics" },
+        { "id": "6FEC4658", "name": "Handle uncaught exceptions" },
+        { "id": "75644300", "name": "Capture User Feedback (user_feedback package)" },
+        { "id": "1F7504F6", "name": "Start monitoring and fixing issues after launch" },
+        { "id": "48B9817D", "name": "Enable error monitoring in production builds only (if desired)" },
+        { "id": "1CCBEB7B", "name": "Test your error monitoring logic" }
       ]
     },
     {
-      "id": 40,
+      "id": "aa",
       "epic": "Analytics",
       "tasks": [
-        { "id": 10, "description": "Install and configure an analytics SDK of choice" },
-        { "id": 20, "description": "Make a list of all the events you want to track" },
-        { "id": 30, "description": "Add the event tracking code" },
-        { "id": 40, "description": "Add custom properties to relevant events" },
-        { "id": 50, "description": "Provide way to opt-out of data collection" },
-        { "id": 60, "description": "Enable analytics in production builds only (if desired)" },
-        { "id": 70, "description": "Test your analytics logic" }
+        { "id": "364BC976", "name": "Install and configure an analytics SDK of choice" },
+        { "id": "0B203CD9", "name": "Make a list of all the events you want to track" },
+        { "id": "DFB4257F", "name": "Add the event tracking code" },
+        { "id": "B93C09F8", "name": "Add custom properties to relevant events" },
+        { "id": "1E8213E6", "name": "Provide way to opt-out of data collection" },
+        { "id": "E873F9CE", "name": "Enable analytics in production builds only (if desired)" },
+        { "id": "5A1AF839", "name": "Test your analytics logic" }
       ]
     },
     {
-      "id": 50,
+      "id": "fu",
       "epic": "Force Upgrade",
       "tasks": [
-        { "id": 10, "description": "Simple Force Upgrade strategy with Upgrader package" },
-        { "id": 20, "description": "Custom Force Upgrade strategy with Firebase Remote Config" },
-        { "id": 30, "description": "Advanced Force Upgrade strategy with Rolling Release Window" },
-        { "id": 40, "description": "Test your force upgrade logic (dev build)" },
-        { "id": 50, "description": "Test your force upgrade logic (production build)" }
+        { "id": "062D761A", "name": "Simple Force Upgrade strategy with Upgrader package" },
+        { "id": "6DAE72DE", "name": "Custom Force Upgrade strategy with Firebase Remote Config" },
+        { "id": "5319AF1F", "name": "Advanced Force Upgrade strategy with Rolling Release Window" },
+        { "id": "7232501C", "name": "Test your force upgrade logic (dev build)" },
+        { "id": "9043CEA1", "name": "Test your force upgrade logic (production build)" }
       ]
     },
     {
-      "id": 60,
+      "id": "as",
       "epic": "About / Settings page",
       "tasks": [
-        { "id": 10, "description": "App configuration settings (light/dark mode, etc)" },
-        { "id": 20, "description": "Links to your app website / privacy policy / terms of use" },
-        { "id": 30, "description": "Show OSS licenses" }
+        { "id": "9AB92F0F", "name": "App configuration settings (light/dark mode, etc)" },
+        { "id": "869E57CA", "name": "Links to your app website / privacy policy / terms of use" },
+        { "id": "A5DD4B1E", "name": "Show OSS licenses" }
       ]
     },  
     {
-      "id": 70,
+      "id": "ir",
       "epic": "In App Review Prompt",
       "tasks": [
-        { "id": 10, "description": "Add a button to your about/setting page so users can leave a review" },
-        { "id": 10, "description": "Use Analytics to track KPIs related to in-app review" },
-        { "id": 20, "description": "Trigger app store review prompt based on custom logic" }
+        { "id": "A1D55FA9", "name": "Add a button to your about/setting page so users can leave a review" },
+        { "id": "1710AAC8", "name": "Use Analytics to track KPIs related to in-app review" },
+        { "id": "B9EFA364", "name": "Trigger app store review prompt based on custom logic" }
       ]
     },
     {
-      "id": 80,
+      "id": "ay",
       "epic": "Accessibility",
       "tasks": [
-        { "id": 10, "description": "Install accessibility_tools package" },
-        { "id": 20, "description": "Do an accessibility audit" },
-        { "id": 30, "description": "Add semantic labels to your widgets" },
-        { "id": 40, "description": "Support large fonts and text scaling" },
-        { "id": 50, "description": "Improve colors and contrast" },
-        { "id": 60, "description": "Test your app with VoiceOver" },
-        { "id": 70, "description": "Test your app with TalkBack" },
-        { "id": 80, "description": "Check navigation and touch targets size" },
-        { "id": 90, "description": "Check accessibility trasversal" }
+        { "id": "CF6E07E1", "name": "Install accessibility_tools package" },
+        { "id": "CAF5B3BB", "name": "Do an accessibility audit" },
+        { "id": "2AC342E8", "name": "Add semantic labels to your widgets" },
+        { "id": "89F155C3", "name": "Support large fonts and text scaling" },
+        { "id": "3A9D1367", "name": "Improve colors and contrast" },
+        { "id": "770600E2", "name": "Test your app with VoiceOver" },
+        { "id": "55B298EB", "name": "Test your app with TalkBack" },
+        { "id": "B8664A67", "name": "Check navigation and touch targets size" },
+        { "id": "28D3222B", "name": "Check accessibility trasversal" }
       ]
     },
     {
-      "id": 90,
+      "id": "as",
       "epic": "App Security",
       "tasks": [
-        { "id": 10, "description": "Store secret API keys on the server, not the client" },
-        { "id": 20, "description": "Obfuscate any API keys that are stored on the client" },
-        { "id": 30, "description": "Do not add API keys to Git" },
-        { "id": 40, "description": "Minimize collection of personally identifiable information (PII)" },
-        { "id": 50, "description": "Anonymize any PII that is stored on device" },
-        { "id": 60, "description": "Encrypt any sensitive data that is stored on device" },
-        { "id": 60, "description": "Avoid logging sensitive data" },
-        { "id": 70, "description": "Implement strong authentication and authorization" },
-        { "id": 80, "description": "Secure data storage and transmission" },
-        { "id": 90, "description": "Prevent user data loss or corruption" },
-        { "id": 100, "description": "Have a data backup strategy" },
-        { "id": 110, "description": "Review and address common vulnerabilities (OWASP Top 10)" },
-        { "id": 120, "description": "Implement Flutter-specific security best practices" },
-        { "id": 130, "description": "Protect user privacy" }
+        { "id": "1514A2D8", "name": "Store secret API keys on the server, not the client" },
+        { "id": "6BCC45A3", "name": "Obfuscate any API keys that are stored on the client" },
+        { "id": "9187875D", "name": "Do not add API keys to Git" },
+        { "id": "D3ECFE22", "name": "Minimize collection of personally identifiable information (PII)" },
+        { "id": "63433236", "name": "Anonymize any PII that is stored on device" },
+        { "id": "2A18874C", "name": "Encrypt any sensitive data that is stored on device" },
+        { "id": "AED9819C", "name": "Avoid logging sensitive data" },
+        { "id": "FAFEAC88", "name": "Implement strong authentication and authorization" },
+        { "id": "5D0C8C6C", "name": "Secure data storage and transmission" },
+        { "id": "1FFA3B20", "name": "Prevent user data loss or corruption" },
+        { "id": "C41ED2EB", "name": "Have a data backup strategy" },
+        { "id": "B9E5FFC3", "name": "Review and address common vulnerabilities (OWASP Top 10)" },
+        { "id": "F46DC96D", "name": "Implement Flutter-specific security best practices" },
+        { "id": "A31EBF78", "name": "Protect user privacy" }
       ]
     },
     {
-      "id": 100,
+      "id": "we",
       "epic": "Create your App Website",
       "tasks": [
-        { "id": 10, "description": "Choose a template to create your app website" },
-        { "id": 20, "description": "Add your app screenshot, icon, metadata" },
-        { "id": 30, "description": "Add your privacy policy and terms of use" },
-        { "id": 40, "description": "Publish your website on a non-branded domain" },
-        { "id": 50, "description": "Publish your website on your custom domain" },
-        { "id": 60, "description": "Add the App Store download button (when app is live)" },
-        { "id": 70, "description": "Add the Play Store download button (when app is live)" }
+        { "id": "E1D761CF", "name": "Choose a template to create your app website" },
+        { "id": "6EEE2634", "name": "Add your app screenshot, icon, metadata" },
+        { "id": "9712573F", "name": "Add your privacy policy and terms of use" },
+        { "id": "DCFBB2F9", "name": "Publish your website on a non-branded domain" },
+        { "id": "73C526B8", "name": "Publish your website on your custom domain" },
+        { "id": "5258B296", "name": "Add the App Store download button (when app is live)" },
+        { "id": "79F5D584", "name": "Add the Play Store download button (when app is live)" }
       ]
     },
     {
-      "id": 110,
+      "id": "io",
       "epic": "Submit to the iOS App Store",
       "tasks": [
-        { "id": 10, "description": "Create a new app and fill all the required metadata" },
-        { "id": 20, "description": "Add a PrivacyInfo.xcprivacy to the iOS project" },
-        { "id": 30, "description": "Capture and upload your app screenshots" },
-        { "id": 40, "description": "Use a distribution certificate and provisioning profile for code signing" },
-        { "id": 50, "description": "Manually create a release build and upload it" },
-        { "id": 60, "description": "Submit your app for review" },
-        { "id": 70, "description": "Address any app rejections and publish your app" }
+        { "id": "5790E9E7", "name": "Create a new app and fill all the required metadata" },
+        { "id": "6CED0569", "name": "Add a PrivacyInfo.xcprivacy to the iOS project" },
+        { "id": "6F6DE4B7", "name": "Capture and upload your app screenshots" },
+        { "id": "FB5FED80", "name": "Use a distribution certificate and provisioning profile for code signing" },
+        { "id": "370297D5", "name": "Manually create a release build and upload it" },
+        { "id": "30A70110", "name": "Submit your app for review" },
+        { "id": "AE92D676", "name": "Address any app rejections and publish your app" }
       ]
     },
     {
-      "id": 120,
+      "id": "gp",
       "epic": "Submit to the Google Play Store",
       "tasks": [
-        { "id": 10, "description": "Create a new app and fill all the required metadata" },
-        { "id": 20, "description": "Capture and upload your app screenshots" },
-        { "id": 30, "description": "Generate a signed keystore for release" },
-        { "id": 40, "description": "Manually create a release build and upload it" },
-        { "id": 50, "description": "Submit your app for review" },
-        { "id": 60, "description": "Address any app rejections and publish your app" }
+        { "id": "59B46DAA", "name": "Create a new app and fill all the required metadata" },
+        { "id": "F1C93F59", "name": "Capture and upload your app screenshots" },
+        { "id": "05F1B2A5", "name": "Generate a signed keystore for release" },
+        { "id": "A0C32339", "name": "Manually create a release build and upload it" },
+        { "id": "CA64B7A2", "name": "Submit your app for review" },
+        { "id": "FDBF31FB", "name": "Address any app rejections and publish your app" }
       ]
     },
     {
-      "id": 120,
+      "id": "ci",
       "epic": "Automate your builds (CI/CD)",
       "tasks": [
-        { "id": 10, "description": "Choose a CI/CD system (GitHub Actions / Codemagic / Fastlane or others)" },
-        { "id": 20, "description": "Add workflow to analyze, build, and run tests" },
-        { "id": 30, "description": "Add workflow to build for release, distribute to App Store (Publishing)" },
-        { "id": 40, "description": "Add workflow to build for release, distribute to App Store (Testing)" },
-        { "id": 50, "description": "Add workflow to build for release, distribute to Play Store (Publishing)" },
-        { "id": 60, "description": "Add workflow to build for release, distribute to Play Store (Testing)" },
-        { "id": 70, "description": "Automate the increment of the build number for each release" },
-        { "id": 80, "description": "Automate the screenshot generation" }
+        { "id": "9B11C2CB", "name": "Choose a CI/CD system (GitHub Actions / Codemagic / Fastlane or others)" },
+        { "id": "460C0896", "name": "Add workflow to analyze, build, and run tests" },
+        { "id": "0803CB68", "name": "Add workflow to build for release, distribute to App Store (Publishing)" },
+        { "id": "D81634F3", "name": "Add workflow to build for release, distribute to App Store (Testing)" },
+        { "id": "57AC8E62", "name": "Add workflow to build for release, distribute to Play Store (Publishing)" },
+        { "id": "71F285C8", "name": "Add workflow to build for release, distribute to Play Store (Testing)" },
+        { "id": "0D98CC35", "name": "Automate the increment of the build number for each release" },
+        { "id": "155A1531", "name": "Automate the screenshot generation" }
       ]
     }
   ]

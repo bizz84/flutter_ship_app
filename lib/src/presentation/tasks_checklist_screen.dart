@@ -28,7 +28,7 @@ class TasksChecklistScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: AutoSizeText(
-          epic.epic,
+          epic.name,
           maxLines: 1,
         ),
       ),
@@ -44,10 +44,9 @@ class TasksChecklistScreen extends ConsumerWidget {
               task: task,
               completed: task.completed,
               onChanged: (completed) async {
-                log('appId: ${app.id}, epicId: ${epic.id}, taskId: ${task.id}, completed: $completed');
+                log('appId: ${app.id}, taskId: ${task.id}, completed: $completed');
                 await ref.read(appDatabaseProvider).updateTaskCompletionStatus(
                       projectId: app.id,
-                      epicId: epic.id,
                       taskId: task.id,
                       isCompleted: completed,
                     );
@@ -81,7 +80,7 @@ class CheckboxTaskListTile extends StatelessWidget {
         }
       },
       title: Text(
-        task.description,
+        task.name,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       controlAffinity: ListTileControlAffinity.leading,

@@ -107,7 +107,7 @@ class EpicListTile extends ConsumerWidget {
     // * default to 0 during loading or if there is an error
     final completedCount = completedCountAsync.valueOrNull ?? 0;
     return CustomCompletionListTile(
-      title: epic.epic,
+      title: epic.name,
       totalCount: epic.tasks.length,
       completedCount: completedCount,
       onTap: () => Navigator.of(context).push(

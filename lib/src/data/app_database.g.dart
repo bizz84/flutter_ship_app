@@ -184,10 +184,19 @@ class $EpicsTableTable extends EpicsTable
   $EpicsTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 8),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'UNIQUE NOT NULL');
+  static const VerificationMeta _orderMeta = const VerificationMeta('order');
+  @override
+  late final GeneratedColumn<int> order = GeneratedColumn<int>(
+      'order', aliasedName, false,
       type: DriftSqlType.int,
-      requiredDuringInsert: false,
+      requiredDuringInsert: true,
       $customConstraints: 'UNIQUE NOT NULL');
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -198,7 +207,7 @@ class $EpicsTableTable extends EpicsTable
       type: DriftSqlType.string,
       requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns => [id, order, name];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -211,6 +220,14 @@ class $EpicsTableTable extends EpicsTable
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('order')) {
+      context.handle(
+          _orderMeta, order.isAcceptableOrUnknown(data['order']!, _orderMeta));
+    } else if (isInserting) {
+      context.missing(_orderMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -228,7 +245,9 @@ class $EpicsTableTable extends EpicsTable
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Epic(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      order: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}order'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
     );
@@ -241,13 +260,15 @@ class $EpicsTableTable extends EpicsTable
 }
 
 class Epic extends DataClass implements Insertable<Epic> {
-  final int id;
+  final String id;
+  final int order;
   final String name;
-  const Epic({required this.id, required this.name});
+  const Epic({required this.id, required this.order, required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
+    map['order'] = Variable<int>(order);
     map['name'] = Variable<String>(name);
     return map;
   }
@@ -255,6 +276,7 @@ class Epic extends DataClass implements Insertable<Epic> {
   EpicsTableCompanion toCompanion(bool nullToAbsent) {
     return EpicsTableCompanion(
       id: Value(id),
+      order: Value(order),
       name: Value(name),
     );
   }
@@ -263,7 +285,8 @@ class Epic extends DataClass implements Insertable<Epic> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Epic(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
+      order: serializer.fromJson<int>(json['order']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -271,57 +294,81 @@ class Epic extends DataClass implements Insertable<Epic> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
+      'order': serializer.toJson<int>(order),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  Epic copyWith({int? id, String? name}) => Epic(
+  Epic copyWith({String? id, int? order, String? name}) => Epic(
         id: id ?? this.id,
+        order: order ?? this.order,
         name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('Epic(')
           ..write('id: $id, ')
+          ..write('order: $order, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(id, order, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Epic && other.id == this.id && other.name == this.name);
+      (other is Epic &&
+          other.id == this.id &&
+          other.order == this.order &&
+          other.name == this.name);
 }
 
 class EpicsTableCompanion extends UpdateCompanion<Epic> {
-  final Value<int> id;
+  final Value<String> id;
+  final Value<int> order;
   final Value<String> name;
+  final Value<int> rowid;
   const EpicsTableCompanion({
     this.id = const Value.absent(),
+    this.order = const Value.absent(),
     this.name = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   EpicsTableCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
+    required int order,
     required String name,
-  }) : name = Value(name);
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        order = Value(order),
+        name = Value(name);
   static Insertable<Epic> custom({
-    Expression<int>? id,
+    Expression<String>? id,
+    Expression<int>? order,
     Expression<String>? name,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (order != null) 'order': order,
       if (name != null) 'name': name,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
-  EpicsTableCompanion copyWith({Value<int>? id, Value<String>? name}) {
+  EpicsTableCompanion copyWith(
+      {Value<String>? id,
+      Value<int>? order,
+      Value<String>? name,
+      Value<int>? rowid}) {
     return EpicsTableCompanion(
       id: id ?? this.id,
+      order: order ?? this.order,
       name: name ?? this.name,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -329,10 +376,16 @@ class EpicsTableCompanion extends UpdateCompanion<Epic> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
+    }
+    if (order.present) {
+      map['order'] = Variable<int>(order.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -341,7 +394,9 @@ class EpicsTableCompanion extends UpdateCompanion<Epic> {
   String toString() {
     return (StringBuffer('EpicsTableCompanion(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('order: $order, ')
+          ..write('name: $name, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -355,27 +410,38 @@ class $TasksTableTable extends TasksTable
   $TasksTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 8),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   static const VerificationMeta _epicIdMeta = const VerificationMeta('epicId');
   @override
-  late final GeneratedColumn<int> epicId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> epicId = GeneratedColumn<String>(
       'epic_id', aliasedName, false,
-      type: DriftSqlType.int,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 8),
+      type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL REFERENCES epics_table(id)');
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+  static const VerificationMeta _orderMeta = const VerificationMeta('order');
   @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
+  late final GeneratedColumn<int> order = GeneratedColumn<int>(
+      'order', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'UNIQUE NOT NULL');
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, epicId, description];
+  List<GeneratedColumn> get $columns => [id, epicId, order, name];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -397,29 +463,35 @@ class $TasksTableTable extends TasksTable
     } else if (isInserting) {
       context.missing(_epicIdMeta);
     }
-    if (data.containsKey('description')) {
+    if (data.containsKey('order')) {
       context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
+          _orderMeta, order.isAcceptableOrUnknown(data['order']!, _orderMeta));
     } else if (isInserting) {
-      context.missing(_descriptionMeta);
+      context.missing(_orderMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id, epicId};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Task map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Task(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       epicId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}epic_id'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}epic_id'])!,
+      order: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}order'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
     );
   }
 
@@ -430,17 +502,22 @@ class $TasksTableTable extends TasksTable
 }
 
 class Task extends DataClass implements Insertable<Task> {
-  final int id;
-  final int epicId;
-  final String description;
+  final String id;
+  final String epicId;
+  final int order;
+  final String name;
   const Task(
-      {required this.id, required this.epicId, required this.description});
+      {required this.id,
+      required this.epicId,
+      required this.order,
+      required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['epic_id'] = Variable<int>(epicId);
-    map['description'] = Variable<String>(description);
+    map['id'] = Variable<String>(id);
+    map['epic_id'] = Variable<String>(epicId);
+    map['order'] = Variable<int>(order);
+    map['name'] = Variable<String>(name);
     return map;
   }
 
@@ -448,7 +525,8 @@ class Task extends DataClass implements Insertable<Task> {
     return TasksTableCompanion(
       id: Value(id),
       epicId: Value(epicId),
-      description: Value(description),
+      order: Value(order),
+      name: Value(name),
     );
   }
 
@@ -456,89 +534,102 @@ class Task extends DataClass implements Insertable<Task> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Task(
-      id: serializer.fromJson<int>(json['id']),
-      epicId: serializer.fromJson<int>(json['epicId']),
-      description: serializer.fromJson<String>(json['description']),
+      id: serializer.fromJson<String>(json['id']),
+      epicId: serializer.fromJson<String>(json['epicId']),
+      order: serializer.fromJson<int>(json['order']),
+      name: serializer.fromJson<String>(json['name']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'epicId': serializer.toJson<int>(epicId),
-      'description': serializer.toJson<String>(description),
+      'id': serializer.toJson<String>(id),
+      'epicId': serializer.toJson<String>(epicId),
+      'order': serializer.toJson<int>(order),
+      'name': serializer.toJson<String>(name),
     };
   }
 
-  Task copyWith({int? id, int? epicId, String? description}) => Task(
+  Task copyWith({String? id, String? epicId, int? order, String? name}) => Task(
         id: id ?? this.id,
         epicId: epicId ?? this.epicId,
-        description: description ?? this.description,
+        order: order ?? this.order,
+        name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('Task(')
           ..write('id: $id, ')
           ..write('epicId: $epicId, ')
-          ..write('description: $description')
+          ..write('order: $order, ')
+          ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, epicId, description);
+  int get hashCode => Object.hash(id, epicId, order, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Task &&
           other.id == this.id &&
           other.epicId == this.epicId &&
-          other.description == this.description);
+          other.order == this.order &&
+          other.name == this.name);
 }
 
 class TasksTableCompanion extends UpdateCompanion<Task> {
-  final Value<int> id;
-  final Value<int> epicId;
-  final Value<String> description;
+  final Value<String> id;
+  final Value<String> epicId;
+  final Value<int> order;
+  final Value<String> name;
   final Value<int> rowid;
   const TasksTableCompanion({
     this.id = const Value.absent(),
     this.epicId = const Value.absent(),
-    this.description = const Value.absent(),
+    this.order = const Value.absent(),
+    this.name = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TasksTableCompanion.insert({
-    required int id,
-    required int epicId,
-    required String description,
+    required String id,
+    required String epicId,
+    required int order,
+    required String name,
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         epicId = Value(epicId),
-        description = Value(description);
+        order = Value(order),
+        name = Value(name);
   static Insertable<Task> custom({
-    Expression<int>? id,
-    Expression<int>? epicId,
-    Expression<String>? description,
+    Expression<String>? id,
+    Expression<String>? epicId,
+    Expression<int>? order,
+    Expression<String>? name,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (epicId != null) 'epic_id': epicId,
-      if (description != null) 'description': description,
+      if (order != null) 'order': order,
+      if (name != null) 'name': name,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   TasksTableCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? epicId,
-      Value<String>? description,
+      {Value<String>? id,
+      Value<String>? epicId,
+      Value<int>? order,
+      Value<String>? name,
       Value<int>? rowid}) {
     return TasksTableCompanion(
       id: id ?? this.id,
       epicId: epicId ?? this.epicId,
-      description: description ?? this.description,
+      order: order ?? this.order,
+      name: name ?? this.name,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -547,13 +638,16 @@ class TasksTableCompanion extends UpdateCompanion<Task> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (epicId.present) {
-      map['epic_id'] = Variable<int>(epicId.value);
+      map['epic_id'] = Variable<String>(epicId.value);
     }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
+    if (order.present) {
+      map['order'] = Variable<int>(order.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -566,7 +660,8 @@ class TasksTableCompanion extends UpdateCompanion<Task> {
     return (StringBuffer('TasksTableCompanion(')
           ..write('id: $id, ')
           ..write('epicId: $epicId, ')
-          ..write('description: $description, ')
+          ..write('order: $order, ')
+          ..write('name: $name, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -589,18 +684,13 @@ class $TaskStatusesTableTable extends TaskStatusesTable
       $customConstraints: 'NOT NULL REFERENCES app_projects_table(id)');
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
-  late final GeneratedColumn<int> taskId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
       'task_id', aliasedName, false,
-      type: DriftSqlType.int,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 8),
+      type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL REFERENCES tasks_table(id)');
-  static const VerificationMeta _epicIdMeta = const VerificationMeta('epicId');
-  @override
-  late final GeneratedColumn<int> epicId = GeneratedColumn<int>(
-      'epic_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES epics_table(id)');
   static const VerificationMeta _completedMeta =
       const VerificationMeta('completed');
   @override
@@ -612,7 +702,7 @@ class $TaskStatusesTableTable extends TaskStatusesTable
           GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
       defaultValue: const Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [projectId, taskId, epicId, completed];
+  List<GeneratedColumn> get $columns => [projectId, taskId, completed];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -635,12 +725,6 @@ class $TaskStatusesTableTable extends TaskStatusesTable
     } else if (isInserting) {
       context.missing(_taskIdMeta);
     }
-    if (data.containsKey('epic_id')) {
-      context.handle(_epicIdMeta,
-          epicId.isAcceptableOrUnknown(data['epic_id']!, _epicIdMeta));
-    } else if (isInserting) {
-      context.missing(_epicIdMeta);
-    }
     if (data.containsKey('completed')) {
       context.handle(_completedMeta,
           completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
@@ -649,7 +733,7 @@ class $TaskStatusesTableTable extends TaskStatusesTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {taskId, epicId, projectId};
+  Set<GeneratedColumn> get $primaryKey => {taskId, projectId};
   @override
   TaskStatus map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -657,9 +741,7 @@ class $TaskStatusesTableTable extends TaskStatusesTable
       projectId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}project_id'])!,
       taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}task_id'])!,
-      epicId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}epic_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}task_id'])!,
       completed: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
     );
@@ -673,20 +755,15 @@ class $TaskStatusesTableTable extends TaskStatusesTable
 
 class TaskStatus extends DataClass implements Insertable<TaskStatus> {
   final int projectId;
-  final int taskId;
-  final int epicId;
+  final String taskId;
   final bool completed;
   const TaskStatus(
-      {required this.projectId,
-      required this.taskId,
-      required this.epicId,
-      required this.completed});
+      {required this.projectId, required this.taskId, required this.completed});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['project_id'] = Variable<int>(projectId);
-    map['task_id'] = Variable<int>(taskId);
-    map['epic_id'] = Variable<int>(epicId);
+    map['task_id'] = Variable<String>(taskId);
     map['completed'] = Variable<bool>(completed);
     return map;
   }
@@ -695,7 +772,6 @@ class TaskStatus extends DataClass implements Insertable<TaskStatus> {
     return TaskStatusesTableCompanion(
       projectId: Value(projectId),
       taskId: Value(taskId),
-      epicId: Value(epicId),
       completed: Value(completed),
     );
   }
@@ -705,8 +781,7 @@ class TaskStatus extends DataClass implements Insertable<TaskStatus> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TaskStatus(
       projectId: serializer.fromJson<int>(json['projectId']),
-      taskId: serializer.fromJson<int>(json['taskId']),
-      epicId: serializer.fromJson<int>(json['epicId']),
+      taskId: serializer.fromJson<String>(json['taskId']),
       completed: serializer.fromJson<bool>(json['completed']),
     );
   }
@@ -715,18 +790,15 @@ class TaskStatus extends DataClass implements Insertable<TaskStatus> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'projectId': serializer.toJson<int>(projectId),
-      'taskId': serializer.toJson<int>(taskId),
-      'epicId': serializer.toJson<int>(epicId),
+      'taskId': serializer.toJson<String>(taskId),
       'completed': serializer.toJson<bool>(completed),
     };
   }
 
-  TaskStatus copyWith(
-          {int? projectId, int? taskId, int? epicId, bool? completed}) =>
+  TaskStatus copyWith({int? projectId, String? taskId, bool? completed}) =>
       TaskStatus(
         projectId: projectId ?? this.projectId,
         taskId: taskId ?? this.taskId,
-        epicId: epicId ?? this.epicId,
         completed: completed ?? this.completed,
       );
   @override
@@ -734,57 +806,49 @@ class TaskStatus extends DataClass implements Insertable<TaskStatus> {
     return (StringBuffer('TaskStatus(')
           ..write('projectId: $projectId, ')
           ..write('taskId: $taskId, ')
-          ..write('epicId: $epicId, ')
           ..write('completed: $completed')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(projectId, taskId, epicId, completed);
+  int get hashCode => Object.hash(projectId, taskId, completed);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is TaskStatus &&
           other.projectId == this.projectId &&
           other.taskId == this.taskId &&
-          other.epicId == this.epicId &&
           other.completed == this.completed);
 }
 
 class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatus> {
   final Value<int> projectId;
-  final Value<int> taskId;
-  final Value<int> epicId;
+  final Value<String> taskId;
   final Value<bool> completed;
   final Value<int> rowid;
   const TaskStatusesTableCompanion({
     this.projectId = const Value.absent(),
     this.taskId = const Value.absent(),
-    this.epicId = const Value.absent(),
     this.completed = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TaskStatusesTableCompanion.insert({
     required int projectId,
-    required int taskId,
-    required int epicId,
+    required String taskId,
     this.completed = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : projectId = Value(projectId),
-        taskId = Value(taskId),
-        epicId = Value(epicId);
+        taskId = Value(taskId);
   static Insertable<TaskStatus> custom({
     Expression<int>? projectId,
-    Expression<int>? taskId,
-    Expression<int>? epicId,
+    Expression<String>? taskId,
     Expression<bool>? completed,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (projectId != null) 'project_id': projectId,
       if (taskId != null) 'task_id': taskId,
-      if (epicId != null) 'epic_id': epicId,
       if (completed != null) 'completed': completed,
       if (rowid != null) 'rowid': rowid,
     });
@@ -792,14 +856,12 @@ class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatus> {
 
   TaskStatusesTableCompanion copyWith(
       {Value<int>? projectId,
-      Value<int>? taskId,
-      Value<int>? epicId,
+      Value<String>? taskId,
       Value<bool>? completed,
       Value<int>? rowid}) {
     return TaskStatusesTableCompanion(
       projectId: projectId ?? this.projectId,
       taskId: taskId ?? this.taskId,
-      epicId: epicId ?? this.epicId,
       completed: completed ?? this.completed,
       rowid: rowid ?? this.rowid,
     );
@@ -812,10 +874,7 @@ class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatus> {
       map['project_id'] = Variable<int>(projectId.value);
     }
     if (taskId.present) {
-      map['task_id'] = Variable<int>(taskId.value);
-    }
-    if (epicId.present) {
-      map['epic_id'] = Variable<int>(epicId.value);
+      map['task_id'] = Variable<String>(taskId.value);
     }
     if (completed.present) {
       map['completed'] = Variable<bool>(completed.value);
@@ -831,7 +890,6 @@ class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatus> {
     return (StringBuffer('TaskStatusesTableCompanion(')
           ..write('projectId: $projectId, ')
           ..write('taskId: $taskId, ')
-          ..write('epicId: $epicId, ')
           ..write('completed: $completed, ')
           ..write('rowid: $rowid')
           ..write(')'))

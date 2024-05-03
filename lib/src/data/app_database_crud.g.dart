@@ -7,12 +7,12 @@ part of 'app_database_crud.dart';
 // **************************************************************************
 
 String _$fetchAllEpicsAndTasksHash() =>
-    r'1ca2ce3a880a2e0c9964d595d5e5d85e85f5ca7e';
+    r'786c4c57ef5839ec8e7b35695f1bd26d9eef202b';
 
 /// See also [fetchAllEpicsAndTasks].
 @ProviderFor(fetchAllEpicsAndTasks)
 final fetchAllEpicsAndTasksProvider =
-    AutoDisposeFutureProvider<List<EpicEntity>>.internal(
+    AutoDisposeFutureProvider<List<EpicModel>>.internal(
   fetchAllEpicsAndTasks,
   name: r'fetchAllEpicsAndTasksProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,13 +23,13 @@ final fetchAllEpicsAndTasksProvider =
 );
 
 typedef FetchAllEpicsAndTasksRef
-    = AutoDisposeFutureProviderRef<List<EpicEntity>>;
-String _$watchAppsListHash() => r'8e11a97da45360f25a53cd9fc3c42b95f6f73ffc';
+    = AutoDisposeFutureProviderRef<List<EpicModel>>;
+String _$watchAppsListHash() => r'93ab37c96c659f44067aae70fc94c42afe8c3290';
 
 /// See also [watchAppsList].
 @ProviderFor(watchAppsList)
 final watchAppsListProvider =
-    AutoDisposeStreamProvider<List<AppEntity>>.internal(
+    AutoDisposeStreamProvider<List<AppModel>>.internal(
   watchAppsList,
   name: r'watchAppsListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -39,8 +39,8 @@ final watchAppsListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef WatchAppsListRef = AutoDisposeStreamProviderRef<List<AppEntity>>;
-String _$watchAppByIdHash() => r'f933eff34afc9a0ebb6e59d3ea2e49be65713eec';
+typedef WatchAppsListRef = AutoDisposeStreamProviderRef<List<AppModel>>;
+String _$watchAppByIdHash() => r'462141f0b5080da99521fca2fba5734b6c2e9898';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -68,7 +68,7 @@ class _SystemHash {
 const watchAppByIdProvider = WatchAppByIdFamily();
 
 /// See also [watchAppById].
-class WatchAppByIdFamily extends Family<AsyncValue<AppEntity?>> {
+class WatchAppByIdFamily extends Family<AsyncValue<AppModel?>> {
   /// See also [watchAppById].
   const WatchAppByIdFamily();
 
@@ -106,7 +106,7 @@ class WatchAppByIdFamily extends Family<AsyncValue<AppEntity?>> {
 }
 
 /// See also [watchAppById].
-class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
+class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppModel?> {
   /// See also [watchAppById].
   WatchAppByIdProvider(
     int id,
@@ -141,7 +141,7 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
 
   @override
   Override overrideWith(
-    Stream<AppEntity?> Function(WatchAppByIdRef provider) create,
+    Stream<AppModel?> Function(WatchAppByIdRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -158,7 +158,7 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
   }
 
   @override
-  AutoDisposeStreamProviderElement<AppEntity?> createElement() {
+  AutoDisposeStreamProviderElement<AppModel?> createElement() {
     return _WatchAppByIdProviderElement(this);
   }
 
@@ -176,13 +176,13 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppEntity?> {
   }
 }
 
-mixin WatchAppByIdRef on AutoDisposeStreamProviderRef<AppEntity?> {
+mixin WatchAppByIdRef on AutoDisposeStreamProviderRef<AppModel?> {
   /// The parameter `id` of this provider.
   int get id;
 }
 
 class _WatchAppByIdProviderElement
-    extends AutoDisposeStreamProviderElement<AppEntity?> with WatchAppByIdRef {
+    extends AutoDisposeStreamProviderElement<AppModel?> with WatchAppByIdRef {
   _WatchAppByIdProviderElement(super.provider);
 
   @override
@@ -206,7 +206,7 @@ final watchTotalTasksCountProvider = AutoDisposeStreamProvider<int>.internal(
 
 typedef WatchTotalTasksCountRef = AutoDisposeStreamProviderRef<int>;
 String _$watchTasksForAppAndEpicHash() =>
-    r'9a29ca9174f29189049b303fca1b206cd54d9e86';
+    r'21dae341fa3959f433591c55b9acde20e2000342';
 
 /// See also [watchTasksForAppAndEpic].
 @ProviderFor(watchTasksForAppAndEpic)
@@ -214,14 +214,14 @@ const watchTasksForAppAndEpicProvider = WatchTasksForAppAndEpicFamily();
 
 /// See also [watchTasksForAppAndEpic].
 class WatchTasksForAppAndEpicFamily
-    extends Family<AsyncValue<List<TaskEntity>>> {
+    extends Family<AsyncValue<List<TaskModel>>> {
   /// See also [watchTasksForAppAndEpic].
   const WatchTasksForAppAndEpicFamily();
 
   /// See also [watchTasksForAppAndEpic].
   WatchTasksForAppAndEpicProvider call({
     required int projectId,
-    required int epicId,
+    required String epicId,
   }) {
     return WatchTasksForAppAndEpicProvider(
       projectId: projectId,
@@ -256,11 +256,11 @@ class WatchTasksForAppAndEpicFamily
 
 /// See also [watchTasksForAppAndEpic].
 class WatchTasksForAppAndEpicProvider
-    extends AutoDisposeStreamProvider<List<TaskEntity>> {
+    extends AutoDisposeStreamProvider<List<TaskModel>> {
   /// See also [watchTasksForAppAndEpic].
   WatchTasksForAppAndEpicProvider({
     required int projectId,
-    required int epicId,
+    required String epicId,
   }) : this._internal(
           (ref) => watchTasksForAppAndEpic(
             ref as WatchTasksForAppAndEpicRef,
@@ -292,11 +292,11 @@ class WatchTasksForAppAndEpicProvider
   }) : super.internal();
 
   final int projectId;
-  final int epicId;
+  final String epicId;
 
   @override
   Override overrideWith(
-    Stream<List<TaskEntity>> Function(WatchTasksForAppAndEpicRef provider)
+    Stream<List<TaskModel>> Function(WatchTasksForAppAndEpicRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -315,7 +315,7 @@ class WatchTasksForAppAndEpicProvider
   }
 
   @override
-  AutoDisposeStreamProviderElement<List<TaskEntity>> createElement() {
+  AutoDisposeStreamProviderElement<List<TaskModel>> createElement() {
     return _WatchTasksForAppAndEpicProviderElement(this);
   }
 
@@ -337,27 +337,27 @@ class WatchTasksForAppAndEpicProvider
 }
 
 mixin WatchTasksForAppAndEpicRef
-    on AutoDisposeStreamProviderRef<List<TaskEntity>> {
+    on AutoDisposeStreamProviderRef<List<TaskModel>> {
   /// The parameter `projectId` of this provider.
   int get projectId;
 
   /// The parameter `epicId` of this provider.
-  int get epicId;
+  String get epicId;
 }
 
 class _WatchTasksForAppAndEpicProviderElement
-    extends AutoDisposeStreamProviderElement<List<TaskEntity>>
+    extends AutoDisposeStreamProviderElement<List<TaskModel>>
     with WatchTasksForAppAndEpicRef {
   _WatchTasksForAppAndEpicProviderElement(super.provider);
 
   @override
   int get projectId => (origin as WatchTasksForAppAndEpicProvider).projectId;
   @override
-  int get epicId => (origin as WatchTasksForAppAndEpicProvider).epicId;
+  String get epicId => (origin as WatchTasksForAppAndEpicProvider).epicId;
 }
 
 String _$watchCompletedTasksCountHash() =>
-    r'1ca24044024bd58d12436f163415e2c8bc43a3f7';
+    r'e392cf733b1e2228779bf3d4d918f567426514c8';
 
 /// See also [watchCompletedTasksCount].
 @ProviderFor(watchCompletedTasksCount)
@@ -371,7 +371,7 @@ class WatchCompletedTasksCountFamily extends Family<AsyncValue<int>> {
   /// See also [watchCompletedTasksCount].
   WatchCompletedTasksCountProvider call({
     required int projectId,
-    int? epicId,
+    String? epicId,
   }) {
     return WatchCompletedTasksCountProvider(
       projectId: projectId,
@@ -409,7 +409,7 @@ class WatchCompletedTasksCountProvider extends AutoDisposeStreamProvider<int> {
   /// See also [watchCompletedTasksCount].
   WatchCompletedTasksCountProvider({
     required int projectId,
-    int? epicId,
+    String? epicId,
   }) : this._internal(
           (ref) => watchCompletedTasksCount(
             ref as WatchCompletedTasksCountRef,
@@ -441,7 +441,7 @@ class WatchCompletedTasksCountProvider extends AutoDisposeStreamProvider<int> {
   }) : super.internal();
 
   final int projectId;
-  final int? epicId;
+  final String? epicId;
 
   @override
   Override overrideWith(
@@ -489,7 +489,7 @@ mixin WatchCompletedTasksCountRef on AutoDisposeStreamProviderRef<int> {
   int get projectId;
 
   /// The parameter `epicId` of this provider.
-  int? get epicId;
+  String? get epicId;
 }
 
 class _WatchCompletedTasksCountProviderElement
@@ -500,7 +500,7 @@ class _WatchCompletedTasksCountProviderElement
   @override
   int get projectId => (origin as WatchCompletedTasksCountProvider).projectId;
   @override
-  int? get epicId => (origin as WatchCompletedTasksCountProvider).epicId;
+  String? get epicId => (origin as WatchCompletedTasksCountProvider).epicId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
