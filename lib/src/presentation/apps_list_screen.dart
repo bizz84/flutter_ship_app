@@ -28,6 +28,8 @@ class AppsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appsListAsync = ref.watch(watchAppsListProvider);
+    final appsListNotEmpty = appsListAsync.valueOrNull?.isNotEmpty == true;
     final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +46,7 @@ class AppsListScreen extends ConsumerWidget {
             ),
           ),
         ),
-        title: Text(Strings.myAppsTitle),
+        title: appsListNotEmpty ? Text(Strings.myAppsTitle) : null,
         actions: [
           IconButton(
             tooltip: 'Create a new app'.hardcoded,
