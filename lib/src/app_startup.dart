@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
-import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
@@ -86,7 +85,7 @@ class AppStartupLoadingWidget extends ConsumerWidget {
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
       home: Scaffold(
-        appBar: AppBar(title: Text(Strings.myAppsTitle)),
+        appBar: AppBar(),
         body: const Padding(
           padding: EdgeInsets.all(Sizes.p16),
           child: Center(child: CircularProgressIndicator()),
@@ -111,7 +110,7 @@ class AppStartupErrorWidget extends ConsumerWidget {
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
       home: Scaffold(
-        appBar: AppBar(title: Text(Strings.myAppsTitle)),
+        appBar: AppBar(),
         body: Center(
           child: ErrorPrompt(
             exception: exception,

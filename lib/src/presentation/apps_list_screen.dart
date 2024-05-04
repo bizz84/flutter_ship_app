@@ -6,7 +6,6 @@ import 'package:flutter_ship_app/src/common_widgets/custom_progress_checkmark.da
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
-import 'package:flutter_ship_app/src/constants/strings.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app_model.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
@@ -46,7 +45,7 @@ class AppsListScreen extends ConsumerWidget {
             ),
           ),
         ),
-        title: appsListNotEmpty ? Text(Strings.myAppsTitle) : null,
+        title: appsListNotEmpty ? Text('My Apps'.hardcoded) : null,
         actions: [
           IconButton(
             tooltip: 'Create a new app'.hardcoded,
