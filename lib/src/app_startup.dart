@@ -20,34 +20,39 @@ part 'app_startup.g.dart';
 /// App startup provider and widget (below)
 /// For more info, read: https://codewithandrea.com/articles/robust-app-initialization-riverpod/
 @riverpod
-Future<void> appStartup(AppStartupRef ref) async {
-  // Initially, load the database from JSON
-  await ref.watch(updateDatabaseFromJsonTemplateProvider.future);
-  // Preload any other FutureProviders what will be used with requireValue later
-  await ref.watch(packageInfoProvider.future);
-}
+class AppStartupNotifier extends _$AppStartupNotifier {
+  @override
+  Future<void> build() async {
+    // Initially, load the database from JSON
+    await updateDatabaseFromJsonTemplate();
+    // Preload any other FutureProviders what will be used with requireValue later
+    await ref.watch(packageInfoProvider.future);
+  }
 
-/// Provider to load the initial data from JSON
-@riverpod
-Future<void> updateDatabaseFromJsonTemplate(
-    UpdateDatabaseFromJsonTemplateRef ref) async {
-  final db = ref.watch(appDatabaseProvider);
-  try {
-    // * Load the JSON data from the network
-    final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
-    final jsonData = jsonDecode(jsonString);
-    await db.loadOrUpdateFromTemplate(jsonData);
-  } catch (e) {
-    // TODO: Error monitoring
-    // * If the request has failed and the DB is empty (common during first app
-    // * start), fallback to loading the JSON from bundle
-    if (await db.isEpicsTableEmpty()) {
-      log('JSON fetching failed - loading from the root bundle');
-      final jsonString =
-          await rootBundle.loadString('assets/app_release_template.json');
+  Future<void> updateDatabaseFromJsonTemplate() async {
+    final db = ref.watch(appDatabaseProvider);
+    try {
+      // * Load the JSON data from the network
+      final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
+    } catch (e) {
+      // TODO: Error monitoring
+      // * If the request has failed and the DB is empty (common during first app
+      // * start), fallback to loading the JSON from bundle
+      if (await db.isEpicsTableEmpty()) {
+        log('JSON fetching failed - loading from the root bundle');
+        final jsonString =
+            await rootBundle.loadString('assets/app_release_template.json');
+        final jsonData = jsonDecode(jsonString);
+        await db.loadOrUpdateFromTemplate(jsonData);
+      }
     }
+  }
+
+  Future<void> resetDatabase() async {
+    // final db = ref.read(appDatabaseProvider);
+    log('TODO: Reset');
   }
 }
 
@@ -58,7 +63,7 @@ class AppStartupWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 1. eagerly initialize appStartupProvider (and all the providers it depends on)
-    final appStartupState = ref.watch(appStartupProvider);
+    final appStartupState = ref.watch(appStartupNotifierProvider);
     return appStartupState.when(
       // 2. loading state
       loading: () => const AppStartupLoadingWidget(),
@@ -77,7 +82,7 @@ class AppStartupWidget extends ConsumerWidget {
             isDestructive: true,
           );
           if (shouldReset == true) {
-            // TODO: Reset database functionality
+            await ref.read(appStartupNotifierProvider.notifier).resetDatabase();
           }
         },
       ),
