@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
+import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -63,9 +64,22 @@ class AppStartupWidget extends ConsumerWidget {
       loading: () => const AppStartupLoadingWidget(),
       // 3. error state
       error: (e, st) => AppStartupErrorWidget(
-        exception: e,
+        exception: Exception(
+            'Could not load or sync data. This may happen if the DB schema has changed and a full reset may be necessary.'),
         // 4. invalidate the appStartupProvider
-        onRetry: () => ref.invalidate(appStartupProvider),
+        onRetry: () async {
+          final shouldReset = await showAlertDialog(
+            context: context,
+            title: 'Are you sure?',
+            content: 'This will erase all the data from the DB',
+            cancelActionText: 'Cancel',
+            defaultActionText: 'Reset Data',
+            isDestructive: true,
+          );
+          if (shouldReset == true) {
+            // TODO: Reset database functionality
+          }
+        },
       ),
       // 5. success - now load the main app
       data: (_) => onLoaded(context),
@@ -113,7 +127,7 @@ class AppStartupErrorWidget extends ConsumerWidget {
         appBar: AppBar(),
         body: Center(
           child: ErrorPrompt(
-            exception: exception,
+            message: exception.toString(),
             onRetry: onRetry,
           ),
         ),

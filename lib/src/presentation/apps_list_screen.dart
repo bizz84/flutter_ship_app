@@ -102,7 +102,7 @@ class AppsListView extends ConsumerWidget {
         }
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Center(child: ErrorPrompt(exception: e)),
+      error: (e, st) => Center(child: ErrorPrompt(message: e.toString())),
     );
   }
 }
