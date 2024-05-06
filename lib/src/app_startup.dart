@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,14 +61,18 @@ class AppStartupWidget extends ConsumerWidget {
       // 2. loading state
       loading: () => const AppStartupLoadingWidget(),
       // 3. error state
-      error: (e, st) => AppStartupErrorWidget(
-        exception: Exception(
-            'Could not load or sync data. Please try again or contact support if the issue persists.'),
-        // 4. invalidate the appStartupProvider
-        onRetry: () async {
-          await ref.read(appStartupNotifierProvider.notifier).retry();
-        },
-      ),
+      error: (e, st) {
+        const action = kIsWeb ? 'clear your web cache' : 'try again';
+        const message =
+            'Could not load or sync data. Please $action or contact support if the issue persists.';
+        return AppStartupErrorWidget(
+          message: message,
+          // 4. invalidate the appStartupProvider
+          onRetry: () async {
+            await ref.read(appStartupNotifierProvider.notifier).retry();
+          },
+        );
+      },
       // 5. success - now load the main app
       data: (_) => onLoaded(context),
     );
@@ -98,8 +103,8 @@ class AppStartupLoadingWidget extends ConsumerWidget {
 
 class AppStartupErrorWidget extends ConsumerWidget {
   const AppStartupErrorWidget(
-      {super.key, required this.exception, required this.onRetry});
-  final Object exception;
+      {super.key, required this.message, required this.onRetry});
+  final String message;
   final VoidCallback onRetry;
 
   @override
@@ -113,9 +118,12 @@ class AppStartupErrorWidget extends ConsumerWidget {
       home: Scaffold(
         appBar: AppBar(),
         body: Center(
-          child: ErrorPrompt(
-            message: exception.toString(),
-            onRetry: onRetry,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: ErrorPrompt(
+              message: message,
+              onRetry: onRetry,
+            ),
           ),
         ),
       ),
