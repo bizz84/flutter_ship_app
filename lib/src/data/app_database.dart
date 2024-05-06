@@ -10,14 +10,14 @@ part 'app_database.g.dart';
 
 /// Represents a new app created by the user
 @DataClassName('AppData')
-class AppsTable extends Table {
+class Apps extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1, max: 100)();
 }
 
 /// Epic definition data (synced from the JSON template)
 @DataClassName('EpicData')
-class EpicsTable extends Table {
+class Epics extends Table {
   TextColumn get id =>
       text().withLength(min: 1, max: 8).customConstraint('UNIQUE NOT NULL')();
   IntColumn get order => integer().customConstraint('UNIQUE NOT NULL')();
@@ -29,11 +29,11 @@ class EpicsTable extends Table {
 
 /// Task definition data (synced from the JSON template)
 @DataClassName('TaskData')
-class TasksTable extends Table {
+class Tasks extends Table {
   TextColumn get id => text().withLength(min: 1, max: 8)();
   TextColumn get epicId => text()
       .withLength(min: 1, max: 8)
-      .customConstraint('NOT NULL REFERENCES epics_table(id)')();
+      .customConstraint('NOT NULL REFERENCES epics(id)')();
   IntColumn get order => integer().customConstraint('UNIQUE NOT NULL')();
   TextColumn get name => text().withLength(min: 1, max: 100)();
 
@@ -43,12 +43,12 @@ class TasksTable extends Table {
 
 /// Task completed status for a given app and epic
 @DataClassName('TaskStatusData')
-class TaskStatusesTable extends Table {
+class TaskStatuses extends Table {
   IntColumn get appId =>
-      integer().customConstraint('NOT NULL REFERENCES apps_table(id)')();
+      integer().customConstraint('NOT NULL REFERENCES apps(id)')();
   TextColumn get taskId => text()
       .withLength(min: 1, max: 8)
-      .customConstraint('NOT NULL REFERENCES tasks_table(id)')();
+      .customConstraint('NOT NULL REFERENCES tasks(id)')();
   BoolColumn get completed => boolean().withDefault(const Constant(false))();
 
   @override
@@ -60,10 +60,10 @@ class TaskStatusesTable extends Table {
 
 /// The database class declaring all the tables used in this project
 @DriftDatabase(tables: [
-  AppsTable,
-  EpicsTable,
-  TasksTable,
-  TaskStatusesTable,
+  Apps,
+  Epics,
+  Tasks,
+  TaskStatuses,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(impl.connect());

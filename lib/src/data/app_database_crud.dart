@@ -20,30 +20,30 @@ extension AppDatabaseCRUD on AppDatabase {
     try {
       // * Parse JSON to a List<EpicModel>
       final List<dynamic> epicsJson = checklistTemplate['epics'];
-      final epics = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
+      final epicsData = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
       // * Sync epics with the DB
       await transaction(() async {
         var epicOrder = 1;
         var taskOrder = 1;
-        for (var epicData in epics) {
+        for (var epicData in epicsData) {
           // Insert epic
-          final epic = EpicsTableCompanion(
+          final epic = EpicsCompanion(
             id: Value(epicData.id),
             order: Value(epicOrder),
             name: Value(epicData.name),
           );
-          await into(epicsTable).insertOnConflictUpdate(epic);
+          await into(epics).insertOnConflictUpdate(epic);
           epicOrder++;
 
           // Insert tasks for each epic
           for (var taskData in epicData.tasks) {
-            final task = TasksTableCompanion(
+            final task = TasksCompanion(
               id: Value(taskData.id),
               epicId: Value(epicData.id),
               order: Value(taskOrder),
               name: Value(taskData.name),
             );
-            await into(tasksTable).insertOnConflictUpdate(task);
+            await into(tasks).insertOnConflictUpdate(task);
             taskOrder++;
           }
         }
@@ -63,20 +63,20 @@ extension AppDatabaseCRUD on AppDatabase {
 
   /// Get all the apps stored in the DB
   Stream<List<App>> watchAppsList() {
-    return select(appsTable).watch().map(
+    return select(apps).watch().map(
         (apps) => apps.map((app) => App(id: app.id, name: app.name)).toList());
   }
 
   /// Get a specific app by ID
   Stream<App?> watchAppById(int id) {
-    return (select(appsTable)..where((app) => app.id.equals(id)))
+    return (select(apps)..where((app) => app.id.equals(id)))
         .watchSingleOrNull()
         .map((app) => app != null ? App(id: app.id, name: app.name) : null);
   }
 
   /// Create a new app by name
   Future<int> createNewApp({required String name}) async {
-    return into(appsTable).insert(AppsTableCompanion(
+    return into(apps).insert(AppsCompanion(
       name: Value(name),
     ));
   }
@@ -84,7 +84,7 @@ extension AppDatabaseCRUD on AppDatabase {
   /// Edit the name of an existing app by ID
   Future<bool> editAppName(
       {required int appId, required String newName}) async {
-    return update(appsTable).replace(AppsTableCompanion(
+    return update(apps).replace(AppsCompanion(
       id: Value(appId),
       name: Value(newName),
     ));
@@ -94,12 +94,12 @@ extension AppDatabaseCRUD on AppDatabase {
   Future<void> deleteAppById(int appId) async {
     await transaction(() async {
       // Delete all associated TaskStatuses for the given appId
-      await (delete(taskStatusesTable)
+      await (delete(taskStatuses)
             ..where((taskStatus) => taskStatus.appId.equals(appId)))
           .go();
 
       // Now, delete the App row with the given appId
-      await (delete(appsTable)..where((app) => app.id.equals(appId))).go();
+      await (delete(apps)..where((app) => app.id.equals(appId))).go();
     });
   }
 
@@ -107,31 +107,30 @@ extension AppDatabaseCRUD on AppDatabase {
 
   /// Check if the epics table is empty (used by the app startup logic)
   Future<bool> isEpicsTableEmpty() async {
-    final query = selectOnly(epicsTable)..addColumns([epicsTable.id.count()]);
-    final result = await query
-        .map((row) => row.read<int>(epicsTable.id.count()))
-        .getSingle();
+    final query = selectOnly(epics)..addColumns([epics.id.count()]);
+    final result =
+        await query.map((row) => row.read<int>(epics.id.count())).getSingle();
     return result == 0;
   }
 
   /// Fetch all epics and tasks (needed by the EpicsChecklistScreen)
   Future<List<Epic>> fetchAllEpicsAndTasks() async {
-    final epicWithTasks = await (select(epicsTable).join(
-      [leftOuterJoin(tasksTable, tasksTable.epicId.equalsExp(epicsTable.id))],
+    final epicWithTasks = await (select(epics).join(
+      [leftOuterJoin(tasks, tasks.epicId.equalsExp(epics.id))],
     )..orderBy([
-            OrderingTerm.asc(epicsTable.order),
-            OrderingTerm.asc(tasksTable.order),
+            OrderingTerm.asc(epics.order),
+            OrderingTerm.asc(tasks.order),
           ]))
         .get();
 
     // Transform the query result into a list of Epics with their associated tasks
-    final List<Epic> epics = [];
+    final List<Epic> epicsResult = [];
     final Map<String, List<Task>> tasksMap = {};
 
     // Iterate through all the results (one row for each task)
     for (final row in epicWithTasks) {
-      final epicEntry = row.readTable(epicsTable);
-      final taskEntry = row.readTableOrNull(tasksTable);
+      final epicEntry = row.readTable(epics);
+      final taskEntry = row.readTableOrNull(tasks);
 
       // Add task to the corresponding list in tasksMap
       if (taskEntry != null) {
@@ -143,8 +142,8 @@ extension AppDatabaseCRUD on AppDatabase {
       }
 
       // If the epic is not yet in the list, add it
-      if (!epics.any((epic) => epic.id == epicEntry.id)) {
-        epics.add(Epic(
+      if (!epicsResult.any((epic) => epic.id == epicEntry.id)) {
+        epicsResult.add(Epic(
           id: epicEntry.id,
           name: epicEntry.name,
           tasks: tasksMap[epicEntry.id] ?? [],
@@ -153,7 +152,7 @@ extension AppDatabaseCRUD on AppDatabase {
     }
 
     // The list 'epics' is already ordered by the 'epicsTable.order' due to the SQL 'orderBy'
-    return epics;
+    return epicsResult;
   }
 
   // *************** Tasks *****************
@@ -161,39 +160,39 @@ extension AppDatabaseCRUD on AppDatabase {
   /// Get the total number of tasks (originally loaded from the JSON template)
   Stream<int> watchTotalTasksCount() {
     // Define the query to count all tasks
-    final query = selectOnly(tasksTable)..addColumns([tasksTable.id.count()]);
+    final query = selectOnly(tasks)..addColumns([tasks.id.count()]);
 
     // Create the stream and map the result to the count of tasks
     return query
         .watchSingle()
-        .map((row) => row.read<int>(tasksTable.id.count()) ?? 0);
+        .map((row) => row.read<int>(tasks.id.count()) ?? 0);
   }
 
   // Get all the tasks for a given app and epic
   Stream<List<Task>> watchTasksForAppAndEpic(
       {required int appId, required String epicId}) {
     // Create a joined query that includes both TaskStatusesTable and TasksTable
-    final query = select(tasksTable).join(
+    final query = select(tasks).join(
       [
         leftOuterJoin(
-          taskStatusesTable,
-          taskStatusesTable.taskId.equalsExp(tasksTable.id) &
-              taskStatusesTable.appId.equals(appId),
+          taskStatuses,
+          taskStatuses.taskId.equalsExp(tasks.id) &
+              taskStatuses.appId.equals(appId),
         ),
       ],
     )
       // Filter by epicId
-      ..where(tasksTable.epicId.equals(epicId))
+      ..where(tasks.epicId.equals(epicId))
       // Order by task order
-      ..orderBy([OrderingTerm.asc(tasksTable.order)]);
+      ..orderBy([OrderingTerm.asc(tasks.order)]);
 
     // Transform the query stream into a stream of TaskModel lists
     return query.watch().map((rows) {
       return rows.map((row) {
         // Read the task entry
-        final taskEntry = row.readTable(tasksTable);
+        final taskEntry = row.readTable(tasks);
         // Read the task status entry or null if there is no match
-        final taskStatusEntry = row.readTableOrNull(taskStatusesTable);
+        final taskStatusEntry = row.readTableOrNull(taskStatuses);
 
         // Create a TaskModel, with completed status defaulting to false if null
         return Task(
@@ -210,30 +209,26 @@ extension AppDatabaseCRUD on AppDatabase {
   /// - otherwise, filter by the appId only
   Stream<int> watchCompletedTasksCount({required int appId, String? epicId}) {
     // Create a joined query that includes both TaskStatusesTable and TasksTable
-    final query = select(taskStatusesTable).join(
+    final query = select(taskStatuses).join(
       [
         innerJoin(
-          tasksTable,
-          tasksTable.id.equalsExp(taskStatusesTable.taskId),
+          tasks,
+          tasks.id.equalsExp(taskStatuses.taskId),
         )
       ],
     );
 
     // Apply the where clause to filter by appId and optionally by epicId
     query.where(
-      taskStatusesTable.appId.equals(appId) &
-          taskStatusesTable.completed.equals(true) &
-          (epicId == null
-              ? const Constant(true)
-              : tasksTable.epicId.equals(epicId)),
+      taskStatuses.appId.equals(appId) &
+          taskStatuses.completed.equals(true) &
+          (epicId == null ? const Constant(true) : tasks.epicId.equals(epicId)),
     );
 
     // Watch the query and map the result to the count of completed tasks
     return query.watch().map((rows) {
       // Count only the rows that have a matching taskId in the taskStatusesTable
-      return rows
-          .where((row) => row.readTable(taskStatusesTable).completed)
-          .length;
+      return rows.where((row) => row.readTable(taskStatuses).completed).length;
     });
   }
 
@@ -243,14 +238,14 @@ extension AppDatabaseCRUD on AppDatabase {
     required String taskId,
     required bool isCompleted,
   }) async {
-    final taskStatus = TaskStatusesTableCompanion(
+    final taskStatus = TaskStatusesCompanion(
       appId: Value(appId),
       taskId: Value(taskId),
       completed: Value(isCompleted),
     );
 
     // Use upsert to insert or update the task status
-    await into(taskStatusesTable).insertOnConflictUpdate(taskStatus);
+    await into(taskStatuses).insertOnConflictUpdate(taskStatus);
   }
 }
 

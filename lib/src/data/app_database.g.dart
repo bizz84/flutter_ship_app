@@ -3,12 +3,11 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $AppsTableTable extends AppsTable
-    with TableInfo<$AppsTableTable, AppData> {
+class $AppsTable extends Apps with TableInfo<$AppsTable, AppData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $AppsTableTable(this.attachedDatabase, [this._alias]);
+  $AppsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -32,7 +31,7 @@ class $AppsTableTable extends AppsTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'apps_table';
+  static const String $name = 'apps';
   @override
   VerificationContext validateIntegrity(Insertable<AppData> instance,
       {bool isInserting = false}) {
@@ -64,8 +63,8 @@ class $AppsTableTable extends AppsTable
   }
 
   @override
-  $AppsTableTable createAlias(String alias) {
-    return $AppsTableTable(attachedDatabase, alias);
+  $AppsTable createAlias(String alias) {
+    return $AppsTable(attachedDatabase, alias);
   }
 }
 
@@ -81,8 +80,8 @@ class AppData extends DataClass implements Insertable<AppData> {
     return map;
   }
 
-  AppsTableCompanion toCompanion(bool nullToAbsent) {
-    return AppsTableCompanion(
+  AppsCompanion toCompanion(bool nullToAbsent) {
+    return AppsCompanion(
       id: Value(id),
       name: Value(name),
     );
@@ -126,14 +125,14 @@ class AppData extends DataClass implements Insertable<AppData> {
       (other is AppData && other.id == this.id && other.name == this.name);
 }
 
-class AppsTableCompanion extends UpdateCompanion<AppData> {
+class AppsCompanion extends UpdateCompanion<AppData> {
   final Value<int> id;
   final Value<String> name;
-  const AppsTableCompanion({
+  const AppsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
-  AppsTableCompanion.insert({
+  AppsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
   }) : name = Value(name);
@@ -147,8 +146,8 @@ class AppsTableCompanion extends UpdateCompanion<AppData> {
     });
   }
 
-  AppsTableCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return AppsTableCompanion(
+  AppsCompanion copyWith({Value<int>? id, Value<String>? name}) {
+    return AppsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
     );
@@ -168,7 +167,7 @@ class AppsTableCompanion extends UpdateCompanion<AppData> {
 
   @override
   String toString() {
-    return (StringBuffer('AppsTableCompanion(')
+    return (StringBuffer('AppsCompanion(')
           ..write('id: $id, ')
           ..write('name: $name')
           ..write(')'))
@@ -176,12 +175,11 @@ class AppsTableCompanion extends UpdateCompanion<AppData> {
   }
 }
 
-class $EpicsTableTable extends EpicsTable
-    with TableInfo<$EpicsTableTable, EpicData> {
+class $EpicsTable extends Epics with TableInfo<$EpicsTable, EpicData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $EpicsTableTable(this.attachedDatabase, [this._alias]);
+  $EpicsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
@@ -212,7 +210,7 @@ class $EpicsTableTable extends EpicsTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'epics_table';
+  static const String $name = 'epics';
   @override
   VerificationContext validateIntegrity(Insertable<EpicData> instance,
       {bool isInserting = false}) {
@@ -254,8 +252,8 @@ class $EpicsTableTable extends EpicsTable
   }
 
   @override
-  $EpicsTableTable createAlias(String alias) {
-    return $EpicsTableTable(attachedDatabase, alias);
+  $EpicsTable createAlias(String alias) {
+    return $EpicsTable(attachedDatabase, alias);
   }
 }
 
@@ -273,8 +271,8 @@ class EpicData extends DataClass implements Insertable<EpicData> {
     return map;
   }
 
-  EpicsTableCompanion toCompanion(bool nullToAbsent) {
-    return EpicsTableCompanion(
+  EpicsCompanion toCompanion(bool nullToAbsent) {
+    return EpicsCompanion(
       id: Value(id),
       order: Value(order),
       name: Value(name),
@@ -326,18 +324,18 @@ class EpicData extends DataClass implements Insertable<EpicData> {
           other.name == this.name);
 }
 
-class EpicsTableCompanion extends UpdateCompanion<EpicData> {
+class EpicsCompanion extends UpdateCompanion<EpicData> {
   final Value<String> id;
   final Value<int> order;
   final Value<String> name;
   final Value<int> rowid;
-  const EpicsTableCompanion({
+  const EpicsCompanion({
     this.id = const Value.absent(),
     this.order = const Value.absent(),
     this.name = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  EpicsTableCompanion.insert({
+  EpicsCompanion.insert({
     required String id,
     required int order,
     required String name,
@@ -359,12 +357,12 @@ class EpicsTableCompanion extends UpdateCompanion<EpicData> {
     });
   }
 
-  EpicsTableCompanion copyWith(
+  EpicsCompanion copyWith(
       {Value<String>? id,
       Value<int>? order,
       Value<String>? name,
       Value<int>? rowid}) {
-    return EpicsTableCompanion(
+    return EpicsCompanion(
       id: id ?? this.id,
       order: order ?? this.order,
       name: name ?? this.name,
@@ -392,7 +390,7 @@ class EpicsTableCompanion extends UpdateCompanion<EpicData> {
 
   @override
   String toString() {
-    return (StringBuffer('EpicsTableCompanion(')
+    return (StringBuffer('EpicsCompanion(')
           ..write('id: $id, ')
           ..write('order: $order, ')
           ..write('name: $name, ')
@@ -402,12 +400,11 @@ class EpicsTableCompanion extends UpdateCompanion<EpicData> {
   }
 }
 
-class $TasksTableTable extends TasksTable
-    with TableInfo<$TasksTableTable, TaskData> {
+class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TasksTableTable(this.attachedDatabase, [this._alias]);
+  $TasksTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
@@ -424,7 +421,7 @@ class $TasksTableTable extends TasksTable
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 8),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES epics_table(id)');
+      $customConstraints: 'NOT NULL REFERENCES epics(id)');
   static const VerificationMeta _orderMeta = const VerificationMeta('order');
   @override
   late final GeneratedColumn<int> order = GeneratedColumn<int>(
@@ -446,7 +443,7 @@ class $TasksTableTable extends TasksTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'tasks_table';
+  static const String $name = 'tasks';
   @override
   VerificationContext validateIntegrity(Insertable<TaskData> instance,
       {bool isInserting = false}) {
@@ -496,8 +493,8 @@ class $TasksTableTable extends TasksTable
   }
 
   @override
-  $TasksTableTable createAlias(String alias) {
-    return $TasksTableTable(attachedDatabase, alias);
+  $TasksTable createAlias(String alias) {
+    return $TasksTable(attachedDatabase, alias);
   }
 }
 
@@ -521,8 +518,8 @@ class TaskData extends DataClass implements Insertable<TaskData> {
     return map;
   }
 
-  TasksTableCompanion toCompanion(bool nullToAbsent) {
-    return TasksTableCompanion(
+  TasksCompanion toCompanion(bool nullToAbsent) {
+    return TasksCompanion(
       id: Value(id),
       epicId: Value(epicId),
       order: Value(order),
@@ -581,20 +578,20 @@ class TaskData extends DataClass implements Insertable<TaskData> {
           other.name == this.name);
 }
 
-class TasksTableCompanion extends UpdateCompanion<TaskData> {
+class TasksCompanion extends UpdateCompanion<TaskData> {
   final Value<String> id;
   final Value<String> epicId;
   final Value<int> order;
   final Value<String> name;
   final Value<int> rowid;
-  const TasksTableCompanion({
+  const TasksCompanion({
     this.id = const Value.absent(),
     this.epicId = const Value.absent(),
     this.order = const Value.absent(),
     this.name = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  TasksTableCompanion.insert({
+  TasksCompanion.insert({
     required String id,
     required String epicId,
     required int order,
@@ -620,13 +617,13 @@ class TasksTableCompanion extends UpdateCompanion<TaskData> {
     });
   }
 
-  TasksTableCompanion copyWith(
+  TasksCompanion copyWith(
       {Value<String>? id,
       Value<String>? epicId,
       Value<int>? order,
       Value<String>? name,
       Value<int>? rowid}) {
-    return TasksTableCompanion(
+    return TasksCompanion(
       id: id ?? this.id,
       epicId: epicId ?? this.epicId,
       order: order ?? this.order,
@@ -658,7 +655,7 @@ class TasksTableCompanion extends UpdateCompanion<TaskData> {
 
   @override
   String toString() {
-    return (StringBuffer('TasksTableCompanion(')
+    return (StringBuffer('TasksCompanion(')
           ..write('id: $id, ')
           ..write('epicId: $epicId, ')
           ..write('order: $order, ')
@@ -669,19 +666,19 @@ class TasksTableCompanion extends UpdateCompanion<TaskData> {
   }
 }
 
-class $TaskStatusesTableTable extends TaskStatusesTable
-    with TableInfo<$TaskStatusesTableTable, TaskStatusData> {
+class $TaskStatusesTable extends TaskStatuses
+    with TableInfo<$TaskStatusesTable, TaskStatusData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TaskStatusesTableTable(this.attachedDatabase, [this._alias]);
+  $TaskStatusesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _appIdMeta = const VerificationMeta('appId');
   @override
   late final GeneratedColumn<int> appId = GeneratedColumn<int>(
       'app_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES apps_table(id)');
+      $customConstraints: 'NOT NULL REFERENCES apps(id)');
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
   late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
@@ -690,7 +687,7 @@ class $TaskStatusesTableTable extends TaskStatusesTable
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 8),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES tasks_table(id)');
+      $customConstraints: 'NOT NULL REFERENCES tasks(id)');
   static const VerificationMeta _completedMeta =
       const VerificationMeta('completed');
   @override
@@ -707,7 +704,7 @@ class $TaskStatusesTableTable extends TaskStatusesTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'task_statuses_table';
+  static const String $name = 'task_statuses';
   @override
   VerificationContext validateIntegrity(Insertable<TaskStatusData> instance,
       {bool isInserting = false}) {
@@ -748,8 +745,8 @@ class $TaskStatusesTableTable extends TaskStatusesTable
   }
 
   @override
-  $TaskStatusesTableTable createAlias(String alias) {
-    return $TaskStatusesTableTable(attachedDatabase, alias);
+  $TaskStatusesTable createAlias(String alias) {
+    return $TaskStatusesTable(attachedDatabase, alias);
   }
 }
 
@@ -768,8 +765,8 @@ class TaskStatusData extends DataClass implements Insertable<TaskStatusData> {
     return map;
   }
 
-  TaskStatusesTableCompanion toCompanion(bool nullToAbsent) {
-    return TaskStatusesTableCompanion(
+  TaskStatusesCompanion toCompanion(bool nullToAbsent) {
+    return TaskStatusesCompanion(
       appId: Value(appId),
       taskId: Value(taskId),
       completed: Value(completed),
@@ -822,18 +819,18 @@ class TaskStatusData extends DataClass implements Insertable<TaskStatusData> {
           other.completed == this.completed);
 }
 
-class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatusData> {
+class TaskStatusesCompanion extends UpdateCompanion<TaskStatusData> {
   final Value<int> appId;
   final Value<String> taskId;
   final Value<bool> completed;
   final Value<int> rowid;
-  const TaskStatusesTableCompanion({
+  const TaskStatusesCompanion({
     this.appId = const Value.absent(),
     this.taskId = const Value.absent(),
     this.completed = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  TaskStatusesTableCompanion.insert({
+  TaskStatusesCompanion.insert({
     required int appId,
     required String taskId,
     this.completed = const Value.absent(),
@@ -854,12 +851,12 @@ class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatusData> {
     });
   }
 
-  TaskStatusesTableCompanion copyWith(
+  TaskStatusesCompanion copyWith(
       {Value<int>? appId,
       Value<String>? taskId,
       Value<bool>? completed,
       Value<int>? rowid}) {
-    return TaskStatusesTableCompanion(
+    return TaskStatusesCompanion(
       appId: appId ?? this.appId,
       taskId: taskId ?? this.taskId,
       completed: completed ?? this.completed,
@@ -887,7 +884,7 @@ class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatusData> {
 
   @override
   String toString() {
-    return (StringBuffer('TaskStatusesTableCompanion(')
+    return (StringBuffer('TaskStatusesCompanion(')
           ..write('appId: $appId, ')
           ..write('taskId: $taskId, ')
           ..write('completed: $completed, ')
@@ -899,17 +896,16 @@ class TaskStatusesTableCompanion extends UpdateCompanion<TaskStatusData> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  late final $AppsTableTable appsTable = $AppsTableTable(this);
-  late final $EpicsTableTable epicsTable = $EpicsTableTable(this);
-  late final $TasksTableTable tasksTable = $TasksTableTable(this);
-  late final $TaskStatusesTableTable taskStatusesTable =
-      $TaskStatusesTableTable(this);
+  late final $AppsTable apps = $AppsTable(this);
+  late final $EpicsTable epics = $EpicsTable(this);
+  late final $TasksTable tasks = $TasksTable(this);
+  late final $TaskStatusesTable taskStatuses = $TaskStatusesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [appsTable, epicsTable, tasksTable, taskStatusesTable];
+      [apps, epics, tasks, taskStatuses];
 }
 
 // **************************************************************************
