@@ -4,7 +4,7 @@ OWNER = bizz84
 NAME = flutter_ship_app_web
 BASE_HREF = /$(NAME)/
 GITHUB_REPO = https://github.com/$(OWNER)/$(NAME)
-BUILD_VERSION := $(shell grep 'version:' $(NAME)/pubspec.yaml | awk '{print $$2}')
+BUILD_VERSION := $(shell grep 'version:' pubspec.yaml | awk '{print $$2}')
 
 # Deploy the Flutter web project to GitHub
 deploy:
