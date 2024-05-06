@@ -16,36 +16,38 @@ extension AppDatabaseCRUD on AppDatabase {
   /// Insert or update the epics and tasks from the given template data
   Future<void> loadOrUpdateFromTemplate(
       Map<String, dynamic> checklistTemplate) async {
-    final epics = checklistTemplate['epics'];
     try {
+      // * Parse JSON to a List<EpicModel>
+      final List<dynamic> epicsJson = checklistTemplate['epics'];
+      final epics = epicsJson.map((epic) => EpicModel.fromJson(epic)).toList();
+      // * Sync epics with the DB
       await transaction(() async {
         var epicOrder = 1;
         var taskOrder = 1;
         for (var epicData in epics) {
           // Insert epic
           final epic = EpicsTableCompanion(
-            id: Value(epicData['id']),
+            id: Value(epicData.id),
             order: Value(epicOrder),
-            name: Value(epicData['epic']),
+            name: Value(epicData.name),
           );
           await into(epicsTable).insertOnConflictUpdate(epic);
           epicOrder++;
 
           // Insert tasks for each epic
-          final tasks = epicData['tasks'] as List<dynamic>;
-          for (var taskData in tasks) {
+          for (var taskData in epicData.tasks) {
             final task = TasksTableCompanion(
-              id: Value(taskData['id']),
-              epicId: Value(epicData['id']),
+              id: Value(taskData.id),
+              epicId: Value(epicData.id),
               order: Value(taskOrder),
-              name: Value(taskData['name']),
+              name: Value(taskData.name),
             );
             await into(tasksTable).insertOnConflictUpdate(task);
             taskOrder++;
           }
         }
       });
-    } catch (e) {
+    } on FormatException catch (e) {
       // TODO: Error monitoring
       log(e.toString());
       rethrow;
