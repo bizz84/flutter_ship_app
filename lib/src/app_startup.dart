@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
-import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
@@ -24,35 +22,29 @@ class AppStartupNotifier extends _$AppStartupNotifier {
   @override
   Future<void> build() async {
     // Initially, load the database from JSON
-    await updateDatabaseFromJsonTemplate();
+    await _updateDatabaseFromJsonTemplate();
     // Preload any other FutureProviders what will be used with requireValue later
     await ref.watch(packageInfoProvider.future);
   }
 
-  Future<void> updateDatabaseFromJsonTemplate() async {
+  Future<void> _updateDatabaseFromJsonTemplate() async {
     final db = ref.watch(appDatabaseProvider);
-    try {
-      // * Load the JSON data from the network
+    if (await db.isEpicsTableEmpty()) {
+      // * First time load: sync with JSON data from the local root bundle
+      final jsonString =
+          await rootBundle.loadString('assets/app_release_template.json');
+      final jsonData = jsonDecode(jsonString);
+      await db.loadOrUpdateFromTemplate(jsonData);
+    } else {
+      // * Subsequent loads: sync with JSON data from the network
       final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
-    } catch (e) {
-      // TODO: Error monitoring
-      // * If the request has failed and the DB is empty (common during first app
-      // * start), fallback to loading the JSON from bundle
-      if (await db.isEpicsTableEmpty()) {
-        log('JSON fetching failed - loading from the root bundle');
-        final jsonString =
-            await rootBundle.loadString('assets/app_release_template.json');
-        final jsonData = jsonDecode(jsonString);
-        await db.loadOrUpdateFromTemplate(jsonData);
-      }
     }
   }
 
-  Future<void> resetDatabase() async {
-    // final db = ref.read(appDatabaseProvider);
-    log('TODO: Reset');
+  Future<void> retry() async {
+    state = await AsyncValue.guard(_updateDatabaseFromJsonTemplate);
   }
 }
 
@@ -70,20 +62,10 @@ class AppStartupWidget extends ConsumerWidget {
       // 3. error state
       error: (e, st) => AppStartupErrorWidget(
         exception: Exception(
-            'Could not load or sync data. This may happen if the DB schema has changed and a full reset may be necessary.'),
+            'Could not load or sync data. Please try again or contact support if the issue persists.'),
         // 4. invalidate the appStartupProvider
         onRetry: () async {
-          final shouldReset = await showAlertDialog(
-            context: context,
-            title: 'Are you sure?',
-            content: 'This will erase all the data from the DB',
-            cancelActionText: 'Cancel',
-            defaultActionText: 'Reset Data',
-            isDestructive: true,
-          );
-          if (shouldReset == true) {
-            await ref.read(appStartupNotifierProvider.notifier).resetDatabase();
-          }
+          await ref.read(appStartupNotifierProvider.notifier).retry();
         },
       ),
       // 5. success - now load the main app
