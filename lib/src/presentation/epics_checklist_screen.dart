@@ -103,7 +103,7 @@ class EpicListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final completedCountAsync = ref.watch(
-        watchCompletedTasksCountProvider(projectId: app.id, epicId: epic.id));
+        watchCompletedTasksCountProvider(appId: app.id, epicId: epic.id));
     // * default to 0 during loading or if there is an error
     final completedCount = completedCountAsync.valueOrNull ?? 0;
     return CustomCompletionListTile(

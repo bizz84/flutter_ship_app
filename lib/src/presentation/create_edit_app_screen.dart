@@ -50,7 +50,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
         final db = ref.read(appDatabaseProvider);
         final existingApp = widget.app;
         if (existingApp != null) {
-          await db.editAppName(projectId: existingApp.id, newName: _name);
+          await db.editAppName(appId: existingApp.id, newName: _name);
         } else {
           await db.createNewApp(name: _name);
         }

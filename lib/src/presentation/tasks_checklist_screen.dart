@@ -21,8 +21,8 @@ class TasksChecklistScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // * Watch tasks and rebuild the UI if their completion status changes
-    final tasksAsync = ref.watch(
-        watchTasksForAppAndEpicProvider(projectId: app.id, epicId: epic.id));
+    final tasksAsync = ref
+        .watch(watchTasksForAppAndEpicProvider(appId: app.id, epicId: epic.id));
     final tasks = tasksAsync.valueOrNull ?? epic.tasks;
     final scrollController = ScrollController();
     return Scaffold(
@@ -46,7 +46,7 @@ class TasksChecklistScreen extends ConsumerWidget {
               onChanged: (completed) async {
                 log('appId: ${app.id}, taskId: ${task.id}, completed: $completed');
                 await ref.read(appDatabaseProvider).updateTaskCompletionStatus(
-                      projectId: app.id,
+                      appId: app.id,
                       taskId: task.id,
                       isCompleted: completed,
                     );

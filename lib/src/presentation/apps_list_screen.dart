@@ -120,7 +120,7 @@ class AppListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final completedCountAsync =
-        ref.watch(watchCompletedTasksCountProvider(projectId: app.id));
+        ref.watch(watchCompletedTasksCountProvider(appId: app.id));
     final completedCount = completedCountAsync.valueOrNull ?? 0;
     return CustomCompletionListTile(
       title: app.name,
