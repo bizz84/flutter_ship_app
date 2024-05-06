@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-part 'url_launcher.g.dart';
+part 'url_launcher_provider.g.dart';
 
 /// A simple wrapper for the url_launcher package
 class UrlLauncher {
