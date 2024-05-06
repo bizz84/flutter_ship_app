@@ -9,14 +9,14 @@ part 'app_database.g.dart';
 // * Table definitions
 
 /// Represents a new app created by the user
-@DataClassName('AppProject')
-class AppProjectsTable extends Table {
+@DataClassName('AppData')
+class AppsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1, max: 100)();
 }
 
 /// Epic definition data (synced from the JSON template)
-@DataClassName('Epic')
+@DataClassName('EpicData')
 class EpicsTable extends Table {
   TextColumn get id =>
       text().withLength(min: 1, max: 8).customConstraint('UNIQUE NOT NULL')();
@@ -28,7 +28,7 @@ class EpicsTable extends Table {
 }
 
 /// Task definition data (synced from the JSON template)
-@DataClassName('Task')
+@DataClassName('TaskData')
 class TasksTable extends Table {
   TextColumn get id => text().withLength(min: 1, max: 8)();
   TextColumn get epicId => text()
@@ -42,25 +42,25 @@ class TasksTable extends Table {
 }
 
 /// Task completed status for a given app and epic
-@DataClassName('TaskStatus')
+@DataClassName('TaskStatusData')
 class TaskStatusesTable extends Table {
-  IntColumn get projectId => integer()
-      .customConstraint('NOT NULL REFERENCES app_projects_table(id)')();
+  IntColumn get appId =>
+      integer().customConstraint('NOT NULL REFERENCES apps_table(id)')();
   TextColumn get taskId => text()
       .withLength(min: 1, max: 8)
       .customConstraint('NOT NULL REFERENCES tasks_table(id)')();
   BoolColumn get completed => boolean().withDefault(const Constant(false))();
 
   @override
-  Set<Column> get primaryKey => {taskId, projectId};
+  Set<Column> get primaryKey => {taskId, appId};
 
   @override
-  List<String> get customConstraints => ['UNIQUE (project_id, task_id)'];
+  List<String> get customConstraints => ['UNIQUE (app_id, task_id)'];
 }
 
 /// The database class declaring all the tables used in this project
 @DriftDatabase(tables: [
-  AppProjectsTable,
+  AppsTable,
   EpicsTable,
   TasksTable,
   TaskStatusesTable,

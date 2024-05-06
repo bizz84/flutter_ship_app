@@ -7,7 +7,7 @@ import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/domain/app_model.dart';
+import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
@@ -102,7 +102,7 @@ class AppsListView extends ConsumerWidget {
         }
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Center(child: ErrorPrompt(exception: e)),
+      error: (e, st) => Center(child: ErrorPrompt(message: e.toString())),
     );
   }
 }
@@ -115,12 +115,12 @@ class AppListTile extends ConsumerWidget {
     required this.app,
   });
   final int? totalTasksCount;
-  final AppModel app;
+  final App app;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final completedCountAsync =
-        ref.watch(watchCompletedTasksCountProvider(projectId: app.id));
+        ref.watch(watchCompletedTasksCountProvider(appId: app.id));
     final completedCount = completedCountAsync.valueOrNull ?? 0;
     return CustomCompletionListTile(
       title: app.name,

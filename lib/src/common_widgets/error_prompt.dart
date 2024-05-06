@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
@@ -8,20 +6,14 @@ import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 class ErrorPrompt extends StatelessWidget {
   const ErrorPrompt({
     super.key,
-    required this.exception,
+    required this.message,
     this.onRetry,
   });
-  final Object exception;
+  final String message;
   final VoidCallback? onRetry;
-
-  ({String message, bool canRetry}) get errorDetails {
-    return (message: exception.toString(), canRetry: true);
-  }
 
   @override
   Widget build(BuildContext context) {
-    final (:message, :canRetry) = errorDetails;
-    log(message);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
       child: Column(
@@ -32,7 +24,7 @@ class ErrorPrompt extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 1.5),
             textAlign: TextAlign.center,
           ),
-          if (canRetry) ...[
+          if (onRetry != null) ...[
             gapH12,
             ElevatedButton(
               onPressed: onRetry,

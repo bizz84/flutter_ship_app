@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
-import 'package:flutter_ship_app/src/domain/app_model.dart';
-import 'package:flutter_ship_app/src/domain/epic_model.dart';
-import 'package:flutter_ship_app/src/domain/task_model.dart';
+import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/domain/epic.dart';
+import 'package:flutter_ship_app/src/domain/task.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sqlite3/common.dart';
 
 part 'app_database_crud.g.dart';
 
@@ -16,87 +17,89 @@ extension AppDatabaseCRUD on AppDatabase {
   /// Insert or update the epics and tasks from the given template data
   Future<void> loadOrUpdateFromTemplate(
       Map<String, dynamic> checklistTemplate) async {
-    final epics = checklistTemplate['epics'];
     try {
+      // * Parse JSON to a List<EpicModel>
+      final List<dynamic> epicsJson = checklistTemplate['epics'];
+      final epics = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
+      // * Sync epics with the DB
       await transaction(() async {
         var epicOrder = 1;
         var taskOrder = 1;
         for (var epicData in epics) {
           // Insert epic
           final epic = EpicsTableCompanion(
-            id: Value(epicData['id']),
+            id: Value(epicData.id),
             order: Value(epicOrder),
-            name: Value(epicData['epic']),
+            name: Value(epicData.name),
           );
           await into(epicsTable).insertOnConflictUpdate(epic);
           epicOrder++;
 
           // Insert tasks for each epic
-          final tasks = epicData['tasks'] as List<dynamic>;
-          for (var taskData in tasks) {
+          for (var taskData in epicData.tasks) {
             final task = TasksTableCompanion(
-              id: Value(taskData['id']),
-              epicId: Value(epicData['id']),
+              id: Value(taskData.id),
+              epicId: Value(epicData.id),
               order: Value(taskOrder),
-              name: Value(taskData['name']),
+              name: Value(taskData.name),
             );
             await into(tasksTable).insertOnConflictUpdate(task);
             taskOrder++;
           }
         }
       });
-    } catch (e) {
+    } on FormatException catch (e) {
+      // TODO: Error monitoring
+      log(e.toString());
+      rethrow;
+    } on SqliteException catch (e) {
       // TODO: Error monitoring
       log(e.toString());
       rethrow;
     }
-    return;
   }
 
   // *************** Apps *****************
 
   /// Get all the apps stored in the DB
-  Stream<List<AppModel>> watchAppsList() {
-    return select(appProjectsTable).watch().map((apps) =>
-        apps.map((app) => AppModel(id: app.id, name: app.name)).toList());
+  Stream<List<App>> watchAppsList() {
+    return select(appsTable).watch().map(
+        (apps) => apps.map((app) => App(id: app.id, name: app.name)).toList());
   }
 
   /// Get a specific app by ID
-  Stream<AppModel?> watchAppById(int id) {
-    return (select(appProjectsTable)..where((app) => app.id.equals(id)))
+  Stream<App?> watchAppById(int id) {
+    return (select(appsTable)..where((app) => app.id.equals(id)))
         .watchSingleOrNull()
-        .map(
-            (app) => app != null ? AppModel(id: app.id, name: app.name) : null);
+        .map((app) => app != null ? App(id: app.id, name: app.name) : null);
   }
 
   /// Create a new app by name
   Future<int> createNewApp({required String name}) async {
-    return into(appProjectsTable).insert(AppProjectsTableCompanion(
+    return into(appsTable).insert(AppsTableCompanion(
       name: Value(name),
     ));
   }
 
   /// Edit the name of an existing app by ID
   Future<bool> editAppName(
-      {required int projectId, required String newName}) async {
-    return update(appProjectsTable).replace(AppProjectsTableCompanion(
-      id: Value(projectId),
+      {required int appId, required String newName}) async {
+    return update(appsTable).replace(AppsTableCompanion(
+      id: Value(appId),
       name: Value(newName),
     ));
   }
 
   /// Delete an app by ID
-  Future<void> deleteAppById(int projectId) async {
+  Future<void> deleteAppById(int appId) async {
     await transaction(() async {
-      // Delete all associated TaskStatuses for the given projectId
+      // Delete all associated TaskStatuses for the given appId
       await (delete(taskStatusesTable)
-            ..where((taskStatus) => taskStatus.projectId.equals(projectId)))
+            ..where((taskStatus) => taskStatus.appId.equals(appId)))
           .go();
 
-      // Now, delete the AppProject row with the given projectId
-      await (delete(appProjectsTable)
-            ..where((project) => project.id.equals(projectId)))
-          .go();
+      // Now, delete the App row with the given appId
+      await (delete(appsTable)..where((app) => app.id.equals(appId))).go();
     });
   }
 
@@ -112,7 +115,7 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 
   /// Fetch all epics and tasks (needed by the EpicsChecklistScreen)
-  Future<List<EpicModel>> fetchAllEpicsAndTasks() async {
+  Future<List<Epic>> fetchAllEpicsAndTasks() async {
     final epicWithTasks = await (select(epicsTable).join(
       [leftOuterJoin(tasksTable, tasksTable.epicId.equalsExp(epicsTable.id))],
     )..orderBy([
@@ -122,8 +125,8 @@ extension AppDatabaseCRUD on AppDatabase {
         .get();
 
     // Transform the query result into a list of Epics with their associated tasks
-    final List<EpicModel> epics = [];
-    final Map<String, List<TaskModel>> tasksMap = {};
+    final List<Epic> epics = [];
+    final Map<String, List<Task>> tasksMap = {};
 
     // Iterate through all the results (one row for each task)
     for (final row in epicWithTasks) {
@@ -132,7 +135,7 @@ extension AppDatabaseCRUD on AppDatabase {
 
       // Add task to the corresponding list in tasksMap
       if (taskEntry != null) {
-        final task = TaskModel(
+        final task = Task(
           id: taskEntry.id,
           name: taskEntry.name,
         );
@@ -141,7 +144,7 @@ extension AppDatabaseCRUD on AppDatabase {
 
       // If the epic is not yet in the list, add it
       if (!epics.any((epic) => epic.id == epicEntry.id)) {
-        epics.add(EpicModel(
+        epics.add(Epic(
           id: epicEntry.id,
           name: epicEntry.name,
           tasks: tasksMap[epicEntry.id] ?? [],
@@ -167,15 +170,15 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 
   // Get all the tasks for a given app and epic
-  Stream<List<TaskModel>> watchTasksForAppAndEpic(
-      {required int projectId, required String epicId}) {
+  Stream<List<Task>> watchTasksForAppAndEpic(
+      {required int appId, required String epicId}) {
     // Create a joined query that includes both TaskStatusesTable and TasksTable
     final query = select(tasksTable).join(
       [
         leftOuterJoin(
           taskStatusesTable,
           taskStatusesTable.taskId.equalsExp(tasksTable.id) &
-              taskStatusesTable.projectId.equals(projectId),
+              taskStatusesTable.appId.equals(appId),
         ),
       ],
     )
@@ -193,7 +196,7 @@ extension AppDatabaseCRUD on AppDatabase {
         final taskStatusEntry = row.readTableOrNull(taskStatusesTable);
 
         // Create a TaskModel, with completed status defaulting to false if null
-        return TaskModel(
+        return Task(
           id: taskEntry.id,
           name: taskEntry.name,
           completed: taskStatusEntry?.completed ?? false,
@@ -202,11 +205,10 @@ extension AppDatabaseCRUD on AppDatabase {
     });
   }
 
-  /// Get the completed tasks for a given project
+  /// Get the completed tasks for a given app
   /// - if epicId is not-null, filter by that epic
-  /// - otherwise, filter by the projectId only
-  Stream<int> watchCompletedTasksCount(
-      {required int projectId, String? epicId}) {
+  /// - otherwise, filter by the appId only
+  Stream<int> watchCompletedTasksCount({required int appId, String? epicId}) {
     // Create a joined query that includes both TaskStatusesTable and TasksTable
     final query = select(taskStatusesTable).join(
       [
@@ -217,9 +219,9 @@ extension AppDatabaseCRUD on AppDatabase {
       ],
     );
 
-    // Apply the where clause to filter by projectId and optionally by epicId
+    // Apply the where clause to filter by appId and optionally by epicId
     query.where(
-      taskStatusesTable.projectId.equals(projectId) &
+      taskStatusesTable.appId.equals(appId) &
           taskStatusesTable.completed.equals(true) &
           (epicId == null
               ? const Constant(true)
@@ -237,12 +239,12 @@ extension AppDatabaseCRUD on AppDatabase {
 
   /// Update the completion status of a given task
   Future<void> updateTaskCompletionStatus({
-    required int projectId,
+    required int appId,
     required String taskId,
     required bool isCompleted,
   }) async {
     final taskStatus = TaskStatusesTableCompanion(
-      projectId: Value(projectId),
+      appId: Value(appId),
       taskId: Value(taskId),
       completed: Value(isCompleted),
     );
@@ -257,19 +259,19 @@ extension AppDatabaseCRUD on AppDatabase {
 // *************** Epics *****************
 
 @riverpod
-Future<List<EpicModel>> fetchAllEpicsAndTasks(FetchAllEpicsAndTasksRef ref) {
+Future<List<Epic>> fetchAllEpicsAndTasks(FetchAllEpicsAndTasksRef ref) {
   return ref.watch(appDatabaseProvider).fetchAllEpicsAndTasks();
 }
 
 // *************** Apps *****************
 
 @riverpod
-Stream<List<AppModel>> watchAppsList(WatchAppsListRef ref) {
+Stream<List<App>> watchAppsList(WatchAppsListRef ref) {
   return ref.watch(appDatabaseProvider).watchAppsList();
 }
 
 @riverpod
-Stream<AppModel?> watchAppById(WatchAppByIdRef ref, int id) {
+Stream<App?> watchAppById(WatchAppByIdRef ref, int id) {
   return ref.watch(appDatabaseProvider).watchAppById(id);
 }
 
@@ -281,17 +283,17 @@ Stream<int> watchTotalTasksCount(WatchTotalTasksCountRef ref) {
 }
 
 @riverpod
-Stream<List<TaskModel>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
-    {required int projectId, required String epicId}) {
+Stream<List<Task>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
+    {required int appId, required String epicId}) {
   return ref
       .watch(appDatabaseProvider)
-      .watchTasksForAppAndEpic(projectId: projectId, epicId: epicId);
+      .watchTasksForAppAndEpic(appId: appId, epicId: epicId);
 }
 
 @riverpod
 Stream<int> watchCompletedTasksCount(WatchCompletedTasksCountRef ref,
-    {required int projectId, String? epicId}) {
+    {required int appId, String? epicId}) {
   return ref
       .watch(appDatabaseProvider)
-      .watchCompletedTasksCount(projectId: projectId, epicId: epicId);
+      .watchCompletedTasksCount(appId: appId, epicId: epicId);
 }

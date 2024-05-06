@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,34 +18,33 @@ part 'app_startup.g.dart';
 /// App startup provider and widget (below)
 /// For more info, read: https://codewithandrea.com/articles/robust-app-initialization-riverpod/
 @riverpod
-Future<void> appStartup(AppStartupRef ref) async {
-  // Initially, load the database from JSON
-  await ref.watch(updateDatabaseFromJsonTemplateProvider.future);
-  // Preload any other FutureProviders what will be used with requireValue later
-  await ref.watch(packageInfoProvider.future);
-}
+class AppStartupNotifier extends _$AppStartupNotifier {
+  @override
+  Future<void> build() async {
+    // Initially, load the database from JSON
+    await _updateDatabaseFromJsonTemplate();
+    // Preload any other FutureProviders what will be used with requireValue later
+    await ref.watch(packageInfoProvider.future);
+  }
 
-/// Provider to load the initial data from JSON
-@riverpod
-Future<void> updateDatabaseFromJsonTemplate(
-    UpdateDatabaseFromJsonTemplateRef ref) async {
-  final db = ref.watch(appDatabaseProvider);
-  try {
-    // * Load the JSON data from the network
-    final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
-    final jsonData = jsonDecode(jsonString);
-    await db.loadOrUpdateFromTemplate(jsonData);
-  } catch (e) {
-    // TODO: Error monitoring
-    // * If the request has failed and the DB is empty (common during first app
-    // * start), fallback to loading the JSON from bundle
+  Future<void> _updateDatabaseFromJsonTemplate() async {
+    final db = ref.watch(appDatabaseProvider);
     if (await db.isEpicsTableEmpty()) {
-      log('JSON fetching failed - loading from the root bundle');
+      // * First time load: sync with JSON data from the local root bundle
       final jsonString =
           await rootBundle.loadString('assets/app_release_template.json');
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
+    } else {
+      // * Subsequent loads: sync with JSON data from the network
+      final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
+      final jsonData = jsonDecode(jsonString);
+      await db.loadOrUpdateFromTemplate(jsonData);
     }
+  }
+
+  Future<void> retry() async {
+    state = await AsyncValue.guard(_updateDatabaseFromJsonTemplate);
   }
 }
 
@@ -57,15 +55,18 @@ class AppStartupWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 1. eagerly initialize appStartupProvider (and all the providers it depends on)
-    final appStartupState = ref.watch(appStartupProvider);
+    final appStartupState = ref.watch(appStartupNotifierProvider);
     return appStartupState.when(
       // 2. loading state
       loading: () => const AppStartupLoadingWidget(),
       // 3. error state
       error: (e, st) => AppStartupErrorWidget(
-        exception: e,
+        exception: Exception(
+            'Could not load or sync data. Please try again or contact support if the issue persists.'),
         // 4. invalidate the appStartupProvider
-        onRetry: () => ref.invalidate(appStartupProvider),
+        onRetry: () async {
+          await ref.read(appStartupNotifierProvider.notifier).retry();
+        },
       ),
       // 5. success - now load the main app
       data: (_) => onLoaded(context),
@@ -113,7 +114,7 @@ class AppStartupErrorWidget extends ConsumerWidget {
         appBar: AppBar(),
         body: Center(
           child: ErrorPrompt(
-            exception: exception,
+            message: exception.toString(),
             onRetry: onRetry,
           ),
         ),

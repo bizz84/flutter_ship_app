@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ship_app/src/utils/shared_preferences.dart';
+import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
