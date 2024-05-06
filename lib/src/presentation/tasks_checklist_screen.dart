@@ -7,16 +7,16 @@ import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/domain/app_model.dart';
-import 'package:flutter_ship_app/src/domain/epic_model.dart';
-import 'package:flutter_ship_app/src/domain/task_model.dart';
+import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/domain/epic.dart';
+import 'package:flutter_ship_app/src/domain/task.dart';
 
 /// Screen for showing a list of tasks for a given epic
 class TasksChecklistScreen extends ConsumerWidget {
   const TasksChecklistScreen(
       {super.key, required this.app, required this.epic});
-  final AppModel app;
-  final EpicModel epic;
+  final App app;
+  final Epic epic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,7 +66,7 @@ class CheckboxTaskListTile extends StatelessWidget {
       required this.task,
       required this.completed,
       required this.onChanged});
-  final TaskModel task;
+  final Task task;
   final bool completed;
   final ValueChanged<bool> onChanged;
 

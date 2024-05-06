@@ -1,14 +1,14 @@
-import 'package:flutter_ship_app/src/domain/task_model.dart';
+import 'package:flutter_ship_app/src/domain/task.dart';
 
 /// A model class representing an epic (collection of tasks)
-class EpicModel {
-  EpicModel({required this.id, required this.name, required this.tasks});
+class Epic {
+  Epic({required this.id, required this.name, required this.tasks});
   final String id;
   final String name;
-  final List<TaskModel> tasks;
+  final List<Task> tasks;
 
   // parse from template
-  factory EpicModel.fromJson(Map<String, dynamic> json) {
+  factory Epic.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
     if (id is! String) {
       throw FormatException(
@@ -24,10 +24,10 @@ class EpicModel {
       throw FormatException(
           'Invalid JSON: required "tasks" field of type List in $json');
     }
-    final decodedTasks = tasks.map((task) => TaskModel.fromJson(task)).toList();
-    return EpicModel(id: id, name: name, tasks: decodedTasks);
+    final decodedTasks = tasks.map((task) => Task.fromJson(task)).toList();
+    return Epic(id: id, name: name, tasks: decodedTasks);
   }
 
   @override
-  String toString() => 'EpicModel(id: $id, name: $name, tasks: $tasks)';
+  String toString() => 'Epic(id: $id, name: $name, tasks: $tasks)';
 }

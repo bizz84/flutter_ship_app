@@ -7,12 +7,12 @@ part of 'app_database_crud.dart';
 // **************************************************************************
 
 String _$fetchAllEpicsAndTasksHash() =>
-    r'786c4c57ef5839ec8e7b35695f1bd26d9eef202b';
+    r'50bbbca378b07557d0ec3d7ffb4dadff45d75320';
 
 /// See also [fetchAllEpicsAndTasks].
 @ProviderFor(fetchAllEpicsAndTasks)
 final fetchAllEpicsAndTasksProvider =
-    AutoDisposeFutureProvider<List<EpicModel>>.internal(
+    AutoDisposeFutureProvider<List<Epic>>.internal(
   fetchAllEpicsAndTasks,
   name: r'fetchAllEpicsAndTasksProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,14 +22,12 @@ final fetchAllEpicsAndTasksProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FetchAllEpicsAndTasksRef
-    = AutoDisposeFutureProviderRef<List<EpicModel>>;
-String _$watchAppsListHash() => r'93ab37c96c659f44067aae70fc94c42afe8c3290';
+typedef FetchAllEpicsAndTasksRef = AutoDisposeFutureProviderRef<List<Epic>>;
+String _$watchAppsListHash() => r'7011592389f0180cb95870f141200af0b72e9f74';
 
 /// See also [watchAppsList].
 @ProviderFor(watchAppsList)
-final watchAppsListProvider =
-    AutoDisposeStreamProvider<List<AppModel>>.internal(
+final watchAppsListProvider = AutoDisposeStreamProvider<List<App>>.internal(
   watchAppsList,
   name: r'watchAppsListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -39,8 +37,8 @@ final watchAppsListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef WatchAppsListRef = AutoDisposeStreamProviderRef<List<AppModel>>;
-String _$watchAppByIdHash() => r'462141f0b5080da99521fca2fba5734b6c2e9898';
+typedef WatchAppsListRef = AutoDisposeStreamProviderRef<List<App>>;
+String _$watchAppByIdHash() => r'740bb7a74220220c5b2d2e493255300e9b997d2c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -68,7 +66,7 @@ class _SystemHash {
 const watchAppByIdProvider = WatchAppByIdFamily();
 
 /// See also [watchAppById].
-class WatchAppByIdFamily extends Family<AsyncValue<AppModel?>> {
+class WatchAppByIdFamily extends Family<AsyncValue<App?>> {
   /// See also [watchAppById].
   const WatchAppByIdFamily();
 
@@ -106,7 +104,7 @@ class WatchAppByIdFamily extends Family<AsyncValue<AppModel?>> {
 }
 
 /// See also [watchAppById].
-class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppModel?> {
+class WatchAppByIdProvider extends AutoDisposeStreamProvider<App?> {
   /// See also [watchAppById].
   WatchAppByIdProvider(
     int id,
@@ -141,7 +139,7 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppModel?> {
 
   @override
   Override overrideWith(
-    Stream<AppModel?> Function(WatchAppByIdRef provider) create,
+    Stream<App?> Function(WatchAppByIdRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -158,7 +156,7 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppModel?> {
   }
 
   @override
-  AutoDisposeStreamProviderElement<AppModel?> createElement() {
+  AutoDisposeStreamProviderElement<App?> createElement() {
     return _WatchAppByIdProviderElement(this);
   }
 
@@ -176,13 +174,13 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<AppModel?> {
   }
 }
 
-mixin WatchAppByIdRef on AutoDisposeStreamProviderRef<AppModel?> {
+mixin WatchAppByIdRef on AutoDisposeStreamProviderRef<App?> {
   /// The parameter `id` of this provider.
   int get id;
 }
 
 class _WatchAppByIdProviderElement
-    extends AutoDisposeStreamProviderElement<AppModel?> with WatchAppByIdRef {
+    extends AutoDisposeStreamProviderElement<App?> with WatchAppByIdRef {
   _WatchAppByIdProviderElement(super.provider);
 
   @override
@@ -206,15 +204,14 @@ final watchTotalTasksCountProvider = AutoDisposeStreamProvider<int>.internal(
 
 typedef WatchTotalTasksCountRef = AutoDisposeStreamProviderRef<int>;
 String _$watchTasksForAppAndEpicHash() =>
-    r'221905686426d3a8ad430281ad894800bc56bb1b';
+    r'6a6a5a60c9b5155c50eeb6dd18326967e1b6348d';
 
 /// See also [watchTasksForAppAndEpic].
 @ProviderFor(watchTasksForAppAndEpic)
 const watchTasksForAppAndEpicProvider = WatchTasksForAppAndEpicFamily();
 
 /// See also [watchTasksForAppAndEpic].
-class WatchTasksForAppAndEpicFamily
-    extends Family<AsyncValue<List<TaskModel>>> {
+class WatchTasksForAppAndEpicFamily extends Family<AsyncValue<List<Task>>> {
   /// See also [watchTasksForAppAndEpic].
   const WatchTasksForAppAndEpicFamily();
 
@@ -256,7 +253,7 @@ class WatchTasksForAppAndEpicFamily
 
 /// See also [watchTasksForAppAndEpic].
 class WatchTasksForAppAndEpicProvider
-    extends AutoDisposeStreamProvider<List<TaskModel>> {
+    extends AutoDisposeStreamProvider<List<Task>> {
   /// See also [watchTasksForAppAndEpic].
   WatchTasksForAppAndEpicProvider({
     required int appId,
@@ -296,8 +293,7 @@ class WatchTasksForAppAndEpicProvider
 
   @override
   Override overrideWith(
-    Stream<List<TaskModel>> Function(WatchTasksForAppAndEpicRef provider)
-        create,
+    Stream<List<Task>> Function(WatchTasksForAppAndEpicRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -315,7 +311,7 @@ class WatchTasksForAppAndEpicProvider
   }
 
   @override
-  AutoDisposeStreamProviderElement<List<TaskModel>> createElement() {
+  AutoDisposeStreamProviderElement<List<Task>> createElement() {
     return _WatchTasksForAppAndEpicProviderElement(this);
   }
 
@@ -336,8 +332,7 @@ class WatchTasksForAppAndEpicProvider
   }
 }
 
-mixin WatchTasksForAppAndEpicRef
-    on AutoDisposeStreamProviderRef<List<TaskModel>> {
+mixin WatchTasksForAppAndEpicRef on AutoDisposeStreamProviderRef<List<Task>> {
   /// The parameter `appId` of this provider.
   int get appId;
 
@@ -346,7 +341,7 @@ mixin WatchTasksForAppAndEpicRef
 }
 
 class _WatchTasksForAppAndEpicProviderElement
-    extends AutoDisposeStreamProviderElement<List<TaskModel>>
+    extends AutoDisposeStreamProviderElement<List<Task>>
     with WatchTasksForAppAndEpicRef {
   _WatchTasksForAppAndEpicProviderElement(super.provider);
 

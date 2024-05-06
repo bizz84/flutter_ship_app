@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
-import 'package:flutter_ship_app/src/domain/app_model.dart';
-import 'package:flutter_ship_app/src/domain/epic_model.dart';
-import 'package:flutter_ship_app/src/domain/task_model.dart';
+import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/domain/epic.dart';
+import 'package:flutter_ship_app/src/domain/task.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqlite3/common.dart';
 
@@ -20,7 +20,7 @@ extension AppDatabaseCRUD on AppDatabase {
     try {
       // * Parse JSON to a List<EpicModel>
       final List<dynamic> epicsJson = checklistTemplate['epics'];
-      final epics = epicsJson.map((epic) => EpicModel.fromJson(epic)).toList();
+      final epics = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
       // * Sync epics with the DB
       await transaction(() async {
         var epicOrder = 1;
@@ -57,23 +57,21 @@ extension AppDatabaseCRUD on AppDatabase {
       log(e.toString());
       rethrow;
     }
-    return;
   }
 
   // *************** Apps *****************
 
   /// Get all the apps stored in the DB
-  Stream<List<AppModel>> watchAppsList() {
-    return select(appsTable).watch().map((apps) =>
-        apps.map((app) => AppModel(id: app.id, name: app.name)).toList());
+  Stream<List<App>> watchAppsList() {
+    return select(appsTable).watch().map(
+        (apps) => apps.map((app) => App(id: app.id, name: app.name)).toList());
   }
 
   /// Get a specific app by ID
-  Stream<AppModel?> watchAppById(int id) {
+  Stream<App?> watchAppById(int id) {
     return (select(appsTable)..where((app) => app.id.equals(id)))
         .watchSingleOrNull()
-        .map(
-            (app) => app != null ? AppModel(id: app.id, name: app.name) : null);
+        .map((app) => app != null ? App(id: app.id, name: app.name) : null);
   }
 
   /// Create a new app by name
@@ -117,7 +115,7 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 
   /// Fetch all epics and tasks (needed by the EpicsChecklistScreen)
-  Future<List<EpicModel>> fetchAllEpicsAndTasks() async {
+  Future<List<Epic>> fetchAllEpicsAndTasks() async {
     final epicWithTasks = await (select(epicsTable).join(
       [leftOuterJoin(tasksTable, tasksTable.epicId.equalsExp(epicsTable.id))],
     )..orderBy([
@@ -127,8 +125,8 @@ extension AppDatabaseCRUD on AppDatabase {
         .get();
 
     // Transform the query result into a list of Epics with their associated tasks
-    final List<EpicModel> epics = [];
-    final Map<String, List<TaskModel>> tasksMap = {};
+    final List<Epic> epics = [];
+    final Map<String, List<Task>> tasksMap = {};
 
     // Iterate through all the results (one row for each task)
     for (final row in epicWithTasks) {
@@ -137,7 +135,7 @@ extension AppDatabaseCRUD on AppDatabase {
 
       // Add task to the corresponding list in tasksMap
       if (taskEntry != null) {
-        final task = TaskModel(
+        final task = Task(
           id: taskEntry.id,
           name: taskEntry.name,
         );
@@ -146,7 +144,7 @@ extension AppDatabaseCRUD on AppDatabase {
 
       // If the epic is not yet in the list, add it
       if (!epics.any((epic) => epic.id == epicEntry.id)) {
-        epics.add(EpicModel(
+        epics.add(Epic(
           id: epicEntry.id,
           name: epicEntry.name,
           tasks: tasksMap[epicEntry.id] ?? [],
@@ -172,7 +170,7 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 
   // Get all the tasks for a given app and epic
-  Stream<List<TaskModel>> watchTasksForAppAndEpic(
+  Stream<List<Task>> watchTasksForAppAndEpic(
       {required int appId, required String epicId}) {
     // Create a joined query that includes both TaskStatusesTable and TasksTable
     final query = select(tasksTable).join(
@@ -198,7 +196,7 @@ extension AppDatabaseCRUD on AppDatabase {
         final taskStatusEntry = row.readTableOrNull(taskStatusesTable);
 
         // Create a TaskModel, with completed status defaulting to false if null
-        return TaskModel(
+        return Task(
           id: taskEntry.id,
           name: taskEntry.name,
           completed: taskStatusEntry?.completed ?? false,
@@ -261,19 +259,19 @@ extension AppDatabaseCRUD on AppDatabase {
 // *************** Epics *****************
 
 @riverpod
-Future<List<EpicModel>> fetchAllEpicsAndTasks(FetchAllEpicsAndTasksRef ref) {
+Future<List<Epic>> fetchAllEpicsAndTasks(FetchAllEpicsAndTasksRef ref) {
   return ref.watch(appDatabaseProvider).fetchAllEpicsAndTasks();
 }
 
 // *************** Apps *****************
 
 @riverpod
-Stream<List<AppModel>> watchAppsList(WatchAppsListRef ref) {
+Stream<List<App>> watchAppsList(WatchAppsListRef ref) {
   return ref.watch(appDatabaseProvider).watchAppsList();
 }
 
 @riverpod
-Stream<AppModel?> watchAppById(WatchAppByIdRef ref, int id) {
+Stream<App?> watchAppById(WatchAppByIdRef ref, int id) {
   return ref.watch(appDatabaseProvider).watchAppById(id);
 }
 
@@ -285,7 +283,7 @@ Stream<int> watchTotalTasksCount(WatchTotalTasksCountRef ref) {
 }
 
 @riverpod
-Stream<List<TaskModel>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
+Stream<List<Task>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
     {required int appId, required String epicId}) {
   return ref
       .watch(appDatabaseProvider)
