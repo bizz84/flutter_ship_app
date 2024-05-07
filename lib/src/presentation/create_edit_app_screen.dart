@@ -131,6 +131,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'App name'.hardcoded),
                 keyboardAppearance: Theme.of(context).brightness,
+                textCapitalization: TextCapitalization.words,
                 initialValue: _name,
                 validator: (value) => (value ?? '').isNotEmpty
                     ? null
