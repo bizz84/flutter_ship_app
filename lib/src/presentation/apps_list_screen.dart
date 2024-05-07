@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,7 +126,8 @@ class AppListTile extends ConsumerWidget {
     final completedCount = completedCountAsync.valueOrNull ?? 0;
     return CustomCompletionListTile(
       title: app.name,
-      totalCount: totalTasksCount ?? 0,
+      // * use 1 as fallback to prevent division by 0
+      totalCount: totalTasksCount ?? 1,
       completedCount: completedCount,
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
@@ -228,7 +231,7 @@ class ExampleListTile extends StatelessWidget {
             width: Sizes.p24,
             height: Sizes.p24,
             child: CustomProgressCheckmark(
-              value: completedCount / totalCount,
+              value: min(completedCount / totalCount, 1.0),
               fillColor: Theme.of(context).colorScheme.secondary,
               checkmarkColor: Colors.white,
               strokeWidth: 2.5,

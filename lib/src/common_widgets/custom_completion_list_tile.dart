@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ship_app/src/constants/app_colors.dart';
@@ -35,7 +37,7 @@ class CustomCompletionListTile extends StatelessWidget {
               width: Sizes.p24,
               height: Sizes.p24,
               child: CustomProgressCheckmark(
-                value: completedCount / totalCount,
+                value: min(completedCount / totalCount, 1.0),
                 fillColor: Theme.of(context).colorScheme.secondary,
                 checkmarkColor: Colors.white,
                 strokeWidth: 2.5,
