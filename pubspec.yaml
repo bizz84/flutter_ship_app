@@ -35,6 +35,7 @@ dev_dependencies:
   riverpod_lint: 2.3.13
   flutter_launcher_icons: 0.14.1
   flutter_native_splash: 2.4.1
+  flutter_flavorizr: 2.2.3
 
 flutter:
   uses-material-design: true
@@ -63,5 +64,37 @@ flutter_native_splash:
   color_ios: "#ffffff"
   color_dark_ios: "#121212"
   color_web: "#ffffff"
-  color_dark_web: "#121212"  
+  color_dark_web: "#121212"
   image: "assets/android/app-icon-foreground.png"
+
+# Flutter Flavorizr
+flavorizr:
+  ide: "vscode"
+  app:
+    android:
+      flavorDimensions: "flavor-type"
+    
+  flavors:
+    dev:
+      app:
+        name: "Flutter Ship Dev"
+      android:
+        applicationId: "com.codewithandrea.flutter_ship_app.dev"
+      ios:
+        bundleId: "com.codewithandrea.flutterShipApp.dev"
+    
+    stg:
+      app:
+        name: "Flutter Ship Stg"
+      android:
+        applicationId: "com.codewithandrea.flutter_ship_app.stg"  
+      ios:
+        bundleId: "com.codewithandrea.flutterShipApp.stg"
+    
+    prod:
+      app:
+        name: "Flutter Ship"
+      android:
+        applicationId: "com.codewithandrea.flutter_ship_app"  
+      ios:
+        bundleId: "com.codewithandrea.flutterShipApp"
