@@ -6,6 +6,27 @@ plugins {
 }
 
 android {
+
+    flavorDimensions += "flavor-type"
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationId "com.codewithandrea.flutter_ship_app.dev"
+            resValue "string", "app_name", "Flutter Ship Dev"
+        }
+        stg {
+            dimension "flavor-type"
+            applicationId "com.codewithandrea.flutter_ship_app.stg"
+            resValue "string", "app_name", "Flutter Ship Stg"
+        }
+        prod {
+            dimension "flavor-type"
+            applicationId "com.codewithandrea.flutter_ship_app"
+            resValue "string", "app_name", "Flutter Ship"
+        }
+    }
+    
     namespace = "com.codewithandrea.flutter_ship_app"
     compileSdk = flutter.compileSdkVersion
     // Required by some of the plugins installed in the Flutter project
