@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Updated to latest dependencies
+
 ## 0.1.1
 
 - Updated `.gitignore`
