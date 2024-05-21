@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Small fixes for the app editing logic
+
 ## 0.1.3
 
 - Added CSS loader to Flutter web initialization logic
