@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Added CSS loader to Flutter web initialization logic
+
 ## 0.1.2
 
 - Updated to latest dependencies
