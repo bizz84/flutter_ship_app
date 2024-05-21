@@ -17,20 +17,16 @@ class EpicsChecklistScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // * The app name can change during editing, so here we
+    // * watch it and rebuild as needed
+    final updatedApp =
+        ref.watch(watchAppByIdProvider(app.id)).valueOrNull ?? app;
     final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
         title: Column(
           children: [
-            // * The app name since it can change during editing, so here we
-            // * watch it and rebuild the AppBar title as needed
-            Consumer(
-              builder: (context, ref, child) {
-                final updatedApp =
-                    ref.watch(watchAppByIdProvider(app.id)).valueOrNull ?? app;
-                return Text(updatedApp.name);
-              },
-            ),
+            Text(updatedApp.name),
             gapH4,
             Text(
               'Release Checklist'.hardcoded,
@@ -47,7 +43,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
                 fullscreenDialog: true,
-                builder: (_) => CreateOrEditAppScreen(app: app),
+                builder: (_) => CreateOrEditAppScreen(app: updatedApp),
               ),
             ),
             icon: Icon(
@@ -61,7 +57,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
         controller: scrollController,
         child: EpicsChecklistListView(
           controller: scrollController,
-          app: app,
+          app: updatedApp,
         ),
       ),
     );
