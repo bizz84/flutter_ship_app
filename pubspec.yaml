@@ -88,6 +88,9 @@ flavorizr:
       ios:
         bundleId: "com.codewithandrea.flutterShipApp.dev"
         icon: "assets/dev/app-icon.png"
+      macos:
+        bundleId: "com.codewithandrea.flutterShipApp.dev"
+        icon: "assets/dev/app-icon.png"
     
 
     stg:
@@ -102,7 +105,10 @@ flavorizr:
       ios:
         bundleId: "com.codewithandrea.flutterShipApp.stg"
         icon: "assets/stg/app-icon.png"
-
+      macos:
+        bundleId: "com.codewithandrea.flutterShipApp.stg"
+        icon: "assets/stg/app-icon.png"
+    
     prod:
       app:
         name: "Flutter Ship"
@@ -113,5 +119,8 @@ flavorizr:
           foreground: "assets/prod/app-icon-foreground.png"
           background: "assets/android/app-icon-background.png"
       ios:
+        bundleId: "com.codewithandrea.flutterShipApp"
+        icon: "assets/prod/app-icon.png"
+      macos:
         bundleId: "com.codewithandrea.flutterShipApp"
         icon: "assets/prod/app-icon.png"
