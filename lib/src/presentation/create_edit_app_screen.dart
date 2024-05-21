@@ -137,6 +137,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
                     ? null
                     : 'Name can\'t be empty'.hardcoded,
                 onSaved: (value) => _name = value ?? '',
+                onEditingComplete: _submit,
               ),
               gapH16,
               ElevatedButton(
