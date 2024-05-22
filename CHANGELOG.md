@@ -1,3 +1,7 @@
+## 0.1.5
+
+- Updated app icon
+
 ## 0.1.4
 
 - Small fixes for the app editing logic
