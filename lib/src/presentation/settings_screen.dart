@@ -25,7 +25,7 @@ class SettingsScreen extends ConsumerWidget {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(Sizes.p20),
-                child: Image.asset('assets/app-icon.png', height: 120),
+                child: Image.asset('assets/common/app-icon.png', height: 120),
               ),
             ),
             gapH12,
