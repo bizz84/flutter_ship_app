@@ -33,8 +33,23 @@ dev_dependencies:
   riverpod_generator: 2.4.3
   custom_lint: 0.6.7
   riverpod_lint: 2.3.13
+  flutter_launcher_icons: 0.14.1
 
 flutter:
   uses-material-design: true
   assets:
     - assets/common/
+
+
+# Flutter Launcher Icons configuration
+flutter_launcher_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/common/app-icon.png"
+  image_path_android: "assets/android/app-icon-android.png"
+  adaptive_icon_background: "assets/android/app-icon-background.png"
+  adaptive_icon_foreground: "assets/android/app-icon-foreground.png"
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/common/app-icon.png"
