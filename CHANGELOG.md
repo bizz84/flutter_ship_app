@@ -1,3 +1,8 @@
+## 0.1.6
+
+- Add Android adaptive icons
+- Fix app startup issue due to missing asset in root bundle
+
 ## 0.1.5
 
 - Updated app icon
