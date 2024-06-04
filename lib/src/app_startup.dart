@@ -32,8 +32,8 @@ class AppStartupNotifier extends _$AppStartupNotifier {
     final db = ref.watch(appDatabaseProvider);
     if (await db.isEpicsTableEmpty()) {
       // * First time load: sync with JSON data from the local root bundle
-      final jsonString =
-          await rootBundle.loadString('assets/app_release_template.json');
+      final jsonString = await rootBundle
+          .loadString('assets/common/app_release_template.json');
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
     } else {
