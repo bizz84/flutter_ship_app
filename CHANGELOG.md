@@ -1,3 +1,7 @@
+## 0.1.7
+
+- Update Drift connection to use LazyDatabase (fixes app startup issue)
+
 ## 0.1.6
 
 - Add Android adaptive icons
