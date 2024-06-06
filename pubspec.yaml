@@ -81,21 +81,37 @@ flavorizr:
         name: "Flutter Ship Dev"
       android:
         applicationId: "com.codewithandrea.flutter_ship_app.dev"
+        icon: "assets/dev/app-icon.png"
+        adaptiveIcon:
+          foreground: "assets/dev/app-icon-foreground.png"
+          background: "assets/android/app-icon-background.png"
       ios:
         bundleId: "com.codewithandrea.flutterShipApp.dev"
+        icon: "assets/dev/app-icon.png"
     
+
     stg:
       app:
         name: "Flutter Ship Stg"
       android:
         applicationId: "com.codewithandrea.flutter_ship_app.stg"  
+        icon: "assets/stg/app-icon.png"
+        adaptiveIcon:
+          foreground: "assets/stg/app-icon-foreground.png"
+          background: "assets/android/app-icon-background.png"
       ios:
         bundleId: "com.codewithandrea.flutterShipApp.stg"
-    
+        icon: "assets/stg/app-icon.png"
+
     prod:
       app:
         name: "Flutter Ship"
       android:
         applicationId: "com.codewithandrea.flutter_ship_app"  
+        icon: "assets/prod/app-icon.png"
+        adaptiveIcon:
+          foreground: "assets/prod/app-icon-foreground.png"
+          background: "assets/android/app-icon-background.png"
       ios:
         bundleId: "com.codewithandrea.flutterShipApp"
+        icon: "assets/prod/app-icon.png"
