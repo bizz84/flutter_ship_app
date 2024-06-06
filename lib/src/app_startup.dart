@@ -63,8 +63,8 @@ class AppStartupWidget extends ConsumerWidget {
       // 3. error state
       error: (e, st) {
         const action = kIsWeb ? 'clear your web cache' : 'try again';
-        const message =
-            'Could not load or sync data. Please $action or contact support if the issue persists.';
+        final message =
+            'Could not load or sync data. Please $action or contact support if the issue persists.\n\n${e.toString()}';
         return AppStartupErrorWidget(
           message: message,
           // 4. invalidate the appStartupProvider

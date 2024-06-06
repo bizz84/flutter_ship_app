@@ -19,7 +19,7 @@ class ErrorPrompt extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
+          SelectableText(
             message,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 1.5),
             textAlign: TextAlign.center,
