@@ -5,8 +5,8 @@ import 'package:drift/wasm.dart';
 import 'package:flutter/foundation.dart';
 
 /// Obtains a database connection for running drift on the web.
-DatabaseConnection connect() {
-  return DatabaseConnection.delayed(Future(() async {
+LazyDatabase connect() {
+  return LazyDatabase(() async {
     final db = await WasmDatabase.open(
       databaseName: 'db',
       sqlite3Uri: Uri.parse('sqlite3.wasm'),
@@ -19,7 +19,7 @@ DatabaseConnection connect() {
     }
 
     return db.resolvedExecutor;
-  }));
+  });
 }
 
 Future<void> validateDatabaseSchema(GeneratedDatabase database) async {

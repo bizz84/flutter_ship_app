@@ -8,7 +8,7 @@ Never _unsupported() {
 // Depending on the platform the app is compiled to, the following stubs will
 // be replaced with the methods in native.dart or web.dart
 
-DatabaseConnection connect() {
+LazyDatabase connect() {
   _unsupported();
 }
 
