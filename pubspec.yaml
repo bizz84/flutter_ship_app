@@ -34,6 +34,7 @@ dev_dependencies:
   custom_lint: 0.6.7
   riverpod_lint: 2.3.13
   flutter_launcher_icons: 0.14.1
+  flutter_native_splash: 2.4.1
 
 flutter:
   uses-material-design: true
@@ -53,3 +54,8 @@ flutter_launcher_icons:
   web:
     generate: true
     image_path: "assets/common/app-icon.png"
+
+# Flutter Native Splash configuration
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/android/app-icon-foreground.png"
