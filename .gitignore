@@ -61,6 +61,10 @@ android/app/src/*/google-services.json
 firebase*.json
 
 # Environments
+*.env
 *.env.dev
 *.env.stg
 *.env.prod
+api-keys.dev.json
+api-keys.stg.json
+api-keys.prod.json
