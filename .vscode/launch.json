@@ -6,90 +6,63 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": [
-        "--flavor",
-        "dev"
-      ]
+      "args": [ "--flavor", "dev", "--dart-define-from-file", "api-keys.dev.json"  ]
     },
     {
       "name": "dev Profile",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": [
-        "--flavor",
-        "dev"
-      ]
+      "args": [ "--flavor", "dev", "--dart-define-from-file", "api-keys.dev.json"  ]
     },
     {
       "name": "dev Release",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": [
-        "--flavor",
-        "dev"
-      ]
+      "args": [ "--flavor", "dev", "--dart-define-from-file", "api-keys.dev.json"  ]
     },
     {
       "name": "stg Debug",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": [
-        "--flavor",
-        "stg"
-      ]
+      "args": [ "--flavor", "stg", "--dart-define-from-file", "api-keys.stg.json"  ]
     },
     {
       "name": "stg Profile",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": [
-        "--flavor",
-        "stg"
-      ]
+      "args": [ "--flavor", "stg", "--dart-define-from-file", "api-keys.stg.json"  ]
     },
     {
       "name": "stg Release",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": [
-        "--flavor",
-        "stg"
-      ]
+      "args": [ "--flavor", "stg", "--dart-define-from-file", "api-keys.stg.json"  ]
     },
     {
       "name": "prod Debug",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": [
-        "--flavor",
-        "prod"
-      ]
+      "args": [ "--flavor", "prod", "--dart-define-from-file", "api-keys.prod.json"  ]
     },
     {
       "name": "prod Profile",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": [
-        "--flavor",
-        "prod"
-      ]
+      "args": [ "--flavor", "prod", "--dart-define-from-file", "api-keys.prod.json"  ]
     },
     {
       "name": "prod Release",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": [
-        "--flavor",
-        "prod"
-      ]
+      "args": [ "--flavor", "prod", "--dart-define-from-file", "api-keys.prod.json"  ]
     }
   ]
 }
