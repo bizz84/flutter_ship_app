@@ -24,6 +24,7 @@ dependencies:
   auto_size_text: 3.0.0
   package_info_plus: 8.0.2
   dio: 5.7.0
+  sentry_flutter: 8.9.0
 
 dev_dependencies:
   flutter_test:
