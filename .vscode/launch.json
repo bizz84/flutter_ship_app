@@ -6,7 +6,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": [ "--flavor", "dev", "--dart-define", "WEB_FLAVOR=dev" ],
+      "args": [ "--flavor", "dev", "--dart-define", "WEB_FLAVOR=dev", "--dart-define-from-file", ".env.dev" ],
       "program": "lib/main_dev.dart"
     },
     {
@@ -14,7 +14,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": [ "--flavor", "dev", "--dart-define", "WEB_FLAVOR=dev" ],
+      "args": [ "--flavor", "dev", "--dart-define", "WEB_FLAVOR=dev", "--dart-define-from-file", ".env.dev" ],
       "program": "lib/main_dev.dart"
     },
     {
@@ -22,7 +22,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": [ "--flavor", "dev", "--dart-define", "WEB_FLAVOR=dev" ],
+      "args": [ "--flavor", "dev", "--dart-define", "WEB_FLAVOR=dev", "--dart-define-from-file", ".env.dev" ],
       "program": "lib/main_dev.dart"
     },
     {
@@ -30,7 +30,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": [ "--flavor", "stg", "--dart-define", "WEB_FLAVOR=stg" ],
+      "args": [ "--flavor", "stg", "--dart-define", "WEB_FLAVOR=stg", "--dart-define-from-file", ".env.stg" ],
       "program": "lib/main_stg.dart"
     },
     {
@@ -38,7 +38,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": [ "--flavor", "stg", "--dart-define", "WEB_FLAVOR=stg" ],
+      "args": [ "--flavor", "stg", "--dart-define", "WEB_FLAVOR=stg", "--dart-define-from-file", ".env.stg" ],
       "program": "lib/main_stg.dart"
     },
     {
@@ -46,7 +46,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": [ "--flavor", "stg", "--dart-define", "WEB_FLAVOR=stg" ],
+      "args": [ "--flavor", "stg", "--dart-define", "WEB_FLAVOR=stg", "--dart-define-from-file", ".env.stg" ],
       "program": "lib/main_stg.dart"
     },
     {
@@ -54,7 +54,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": [ "--flavor", "prod", "--dart-define", "WEB_FLAVOR=prod" ],
+      "args": [ "--flavor", "prod", "--dart-define", "WEB_FLAVOR=prod", "--dart-define-from-file", ".env.prod" ],
       "program": "lib/main_prod.dart"
     },
     {
@@ -62,7 +62,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": [ "--flavor", "prod", "--dart-define", "WEB_FLAVOR=prod" ],
+      "args": [ "--flavor", "prod", "--dart-define", "WEB_FLAVOR=prod", "--dart-define-from-file", ".env.prod" ],
       "program": "lib/main_prod.dart"
     },
     {
@@ -70,7 +70,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": [ "--flavor", "prod", "--dart-define", "WEB_FLAVOR=prod" ],
+      "args": [ "--flavor", "prod", "--dart-define", "WEB_FLAVOR=prod", "--dart-define-from-file", ".env.prod" ],
       "program": "lib/main_prod.dart"
     }
   ]
