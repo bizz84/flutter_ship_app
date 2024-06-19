@@ -1,11 +1,14 @@
 //import 'package:accessibility_tools/accessibility_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/env/env.dart';
+import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
 import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,13 +16,18 @@ void main() async {
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
-  // run the app
-  runApp(UncontrolledProviderScope(
-    container: container,
-    child: AppStartupWidget(
-      onLoaded: (context) => const MainApp(),
-    ),
-  ));
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = Env.sentryDsn;
+      options.environment = getFlavor().name;
+    },
+    appRunner: () => runApp(UncontrolledProviderScope(
+      container: container,
+      child: AppStartupWidget(
+        onLoaded: (context) => const MainApp(),
+      ),
+    )),
+  );
 }
 
 class MainApp extends ConsumerWidget {
