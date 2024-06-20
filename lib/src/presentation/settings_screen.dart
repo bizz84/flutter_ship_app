@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
@@ -30,7 +31,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             gapH12,
             Text(
-              packageInfo.appName,
+              kIsWeb ? 'Flutter Ship'.hardcoded : packageInfo.appName,
               textAlign: TextAlign.center,
             ),
             gapH8,

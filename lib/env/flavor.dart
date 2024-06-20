@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 enum Flavor { dev, stg, prod }
 
 /// Global function to return the current flavor
-/// Always returns Flavor.prod on Flutter web (--flavor is not supported on web)
+/// Always returns Flavor.prod on Flutter web release builds
 Flavor getFlavor() {
-  if (kIsWeb) {
-    return Flavor.prod;
+  if (kIsWeb && kReleaseMode) {
+    return Flavor.prod; // --flavor is not supported on web
   }
   return switch (appFlavor) {
     'prod' => Flavor.prod,

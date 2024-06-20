@@ -18,7 +18,7 @@ deploy:
 #	dart run build_runner -d
 
 	@echo "Building for web..."
-	flutter build web --base-href $(BASE_HREF) --release
+	flutter build web --dart-define-from-file=api-keys.prod.json --base-href $(BASE_HREF) --release
 
 	@echo "Deploying to git repository"
 	cd build/web && \
