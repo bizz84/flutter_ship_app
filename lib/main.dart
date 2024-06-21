@@ -1,3 +1,4 @@
+import 'package:feedback_sentry/feedback_sentry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/app_routes.dart';
@@ -28,10 +29,12 @@ Future<void> runMainApp() async {
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
-  runApp(UncontrolledProviderScope(
-    container: container,
-    child: MainApp(),
-  ));
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const BetterFeedback(child: MainApp()),
+    ),
+  );
 }
 
 class MainApp extends ConsumerWidget {

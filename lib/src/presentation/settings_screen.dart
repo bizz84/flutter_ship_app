@@ -1,3 +1,4 @@
+import 'package:feedback_sentry/feedback_sentry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,6 +47,8 @@ class SettingsScreen extends ConsumerWidget {
             gapH32,
             const Divider(height: 1),
             const ThemeSelectorListTile(),
+            const Divider(height: 1),
+            const SendFeedbackTile(),
             const Divider(height: 1),
           ],
         ),
@@ -111,6 +114,20 @@ class ThemeSelectorListTile extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SendFeedbackTile extends StatelessWidget {
+  const SendFeedbackTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('Send feedback'.hardcoded),
+      onTap: () {
+        BetterFeedback.of(context).showAndUploadToSentry();
+      },
     );
   }
 }
