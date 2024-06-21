@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/monitoring/logger_dio_interceptor.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
 part 'dio_provider.g.dart';
 
@@ -13,5 +14,7 @@ Dio dio(Ref ref) {
   if (kDebugMode) {
     dio.interceptors.add(LoggerDioInterceptor());
   }
+  // * Add http breadcrumbs
+  dio.addSentry();
   return dio;
 }
