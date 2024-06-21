@@ -1,3 +1,4 @@
+import 'package:feedback_sentry/feedback_sentry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
+import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
@@ -47,6 +49,10 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(height: 1),
             const ThemeSelectorListTile(),
             const Divider(height: 1),
+            if (!kIsWeb || isCanvasKitRenderer()) ...[
+              const SendFeedbackTile(),
+              const Divider(height: 1),
+            ],
           ],
         ),
       ),
@@ -111,6 +117,20 @@ class ThemeSelectorListTile extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SendFeedbackTile extends StatelessWidget {
+  const SendFeedbackTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('Send feedback'.hardcoded),
+      onTap: () {
+        BetterFeedback.of(context).showAndUploadToSentry();
+      },
     );
   }
 }
