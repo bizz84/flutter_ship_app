@@ -30,6 +30,12 @@ void main() async {
     (options) {
       options.dsn = Env.sentryDsn;
       options.environment = getFlavor().name;
+      // Use the beforeSend callback to filter which events are sent
+      options.beforeSend = (SentryEvent event, Hint hint) async {
+        // Filter out all events if we're not in release mode
+        if (!kReleaseMode) return null;
+        return event;
+      };
     },
   );
   runApp(UncontrolledProviderScope(
@@ -56,6 +62,9 @@ class MainApp extends ConsumerWidget {
       theme: AppThemeData.light(),
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
+      navigatorObservers: [
+        SentryNavigatorObserver(),
+      ],
       onGenerateRoute: (settings) {
         // * This app uses named routes. For more info, read:
         // * https://docs.flutter.dev/cookbook/navigation/navigate-with-arguments
