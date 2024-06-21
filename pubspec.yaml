@@ -25,6 +25,7 @@ dependencies:
   package_info_plus: 8.3.0
   dio: 5.8.0+1
   sentry_flutter: 8.14.2
+  sentry_dio: 8.14.2
   feedback: 3.1.0
   feedback_sentry: 3.1.0
 
