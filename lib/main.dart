@@ -1,3 +1,5 @@
+import 'package:feedback/feedback.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/app_routes.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
+import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
@@ -31,7 +34,12 @@ void main() async {
   runApp(UncontrolledProviderScope(
     container: container,
     child: AppStartupWidget(
-      onLoaded: (context) => const MainApp(),
+      onLoaded: (context) =>
+          // * Don't wrap with BetterFeedback if web HTML renderer is used
+          // https://pub.dev/packages/feedback#-known-issues-and-limitations
+          !kIsWeb || isCanvasKitRenderer()
+              ? const BetterFeedback(child: MainApp())
+              : const MainApp(),
     ),
   ));
 }
