@@ -1,0 +1,3 @@
+bool isCanvasKitRenderer() {
+  return false;
+}
