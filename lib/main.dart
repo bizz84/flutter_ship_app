@@ -48,6 +48,7 @@ class MainApp extends ConsumerWidget {
       builder: (_, child) {
         return AppStartupWidget(
           onLoaded: (_) => AppStartupLoadedWidget(
+            themeMode: themeMode,
             child: child!,
           ),
         );
