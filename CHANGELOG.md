@@ -1,3 +1,9 @@
+## 0.1.8
+
+- Updated `.gitignore` files
+- Added flavor.dart
+- Add `isCanvasKitRenderer()` helper
+
 ## 0.1.7
 
 - Update Drift connection to use LazyDatabase (fixes app startup issue)
