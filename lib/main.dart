@@ -21,13 +21,13 @@ void main() async {
       options.dsn = Env.sentryDsn;
       options.environment = getFlavor().name;
     },
-    appRunner: () => runApp(UncontrolledProviderScope(
-      container: container,
-      child: AppStartupWidget(
-        onLoaded: (context) => const MainApp(),
-      ),
-    )),
   );
+  runApp(UncontrolledProviderScope(
+    container: container,
+    child: AppStartupWidget(
+      onLoaded: (context) => const MainApp(),
+    ),
+  ));
 }
 
 class MainApp extends ConsumerWidget {
