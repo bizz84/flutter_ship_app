@@ -18,22 +18,22 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final container = ProviderContainer();
-  // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
-  // * depends on it in order to load the themeMode
-  await container.read(sharedPreferencesProvider.future);
   await SentryFlutter.init(
     (options) {
       options.dsn = Env.sentryDsn;
       options.environment = getFlavor().name;
     },
-    appRunner: () => runApp(UncontrolledProviderScope(
-      container: container,
-      child: AppStartupWidget(
-        onLoaded: (context) => const MainApp(),
-      ),
-    )),
   );
+  final container = ProviderContainer();
+  // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
+  // * depends on it in order to load the themeMode
+  await container.read(sharedPreferencesProvider.future);
+  runApp(UncontrolledProviderScope(
+    container: container,
+    child: AppStartupWidget(
+      onLoaded: (context) => const MainApp(),
+    ),
+  ));
 }
 
 class MainApp extends ConsumerWidget {
