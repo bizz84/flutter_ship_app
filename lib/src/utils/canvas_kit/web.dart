@@ -2,6 +2,6 @@
 import 'dart:js' as js;
 
 bool isCanvasKitRenderer() {
-  final dynamic flutterCanvasKit = js.context['flutterCanvasKit'];
+  final flutterCanvasKit = js.context['flutterCanvasKit'];
   return flutterCanvasKit != null;
 }

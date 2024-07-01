@@ -35,7 +35,7 @@ class _CustomProgressCheckmarkPainter extends CustomPainter {
   final Color checkmarkColor;
   final double strokeWidth;
 
-  _CustomProgressCheckmarkPainter({
+  const _CustomProgressCheckmarkPainter({
     required this.sweepValue,
     required this.fillColor,
     required this.checkmarkColor,

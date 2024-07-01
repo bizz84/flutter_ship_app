@@ -15,6 +15,8 @@ import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
+// ignore_for_file:avoid-undisposed-instances
+
 /// This is the home page for the app
 class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
@@ -92,7 +94,7 @@ class AppsListView extends ConsumerWidget {
           return ListView.separated(
             controller: controller,
             itemCount: appsList.length,
-            separatorBuilder: (context, index) => const Divider(height: 0.5),
+            separatorBuilder: (_, __) => const Divider(height: 0.5),
             itemBuilder: (_, index) {
               final app = appsList[index];
               return AppListTile(

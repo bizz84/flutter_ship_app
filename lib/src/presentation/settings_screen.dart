@@ -26,7 +26,11 @@ class SettingsScreen extends ConsumerWidget {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(Sizes.p20),
-                child: Image.asset('assets/common/app-icon.png', height: 120),
+                child: Image.asset(
+                  'assets/common/app-icon.png',
+                  height: 120,
+                  semanticLabel: 'App Icon'.hardcoded,
+                ),
               ),
             ),
             gapH12,
@@ -98,6 +102,7 @@ class ThemeSelectorListTile extends ConsumerWidget {
             onSelectionChanged: (Set<ThemeMode> newSelection) {
               ref
                   .read(appThemeModeNotifierProvider.notifier)
+                  // ignore:avoid-unsafe-collection-methods
                   .setThemeMode(newSelection.single);
             },
             segments: ThemeMode.values

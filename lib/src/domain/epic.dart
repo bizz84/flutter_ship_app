@@ -2,7 +2,7 @@ import 'package:flutter_ship_app/src/domain/task.dart';
 
 /// A model class representing an epic (collection of tasks)
 class Epic {
-  Epic({required this.id, required this.name, required this.tasks});
+  const Epic({required this.id, required this.name, required this.tasks});
   final String id;
   final String name;
   final List<Task> tasks;
@@ -20,6 +20,7 @@ class Epic {
           'Invalid JSON: required "epic" field of type String in $json');
     }
     final tasks = json['tasks'];
+    // ignore:avoid-dynamic
     if (tasks is! List<dynamic>) {
       throw FormatException(
           'Invalid JSON: required "tasks" field of type List in $json');

@@ -1,6 +1,6 @@
 /// A model class representing a task
 class Task {
-  Task({required this.id, required this.name, this.completed = false});
+  const Task({required this.id, required this.name, this.completed = false});
   final String id;
   final String name;
   final bool completed;

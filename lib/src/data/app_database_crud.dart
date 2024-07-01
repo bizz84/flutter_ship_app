@@ -19,6 +19,7 @@ extension AppDatabaseCRUD on AppDatabase {
       Map<String, dynamic> checklistTemplate) async {
     try {
       // * Parse JSON to a List<EpicModel>
+      // ignore:avoid-dynamic
       final List<dynamic> epicsJson = checklistTemplate['epics'];
       final epicsData = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
       // * Sync epics with the DB
@@ -75,15 +76,14 @@ extension AppDatabaseCRUD on AppDatabase {
   }
 
   /// Create a new app by name
-  Future<int> createNewApp({required String name}) async {
+  Future<int> createNewApp({required String name}) {
     return into(apps).insert(AppsCompanion(
       name: Value(name),
     ));
   }
 
   /// Edit the name of an existing app by ID
-  Future<bool> editAppName(
-      {required int appId, required String newName}) async {
+  Future<bool> editAppName({required int appId, required String newName}) {
     return update(apps).replace(AppsCompanion(
       id: Value(appId),
       name: Value(newName),

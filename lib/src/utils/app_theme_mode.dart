@@ -17,10 +17,9 @@ class AppThemeModeNotifier extends _$AppThemeModeNotifier {
   ThemeMode build() {
     final themeModeStr = _sharedPreferences.getString(key);
     return switch (themeModeStr) {
-      'system' => ThemeMode.system,
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
-      _ => ThemeMode.system
+      'system' || _ => ThemeMode.system,
     };
   }
 

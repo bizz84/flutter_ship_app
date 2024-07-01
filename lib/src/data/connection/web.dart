@@ -22,6 +22,7 @@ LazyDatabase connect() {
   });
 }
 
+// ignore:avoid-redundant-async,avoid-unnecessary-futures,no-empty-block
 Future<void> validateDatabaseSchema(GeneratedDatabase database) async {
   // Unfortunately, validating database schemas only works for native platforms
   // right now.

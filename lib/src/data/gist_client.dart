@@ -4,6 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gist_client.g.dart';
 
+// ignore_for_file:avoid-throw-in-catch-block
+
 // * Change these values if you want to fetch your own template from elsewhere
 const _owner = 'bizz84';
 const _gistId = '5c2ee79cd103bd43ce97b4d7fcfed103';
@@ -13,7 +15,7 @@ const _gistTemplateUrl =
 
 /// An API client class for fetching the JSON template from a GitHub gist
 class GistClient {
-  GistClient({required this.dio});
+  const GistClient({required this.dio});
   final Dio dio;
 
   /// Fetch the JSON template from the Gist URL defined above
@@ -58,8 +60,8 @@ sealed class APIException implements Exception {
 }
 
 class HttpException extends APIException {
-  HttpException({this.statusCode, required this.message});
-  final int? statusCode;
+  HttpException({required this.statusCode, required this.message});
+  final int statusCode;
   @override
   final String message;
 

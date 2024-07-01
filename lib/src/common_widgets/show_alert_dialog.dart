@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// ignore_for_file:avoid-shadowing
 
 /// Helper function for showing an adaptive alert dialog
 Future<bool?> showAlertDialog({
@@ -12,15 +12,17 @@ Future<bool?> showAlertDialog({
   String? cancelActionText,
   required String defaultActionText,
   bool isDestructive = false,
-}) async {
-  if (kIsWeb || !Platform.isIOS) {
+}) {
+  if (kIsWeb ||
+      defaultTargetPlatform != TargetPlatform.iOS &&
+          defaultTargetPlatform != TargetPlatform.macOS) {
     return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(content),
-        actions: <Widget>[
+        actions: [
           if (cancelActionText != null)
             TextButton(
               child: Text(cancelActionText),
@@ -39,7 +41,7 @@ Future<bool?> showAlertDialog({
     builder: (context) => CupertinoAlertDialog(
       title: Text(title),
       content: Text(content),
-      actions: <Widget>[
+      actions: [
         if (cancelActionText != null)
           CupertinoDialogAction(
             child: Text(cancelActionText),

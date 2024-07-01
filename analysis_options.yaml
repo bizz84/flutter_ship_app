@@ -6,3 +6,19 @@ analyzer:
   exclude:
     - '**/*.g.dart'
     - '**/*.freezed.dart'
+
+# In addition to the default Flutter lints, the codebase follows the DCM rules below.
+# If you don't have DCM installed, feel free to ignore them.
+# More info: https://dcm.dev/docs/quick-start/
+dart_code_metrics:
+  extends:
+    - recommended
+  rules:
+    - avoid-redundant-else: false
+    - avoid-unused-parameters: false
+    - avoid-passing-async-when-sync-expected: false
+    - prefer-prefixed-global-constants: false
+    - prefer-match-file-name: false
+    - prefer-single-widget-per-file: false
+    - prefer-trailing-comma: false
+    - unnecessary-trailing-comma: false

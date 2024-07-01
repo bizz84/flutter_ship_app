@@ -1,6 +1,6 @@
 /// A model class representing an app
 class App {
-  App({required this.id, required this.name});
+  const App({required this.id, required this.name});
   final int id;
   final String name;
 

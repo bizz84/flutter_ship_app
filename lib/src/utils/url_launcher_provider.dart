@@ -7,6 +7,8 @@ part 'url_launcher_provider.g.dart';
 
 /// A simple wrapper for the url_launcher package
 class UrlLauncher {
+  const UrlLauncher();
+
   Future<bool> launch(Uri uri) async {
     try {
       if (await canLaunchUrl(uri)) {
@@ -27,5 +29,5 @@ class UrlLauncher {
 
 @riverpod
 UrlLauncher urlLauncher(UrlLauncherRef ref) {
-  return UrlLauncher();
+  return const UrlLauncher();
 }

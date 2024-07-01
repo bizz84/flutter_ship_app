@@ -6,6 +6,8 @@ import 'connection/connection.dart' as impl;
 
 part 'app_database.g.dart';
 
+// ignore_for_file:prefer-declaring-const-constructor
+
 // * Table definitions
 
 /// Represents a new app created by the user
