@@ -1,3 +1,7 @@
+## 0.1.9
+
+- Apply DCM rules
+
 ## 0.1.8
 
 - Updated `.gitignore` files
