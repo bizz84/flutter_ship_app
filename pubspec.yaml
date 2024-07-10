@@ -26,6 +26,7 @@ dependencies:
   package_info_plus: 8.0.0
   accessibility_tools: 2.2.1
   dio: 5.4.3+1
+  firebase_core: 3.2.0
 
 dev_dependencies:
   flutter_test:
