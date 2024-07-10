@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/app_routes.dart';
+import 'package:flutter_ship_app/env/firebase.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeFirebaseApp();
   final container = ProviderContainer();
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
