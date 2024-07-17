@@ -1,3 +1,7 @@
+## 0.1.10
+
+- Fix for offline mode (see [#5](https://github.com/bizz84/flutter_ship_app/pull/5))
+
 ## 0.1.9
 
 - Apply DCM rules
