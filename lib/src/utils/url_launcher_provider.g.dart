@@ -6,7 +6,7 @@ part of 'url_launcher_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$urlLauncherHash() => r'2dc08b5835530e6b3d4219dd612febcdf3bf97aa';
+String _$urlLauncherHash() => r'7bdbc1008709e0314413ea5fe74d8b51f25e7396';
 
 /// See also [urlLauncher].
 @ProviderFor(urlLauncher)
