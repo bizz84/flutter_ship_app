@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,15 @@ class AppStartupNotifier extends _$AppStartupNotifier {
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
     } else {
-      // * Subsequent loads: sync with JSON data from the network
-      final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
-      final jsonData = jsonDecode(jsonString);
-      await db.loadOrUpdateFromTemplate(jsonData);
+      try {
+        // * Subsequent loads: sync with JSON data from the network
+        final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
+        final jsonData = jsonDecode(jsonString);
+        await db.loadOrUpdateFromTemplate(jsonData);
+      } on FailedLookupException catch (e) {
+        // TODO: Add error monitoring
+        log(e.message);
+      }
     }
   }
 
