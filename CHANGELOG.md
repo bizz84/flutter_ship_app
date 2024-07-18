@@ -1,3 +1,7 @@
+## 0.1.11
+
+- Better error handling during app startup (see [#6](https://github.com/bizz84/flutter_ship_app/pull/6))
+
 ## 0.1.10
 
 - Fix for offline mode (see [#5](https://github.com/bizz84/flutter_ship_app/pull/5))
