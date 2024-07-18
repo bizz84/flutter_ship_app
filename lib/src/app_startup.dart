@@ -44,8 +44,14 @@ class AppStartupNotifier extends _$AppStartupNotifier {
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
     } catch (e) {
+      if (e is FailedLookupException) {
+        // * Fail silently as the app handles offline mode gracefully
+        return;
+      }
       // TODO: Add error monitoring
       log(e.toString());
+      // * Rethrow so we can show an error in the UI if something goes wrong
+      rethrow;
     }
   }
 
