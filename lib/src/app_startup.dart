@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
+import 'package:flutter_ship_app/src/monitoring/app_logger.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
@@ -43,13 +43,12 @@ class AppStartupNotifier extends _$AppStartupNotifier {
       }
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
-    } catch (e) {
+    } catch (e, st) {
       if (e is FailedLookupException) {
         // * Fail silently as the app handles offline mode gracefully
         return;
       }
-      // TODO: Add error monitoring
-      log(e.toString());
+      ref.read(appLoggerProvider).logException(e, st);
       // * Rethrow so we can show an error in the UI if something goes wrong
       rethrow;
     }
