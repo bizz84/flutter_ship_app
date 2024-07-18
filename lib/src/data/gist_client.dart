@@ -47,11 +47,6 @@ GistClient gistClient(GistClientRef ref) {
   return GistClient(dio: dio);
 }
 
-@riverpod
-Future<String> fetchJsonTemplate(FetchJsonTemplateRef ref) {
-  return ref.watch(gistClientProvider).fetchJsonTemplate();
-}
-
 /// Exceptions supported by the GistClient
 sealed class APIException implements Exception {
   String get message;

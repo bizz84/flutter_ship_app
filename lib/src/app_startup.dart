@@ -30,23 +30,28 @@ class AppStartupNotifier extends _$AppStartupNotifier {
   }
 
   Future<void> _updateDatabaseFromJsonTemplate() async {
-    final db = ref.watch(appDatabaseProvider);
-    if (await db.isEpicsTableEmpty()) {
-      // * First time load: sync with JSON data from the local root bundle
-      final jsonString = await rootBundle
-          .loadString('assets/common/app_release_template.json');
+    try {
+      final String jsonString;
+      final db = ref.watch(appDatabaseProvider);
+      if (await db.isEpicsTableEmpty()) {
+        // * First time load: sync with JSON data from the local root bundle
+        jsonString = await rootBundle
+            .loadString('assets/common/app_release_template.json');
+      } else {
+        // * Subsequent loads: sync with JSON data from the network
+        jsonString = await ref.watch(gistClientProvider).fetchJsonTemplate();
+      }
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
-    } else {
-      try {
-        // * Subsequent loads: sync with JSON data from the network
-        final jsonString = await ref.watch(fetchJsonTemplateProvider.future);
-        final jsonData = jsonDecode(jsonString);
-        await db.loadOrUpdateFromTemplate(jsonData);
-      } on FailedLookupException catch (e) {
-        // TODO: Add error monitoring
-        log(e.message);
+    } catch (e) {
+      if (e is FailedLookupException) {
+        // * Fail silently as the app handles offline mode gracefully
+        return;
       }
+      // TODO: Add error monitoring
+      log(e.toString());
+      // * Rethrow so we can show an error in the UI if something goes wrong
+      rethrow;
     }
   }
 
