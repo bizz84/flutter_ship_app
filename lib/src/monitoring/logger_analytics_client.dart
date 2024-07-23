@@ -10,37 +10,13 @@ class LoggerAnalyticsClient implements AnalyticsClient {
   @override
   Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
     log('${getCurrentMethodName()}($enabled)');
-    log('setAnalyticsCollectionEnabled($enabled)');
+    //log('setAnalyticsCollectionEnabled($enabled)');
   }
 
   @override
   Future<void> trackAppOpen() async {
     log(getCurrentMethodName());
     //log('trackAppOpen');
-  }
-
-  @override
-  Future<void> trackCompleteTask(int completedCount) async {
-    log(getCurrentMethodName());
-    //log('trackCompleteTask(completedCount: $completedCount)');
-  }
-
-  @override
-  Future<void> trackCreateApp() async {
-    log(getCurrentMethodName());
-    //log('trackCreateApp');
-  }
-
-  @override
-  Future<void> trackDeleteApp() async {
-    log(getCurrentMethodName());
-    //log('trackDeleteApp');
-  }
-
-  @override
-  Future<void> trackEditApp() async {
-    log(getCurrentMethodName());
-    //log('trackEditApp');
   }
 
   @override
@@ -53,6 +29,30 @@ class LoggerAnalyticsClient implements AnalyticsClient {
   Future<void> trackNewAppOnboarding() async {
     log(getCurrentMethodName());
     //log('trackNewAppOnboarding');
+  }
+
+  @override
+  Future<void> trackCreateApp() async {
+    log(getCurrentMethodName());
+    //log('trackCreateApp');
+  }
+
+  @override
+  Future<void> trackEditApp() async {
+    log(getCurrentMethodName());
+    //log('trackEditApp');
+  }
+
+  @override
+  Future<void> trackDeleteApp() async {
+    log(getCurrentMethodName());
+    //log('trackDeleteApp');
+  }
+
+  @override
+  Future<void> trackCompleteTask(int completedCount) async {
+    log(getCurrentMethodName());
+    //log('trackCompleteTask(completedCount: $completedCount)');
   }
 }
 

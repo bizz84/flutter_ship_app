@@ -21,8 +21,13 @@ class AnalyticsFacade implements AnalyticsClient {
       );
 
   @override
-  Future<void> trackCompleteTask(int completedCount) => _dispatch(
-        (c) => c.trackCompleteTask(completedCount),
+  Future<void> trackNewAppHome() => _dispatch(
+        (c) => c.trackNewAppHome(),
+      );
+
+  @override
+  Future<void> trackNewAppOnboarding() => _dispatch(
+        (c) => c.trackNewAppOnboarding(),
       );
 
   @override
@@ -31,23 +36,18 @@ class AnalyticsFacade implements AnalyticsClient {
       );
 
   @override
-  Future<void> trackDeleteApp() => _dispatch(
-        (c) => c.trackDeleteApp(),
-      );
-
-  @override
   Future<void> trackEditApp() => _dispatch(
         (c) => c.trackEditApp(),
       );
 
   @override
-  Future<void> trackNewAppHome() => _dispatch(
-        (c) => c.trackNewAppHome(),
+  Future<void> trackDeleteApp() => _dispatch(
+        (c) => c.trackDeleteApp(),
       );
 
   @override
-  Future<void> trackNewAppOnboarding() => _dispatch(
-        (c) => c.trackNewAppOnboarding(),
+  Future<void> trackCompleteTask(int completedCount) => _dispatch(
+        (c) => c.trackCompleteTask(completedCount),
       );
 
   Future<void> _dispatch(
