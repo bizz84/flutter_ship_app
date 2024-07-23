@@ -10,6 +10,7 @@ import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
 import 'package:flutter_ship_app/src/domain/task.dart';
+import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 
 /// Screen for showing a list of tasks for a given epic
 class TasksChecklistScreen extends ConsumerWidget {
@@ -45,11 +46,15 @@ class TasksChecklistScreen extends ConsumerWidget {
               completed: task.completed,
               onChanged: (completed) async {
                 log('appId: ${app.id}, taskId: ${task.id}, completed: $completed');
+                // TODO: Use controller
                 await ref.read(appDatabaseProvider).updateTaskCompletionStatus(
                       appId: app.id,
                       taskId: task.id,
                       isCompleted: completed,
                     );
+                if (completed) {
+                  ref.read(analyticsFacadeProvider).trackCompleteTask(0);
+                }
               },
             );
           },
