@@ -10,4 +10,8 @@ abstract class AnalyticsClient {
   Future<void> trackEditApp();
   Future<void> trackDeleteApp();
   Future<void> trackCompleteTask(int completedCount);
+  Future<void> trackInAppReviewRequest({
+    required int completedTasksCount,
+    required int inAppReviewCount,
+  });
 }

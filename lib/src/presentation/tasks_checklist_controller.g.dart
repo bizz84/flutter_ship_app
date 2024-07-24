@@ -7,7 +7,7 @@ part of 'tasks_checklist_controller.dart';
 // **************************************************************************
 
 String _$tasksChecklistControllerHash() =>
-    r'da010987b4e27a68b7de900b5a338855af4d60fd';
+    r'07b6d8fb1d715599c6ee74b5054024e4dc9ca212';
 
 /// See also [TasksChecklistController].
 @ProviderFor(TasksChecklistController)

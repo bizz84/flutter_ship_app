@@ -54,6 +54,15 @@ class LoggerAnalyticsClient implements AnalyticsClient {
     log('${getCurrentMethodName()}($completedCount)');
     //log('trackCompleteTask(completedCount: $completedCount)');
   }
+
+  @override
+  Future<void> trackInAppReviewRequest({
+    required int completedTasksCount,
+    required int inAppReviewCount,
+  }) async {
+    log('${getCurrentMethodName()}(completedTasksCount: $completedTasksCount, inAppRatingPromptCount: $inAppReviewCount)');
+    //log('trackInAppReviewRequest(completedTasksCount: $completedTasksCount, inAppRatingPromptCount: $inAppRatingPromptCount)');
+  }
 }
 
 /// Helper function to extract the current method name from the stack trace

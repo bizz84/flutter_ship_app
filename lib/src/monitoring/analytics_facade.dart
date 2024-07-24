@@ -50,6 +50,18 @@ class AnalyticsFacade implements AnalyticsClient {
         (c) => c.trackCompleteTask(completedCount),
       );
 
+  @override
+  Future<void> trackInAppReviewRequest({
+    required int completedTasksCount,
+    required int inAppReviewCount,
+  }) =>
+      _dispatch(
+        (c) => c.trackInAppReviewRequest(
+          completedTasksCount: completedTasksCount,
+          inAppReviewCount: inAppReviewCount,
+        ),
+      );
+
   Future<void> _dispatch(
       Future<void> Function(AnalyticsClient client) work) async {
     for (var client in clients) {
