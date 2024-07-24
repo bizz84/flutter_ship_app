@@ -34,7 +34,10 @@ class CreateEditAppController extends _$CreateEditAppController {
   }
 
   Future<void> deleteAppById(int appId) async {
-    await ref.read(appDatabaseProvider).deleteAppById(appId);
-    ref.read(analyticsFacadeProvider).trackDeleteApp();
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(appDatabaseProvider).deleteAppById(appId);
+      ref.read(analyticsFacadeProvider).trackDeleteApp();
+    });
   }
 }
