@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
-import 'package:flutter_ship_app/src/data/app_database.dart';
-import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/presentation/create_edit_app_controller.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 /// Screen used to create a new app or edit an existing one
@@ -44,16 +43,11 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
-        // * Note: while writing to the local DB is an async operation, it is
-        // * very fast and is very unlikely to fail. For this reason, the
-        // * mutation happens here and not inside a dedicated AsyncNotifier.
-        final db = ref.read(appDatabaseProvider);
-        final existingApp = widget.app;
-        if (existingApp != null) {
-          await db.editAppName(appId: existingApp.id, newName: _name);
-        } else {
-          await db.createNewApp(name: _name);
-        }
+        // * Create or edit the app with the controller, which will talk to the
+        // * underlying DB
+        await ref
+            .read(createEditAppControllerProvider.notifier)
+            .createOrEditApp(widget.app, _name);
         if (mounted) {
           Navigator.of(context).pop();
         }
@@ -72,7 +66,6 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
   Future<void> _delete() async {
     try {
       // * Safe to use ! as deletion only happens in edit mode
-      // * when the name is not null
       final appName = widget.app!.name;
       final shouldDelete = await showAlertDialog(
         context: context,
@@ -85,11 +78,15 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
         isDestructive: true,
       );
       if (shouldDelete == true) {
-        // * Note: while deleting from the local DB is an async operation, it is
-        // * very fast and is unlikely to fail. For this reason, the mutation
-        // * happens here and not inside a dedicated AsyncNotifier.
-        await ref.read(appDatabaseProvider).deleteAppById(widget.app!.id);
+        // * Safe to use ! as deletion only happens in edit mode
+        final appId = widget.app!.id;
+        // * Delete the app with the controller, which will talk to the
+        // * underlying DB
+        await ref
+            .read(createEditAppControllerProvider.notifier)
+            .deleteAppById(appId);
         if (mounted) {
+          // * Pop back to root
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
       }
@@ -106,6 +103,8 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // watch the controller state (see isLoading check below)
+    final state = ref.watch(createEditAppControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text((widget.app == null ? 'New App' : 'Edit App').hardcoded),
@@ -113,7 +112,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
           if (widget.app != null)
             IconButton(
               tooltip: 'Delete this app'.hardcoded,
-              onPressed: _delete,
+              onPressed: state.isLoading ? null : _delete,
               icon: Icon(
                 Icons.delete,
                 semanticLabel: 'Delete this app'.hardcoded,
@@ -137,11 +136,11 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
                     ? null
                     : 'Name can\'t be empty'.hardcoded,
                 onSaved: (value) => _name = value ?? '',
-                onEditingComplete: _submit,
+                onEditingComplete: state.isLoading ? null : _submit,
               ),
               gapH16,
               ElevatedButton(
-                onPressed: _submit,
+                onPressed: state.isLoading ? null : _submit,
                 child: Text('Save'.hardcoded),
               ),
             ],
