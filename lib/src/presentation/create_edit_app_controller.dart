@@ -37,3 +37,4 @@ class CreateEditAppController extends _$CreateEditAppController {
 }
 
 // ignore_for_file:no-empty-block
+
