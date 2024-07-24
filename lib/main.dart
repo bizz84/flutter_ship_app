@@ -51,6 +51,7 @@ void main() async {
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
+  // TODO: Analytics
   runApp(UncontrolledProviderScope(
     container: container,
     child: AppStartupWidget(
