@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/app_routes.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_progress_checkmark.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
@@ -10,9 +11,6 @@ import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
-import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
-import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
-import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 // ignore_for_file:avoid-undisposed-instances
@@ -22,12 +20,7 @@ class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
 
   Future<void> _createNewApp(BuildContext context) =>
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          fullscreenDialog: true,
-          builder: (_) => const CreateOrEditAppScreen(),
-        ),
-      );
+      Navigator.of(context).pushNamed(AppRoutes.createEditApp);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,12 +35,7 @@ class AppsListScreen extends ConsumerWidget {
             Icons.settings,
             semanticLabel: 'Settings'.hardcoded,
           ),
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (_) => const SettingsScreen(),
-            ),
-          ),
+          onPressed: () => Navigator.of(context).pushNamed(AppRoutes.settings),
         ),
         title: appsListNotEmpty ? Text('My Apps'.hardcoded) : null,
         actions: [
@@ -131,11 +119,8 @@ class AppListTile extends ConsumerWidget {
       // * use 1 as fallback to prevent division by 0
       totalCount: totalTasksCount ?? 1,
       completedCount: completedCount,
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => EpicsChecklistScreen(app: app),
-        ),
-      ),
+      onTap: () =>
+          Navigator.of(context).pushNamed(AppRoutes.epics, arguments: app),
     );
   }
 }

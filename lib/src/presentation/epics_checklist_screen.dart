@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/app_routes.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
-import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
-import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 // ignore_for_file:avoid-undisposed-instances
@@ -42,11 +41,9 @@ class EpicsChecklistScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: 'Edit this app'.hardcoded,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (_) => CreateOrEditAppScreen(app: updatedApp),
-              ),
+            onPressed: () => Navigator.of(context).pushNamed(
+              AppRoutes.createEditApp,
+              arguments: updatedApp,
             ),
             icon: Icon(
               Icons.edit,
@@ -108,10 +105,9 @@ class EpicListTile extends ConsumerWidget {
       title: epic.name,
       totalCount: epic.tasks.length,
       completedCount: completedCount,
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => TasksChecklistScreen(app: app, epic: epic),
-        ),
+      onTap: () => Navigator.of(context).pushNamed(
+        AppRoutes.tasks,
+        arguments: (app: app, epic: epic), // pass arguments as a record type
       ),
     );
   }

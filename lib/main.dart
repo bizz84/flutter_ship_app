@@ -1,7 +1,14 @@
 //import 'package:accessibility_tools/accessibility_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/app_routes.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
+import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/domain/epic.dart';
+import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
+import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
+import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
+import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
@@ -33,9 +40,38 @@ class MainApp extends ConsumerWidget {
       theme: AppThemeData.light(),
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
-      home: const AppsListScreen(),
+      onGenerateRoute: (settings) {
+        return switch (settings.name) {
+          AppRoutes.apps =>
+            MaterialPageRoute(builder: (_) => const AppsListScreen()),
+          AppRoutes.createEditApp => MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (_) {
+                final app = settings.arguments as App?;
+                return CreateOrEditAppScreen(app: app);
+              },
+            ),
+          AppRoutes.epics => MaterialPageRoute(builder: (_) {
+              final app = settings.arguments as App;
+              return EpicsChecklistScreen(app: app);
+            }),
+          AppRoutes.tasks => MaterialPageRoute(builder: (_) {
+              final args = settings.arguments as ({App app, Epic epic});
+              return TasksChecklistScreen(app: args.app, epic: args.epic);
+            }),
+          AppRoutes.settings => MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => const SettingsScreen(),
+            ),
+          _ =>
+            throw UnimplementedError('Route named ${settings.name} not found'),
+        };
+      },
+      initialRoute: AppRoutes.apps,
       // * Uncomment this line to perform accessibility checks
       // builder: (context, child) => AccessibilityTools(child: child),
     );
   }
 }
+
+// ignore_for_file:avoid-undisposed-instances,avoid-nullable-interpolation
