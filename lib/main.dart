@@ -51,6 +51,7 @@ Future<void> runMainApp() async {
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
+  // TODO: Analytics
   runApp(UncontrolledProviderScope(
     container: container,
     // * Don't wrap with BetterFeedback if web HTML renderer is used
