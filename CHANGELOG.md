@@ -1,3 +1,9 @@
+## 0.2.0
+
+- Update the app to use named routes (Navigator 1.0)
+- Add `CreateEditAppController`, `TasksChecklistController`
+- Cleanup lints
+
 ## 0.1.11
 
 - Better error handling during app startup (see [#6](https://github.com/bizz84/flutter_ship_app/pull/6))
