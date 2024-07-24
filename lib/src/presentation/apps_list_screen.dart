@@ -10,7 +10,6 @@ import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
-import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
@@ -55,7 +54,7 @@ class AppsListScreen extends ConsumerWidget {
           IconButton(
             tooltip: 'Create a new app'.hardcoded,
             onPressed: () {
-              ref.read(analyticsFacadeProvider).trackNewAppHome();
+              // TODO: Analytics
               _createNewApp(context);
             },
             icon: Icon(
@@ -70,7 +69,7 @@ class AppsListScreen extends ConsumerWidget {
         child: AppsListView(
             controller: scrollController,
             onNewApp: () {
-              ref.read(analyticsFacadeProvider).trackNewAppOnboarding();
+              // TODO: Analytics
               _createNewApp(context);
             }),
       ),

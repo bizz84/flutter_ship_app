@@ -1,7 +1,6 @@
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
-import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'create_edit_app_controller.g.dart';
@@ -24,12 +23,7 @@ class CreateEditAppController extends _$CreateEditAppController {
       } else {
         await db.createNewApp(name: newName);
       }
-      // * Analytics code
-      if (existingApp != null) {
-        ref.read(analyticsFacadeProvider).trackEditApp();
-      } else {
-        ref.read(analyticsFacadeProvider).trackCreateApp();
-      }
+      // TODO: Analytics
     });
   }
 
@@ -37,7 +31,7 @@ class CreateEditAppController extends _$CreateEditAppController {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(appDatabaseProvider).deleteAppById(appId);
-      ref.read(analyticsFacadeProvider).trackDeleteApp();
+      // TODO: Analytics
     });
   }
 }
