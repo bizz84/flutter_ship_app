@@ -9,8 +9,6 @@ import 'package:flutter_ship_app/src/domain/epic.dart';
 import 'package:flutter_ship_app/src/common_widgets/custom_completion_list_tile.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
-// ignore_for_file:avoid-undisposed-instances
-
 /// Screen used to show all the epics for a given app
 class EpicsChecklistScreen extends ConsumerWidget {
   const EpicsChecklistScreen({super.key, required this.app});

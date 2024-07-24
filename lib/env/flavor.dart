@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-// ignore_for_file:no-equal-switch-expression-cases,avoid-nullable-interpolation
-
 enum Flavor { dev, stg, prod }
 
 /// Global function to return the current flavor
@@ -19,3 +17,5 @@ Flavor getFlavor() {
     _ => throw UnsupportedError('Invalid flavor: $appFlavor'),
   };
 }
+
+// ignore_for_file:no-equal-switch-expression-cases,avoid-nullable-interpolation

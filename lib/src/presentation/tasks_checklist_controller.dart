@@ -13,7 +13,6 @@ part 'tasks_checklist_controller.g.dart';
 @riverpod
 class TasksChecklistController extends _$TasksChecklistController {
   @override
-  // ignore:no-empty-block
   FutureOr<void> build() async {
     // no-op
   }
@@ -37,3 +36,5 @@ class TasksChecklistController extends _$TasksChecklistController {
     });
   }
 }
+
+// ignore_for_file:no-empty-block

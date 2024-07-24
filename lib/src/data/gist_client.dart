@@ -4,8 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gist_client.g.dart';
 
-// ignore_for_file:avoid-throw-in-catch-block
-
 // * Change these values if you want to fetch your own template from elsewhere
 const _owner = 'bizz84';
 const _gistId = '5c2ee79cd103bd43ce97b4d7fcfed103';
@@ -86,3 +84,5 @@ class FailedLookupException extends APIException {
   @override
   String toString() => 'FailedLookupException($message)';
 }
+
+// ignore_for_file:avoid-throw-in-catch-block

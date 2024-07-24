@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// ignore_for_file:avoid-shadowing
-
 /// Helper function for showing an adaptive alert dialog
 Future<bool?> showAlertDialog({
   required BuildContext context,
@@ -56,3 +54,5 @@ Future<bool?> showAlertDialog({
     ),
   );
 }
+
+// ignore_for_file:avoid-shadowing

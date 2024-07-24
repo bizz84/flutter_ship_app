@@ -12,7 +12,6 @@ part 'create_edit_app_controller.g.dart';
 @riverpod
 class CreateEditAppController extends _$CreateEditAppController {
   @override
-  // ignore:no-empty-block
   FutureOr<void> build() async {
     // no-op
   }
@@ -39,3 +38,5 @@ class CreateEditAppController extends _$CreateEditAppController {
     });
   }
 }
+
+// ignore_for_file:no-empty-block

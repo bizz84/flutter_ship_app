@@ -13,8 +13,6 @@ import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
-// ignore_for_file:avoid-undisposed-instances
-
 /// This is the home page for the app
 class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
