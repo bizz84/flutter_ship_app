@@ -41,6 +41,8 @@ class MainApp extends ConsumerWidget {
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
       onGenerateRoute: (settings) {
+        // * This app uses named routes. For more info, read:
+        // * https://docs.flutter.dev/cookbook/navigation/navigate-with-arguments
         return switch (settings.name) {
           AppRoutes.apps =>
             MaterialPageRoute(builder: (_) => const AppsListScreen()),
