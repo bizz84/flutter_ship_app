@@ -7,7 +7,7 @@ part of 'create_edit_app_controller.dart';
 // **************************************************************************
 
 String _$createEditAppControllerHash() =>
-    r'b90b908318e2bda9c806e4a9a4602752ff58a6d1';
+    r'1f8f4a012342f47b88755a83bd94df9357e1ddfb';
 
 /// See also [CreateEditAppController].
 @ProviderFor(CreateEditAppController)

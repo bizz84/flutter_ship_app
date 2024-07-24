@@ -16,6 +16,7 @@ class CreateEditAppController extends _$CreateEditAppController {
 
   Future<void> createOrEditApp(App? existingApp, String newName) async {
     final db = ref.read(appDatabaseProvider);
+    state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       // * Update the DB
       if (existingApp != null) {

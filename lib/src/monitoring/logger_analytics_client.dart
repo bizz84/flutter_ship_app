@@ -51,7 +51,7 @@ class LoggerAnalyticsClient implements AnalyticsClient {
 
   @override
   Future<void> trackCompleteTask(int completedCount) async {
-    log(getCurrentMethodName());
+    log('${getCurrentMethodName()}($completedCount)');
     //log('trackCompleteTask(completedCount: $completedCount)');
   }
 }
