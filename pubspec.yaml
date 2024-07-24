@@ -29,7 +29,6 @@ dependencies:
   sentry_flutter: 8.3.0
   feedback: 3.1.0
   feedback_sentry: 3.0.1
-  in_app_review: 2.0.9
 
 dev_dependencies:
   flutter_test:

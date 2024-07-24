@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
-import 'package:flutter_ship_app/src/data/in_app_review_counter.dart';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -35,17 +34,6 @@ class TasksChecklistController extends _$TasksChecklistController {
         ref
             .read(analyticsFacadeProvider)
             .trackCompleteTask(completedTasksCount);
-        // * Show app review prompt based on some conditional logic.
-        // * The completedTasksCount thresholds can be determined from the
-        // * analytics data
-        final inAppReviewCount = ref.read(inAppReviewCounterProvider);
-        if (completedTasksCount >= 5 && inAppReviewCount == 0 ||
-            completedTasksCount >= 15 && inAppReviewCount == 1 ||
-            completedTasksCount >= 35 && inAppReviewCount == 2) {
-          ref
-              .read(inAppReviewCounterProvider.notifier)
-              .requestReviewAndIncrementCount(completedTasksCount);
-        }
       }
     });
   }
