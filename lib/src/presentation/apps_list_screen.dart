@@ -39,7 +39,10 @@ class AppsListScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: 'Create a new app'.hardcoded,
-            onPressed: () => _createNewApp(context),
+            onPressed: () {
+              // TODO: Analytics
+              _createNewApp(context);
+            },
             icon: Icon(
               Icons.add,
               semanticLabel: 'Create a new app'.hardcoded,
@@ -50,9 +53,11 @@ class AppsListScreen extends ConsumerWidget {
       body: ResponsiveCenterScrollable(
         controller: scrollController,
         child: AppsListView(
-          controller: scrollController,
-          onNewApp: () => _createNewApp(context),
-        ),
+            controller: scrollController,
+            onNewApp: () {
+              // TODO: Analytics
+              _createNewApp(context);
+            }),
       ),
     );
   }
