@@ -11,11 +11,6 @@ class AnalyticsFacade implements AnalyticsClient {
   final List<AnalyticsClient> clients;
 
   @override
-  Future<void> trackAppOpen() => _dispatch(
-        (c) => c.trackAppOpen(),
-      );
-
-  @override
   Future<void> trackNewAppHome() => _dispatch(
         (c) => c.trackNewAppHome(),
       );

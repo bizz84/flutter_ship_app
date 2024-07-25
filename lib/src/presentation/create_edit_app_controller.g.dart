@@ -7,7 +7,7 @@ part of 'create_edit_app_controller.dart';
 // **************************************************************************
 
 String _$createEditAppControllerHash() =>
-    r'a64dd239729ce80bc329541b48f8e5c493bd07f7';
+    r'b15f657a8996198d26159e4cbc57b90fa6fe0689';
 
 /// Helper controller class for the CreateEditAppScreen widget.
 /// This class holds the business logic for creating, editing, and deleting apps

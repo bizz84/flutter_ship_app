@@ -1,5 +1,4 @@
 abstract class AnalyticsClient {
-  Future<void> trackAppOpen();
   Future<void> trackNewAppOnboarding();
   Future<void> trackNewAppHome();
   Future<void> trackCreateApp();

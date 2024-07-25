@@ -9,11 +9,6 @@ class LoggerAnalyticsClient implements AnalyticsClient {
   static const _name = 'Event';
 
   @override
-  Future<void> trackAppOpen() async {
-    log('trackAppOpen', name: _name);
-  }
-
-  @override
   Future<void> trackNewAppHome() async {
     log('trackNewAppHome', name: _name);
   }

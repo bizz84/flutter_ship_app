@@ -7,7 +7,7 @@ part of 'tasks_checklist_controller.dart';
 // **************************************************************************
 
 String _$tasksChecklistControllerHash() =>
-    r'2172dadbfe6def254986394ce69e465955720ff6';
+    r'1b5943ed39c1749d78eae1bc55fefa0ce9824912';
 
 /// Helper controller class for the TasksChecklistScreen widget.
 /// This class holds the business logic updating the task completion status
