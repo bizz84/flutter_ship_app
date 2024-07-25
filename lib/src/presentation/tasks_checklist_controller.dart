@@ -1,5 +1,6 @@
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'tasks_checklist_controller.g.dart';
@@ -29,7 +30,9 @@ class TasksChecklistController extends _$TasksChecklistController {
           isCompleted: isCompleted,
         );
     if (isCompleted) {
-      // TODO: Analytics
+      final completedTasksCount =
+          await ref.read(appDatabaseProvider).fetchCompletedTasksCount();
+      ref.read(analyticsFacadeProvider).trackCompleteTask(completedTasksCount);
     }
   }
 }
