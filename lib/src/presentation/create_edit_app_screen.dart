@@ -103,8 +103,6 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // watch the controller state (see isLoading check below)
-    final state = ref.watch(createEditAppControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text((widget.app == null ? 'New App' : 'Edit App').hardcoded),
@@ -112,7 +110,7 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
           if (widget.app != null)
             IconButton(
               tooltip: 'Delete this app'.hardcoded,
-              onPressed: state.isLoading ? null : _delete,
+              onPressed: _delete,
               icon: Icon(
                 Icons.delete,
                 semanticLabel: 'Delete this app'.hardcoded,
@@ -136,11 +134,11 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
                     ? null
                     : 'Name can\'t be empty'.hardcoded,
                 onSaved: (value) => _name = value ?? '',
-                onEditingComplete: state.isLoading ? null : _submit,
+                onEditingComplete: _submit,
               ),
               gapH16,
               ElevatedButton(
-                onPressed: state.isLoading ? null : _submit,
+                onPressed: _submit,
                 child: Text('Save'.hardcoded),
               ),
             ],

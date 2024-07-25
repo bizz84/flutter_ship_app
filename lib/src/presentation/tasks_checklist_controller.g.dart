@@ -7,7 +7,7 @@ part of 'tasks_checklist_controller.dart';
 // **************************************************************************
 
 String _$tasksChecklistControllerHash() =>
-    r'091b830c27cbffdbb221855808c51c31b503ddb6';
+    r'2172dadbfe6def254986394ce69e465955720ff6';
 
 /// Helper controller class for the TasksChecklistScreen widget.
 /// This class holds the business logic updating the task completion status
@@ -17,7 +17,7 @@ String _$tasksChecklistControllerHash() =>
 /// Copied from [TasksChecklistController].
 @ProviderFor(TasksChecklistController)
 final tasksChecklistControllerProvider =
-    AutoDisposeAsyncNotifierProvider<TasksChecklistController, void>.internal(
+    AutoDisposeNotifierProvider<TasksChecklistController, void>.internal(
   TasksChecklistController.new,
   name: r'tasksChecklistControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -27,6 +27,6 @@ final tasksChecklistControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$TasksChecklistController = AutoDisposeAsyncNotifier<void>;
+typedef _$TasksChecklistController = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

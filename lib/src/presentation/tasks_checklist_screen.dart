@@ -22,8 +22,6 @@ class TasksChecklistScreen extends ConsumerWidget {
     final tasksAsync = ref
         .watch(watchTasksForAppAndEpicProvider(appId: app.id, epicId: epic.id));
     final tasks = tasksAsync.valueOrNull ?? epic.tasks;
-    // watch the controller state (see isLoading check below)
-    final state = ref.watch(tasksChecklistControllerProvider);
     final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
@@ -43,15 +41,13 @@ class TasksChecklistScreen extends ConsumerWidget {
             return CheckboxTaskListTile(
               task: task,
               completed: task.completed,
-              onChanged: state.isLoading
-                  ? null
-                  : (completed) => ref
-                      .read(tasksChecklistControllerProvider.notifier)
-                      .updateTaskCompletionStatus(
-                        appId: app.id,
-                        taskId: task.id,
-                        isCompleted: completed,
-                      ),
+              onChanged: (completed) => ref
+                  .read(tasksChecklistControllerProvider.notifier)
+                  .updateTaskCompletionStatus(
+                    appId: app.id,
+                    taskId: task.id,
+                    isCompleted: completed,
+                  ),
             );
           },
         ),
