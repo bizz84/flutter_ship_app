@@ -1,4 +1,6 @@
 abstract class AnalyticsClient {
+  Future<void> setAnalyticsCollectionEnabled(bool enabled);
+
   Future<void> trackScreenView(String routeName, String action);
 
   Future<void> trackNewAppOnboarding();
