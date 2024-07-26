@@ -40,7 +40,7 @@ class EpicsChecklistScreen extends ConsumerWidget {
           IconButton(
             tooltip: 'Edit this app'.hardcoded,
             onPressed: () => Navigator.of(context).pushNamed(
-              AppRoutes.createEditApp,
+              AppRoutes.editApp,
               arguments: updatedApp,
             ),
             icon: Icon(

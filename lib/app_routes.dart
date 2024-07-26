@@ -4,5 +4,6 @@ class AppRoutes {
   static const epics = 'epics';
   static const tasks = 'tasks';
   static const settings = 'settings';
-  static const createEditApp = 'createEditApp';
+  static const createApp = 'createApp';
+  static const editApp = 'editApp';
 }

@@ -18,7 +18,7 @@ class AppsListScreen extends ConsumerWidget {
   const AppsListScreen({super.key});
 
   Future<void> _createNewApp(BuildContext context) =>
-      Navigator.of(context).pushNamed(AppRoutes.createEditApp);
+      Navigator.of(context).pushNamed(AppRoutes.createApp);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

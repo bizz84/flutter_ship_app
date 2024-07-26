@@ -48,11 +48,18 @@ class MainApp extends ConsumerWidget {
               settings: settings,
               builder: (_) => const AppsListScreen(),
             ),
-          AppRoutes.createEditApp => MaterialPageRoute(
+          AppRoutes.createApp => MaterialPageRoute(
               settings: settings,
               fullscreenDialog: true,
               builder: (_) {
-                final app = settings.arguments as App?;
+                return const CreateOrEditAppScreen();
+              },
+            ),
+          AppRoutes.editApp => MaterialPageRoute(
+              settings: settings,
+              fullscreenDialog: true,
+              builder: (_) {
+                final app = settings.arguments as App;
                 return CreateOrEditAppScreen(app: app);
               },
             ),
