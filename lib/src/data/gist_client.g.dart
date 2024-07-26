@@ -6,7 +6,7 @@ part of 'gist_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gistClientHash() => r'2b0590b02dd1f47efb6c4e0753ca17d9b702620d';
+String _$gistClientHash() => r'f2106848411be9925c0b432397ee7cac73a8d9f8';
 
 /// See also [gistClient].
 @ProviderFor(gistClient)
