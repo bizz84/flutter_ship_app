@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
+import 'package:flutter_ship_app/src/monitoring/collect_usage_statistics_store.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
@@ -48,6 +49,8 @@ class SettingsScreen extends ConsumerWidget {
             gapH32,
             const Divider(height: 1),
             const ThemeSelectorListTile(),
+            const Divider(height: 1),
+            const CollectUsageStatisticsListTile(),
             const Divider(height: 1),
             if (!kIsWeb || isCanvasKitRenderer()) ...[
               const SendFeedbackTile(),
@@ -116,6 +119,30 @@ class ThemeSelectorListTile extends ConsumerWidget {
             }).toList(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CollectUsageStatisticsListTile extends ConsumerWidget {
+  const CollectUsageStatisticsListTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(collectUsageStatisticsStoreProvider);
+    return ListTile(
+      title: Text('Collect anonymous usage statistics'.hardcoded),
+      trailing: Semantics(
+        label: 'Anonymous usage statistics toggle'.hardcoded,
+        value: state ? 'Enabled'.hardcoded : 'Disabled'.hardcoded,
+        child: Switch.adaptive(
+          value: state,
+          onChanged: (value) {
+            ref
+                .read(collectUsageStatisticsStoreProvider.notifier)
+                .setCollectUsageStatistics(value);
+          },
+        ),
       ),
     );
   }
