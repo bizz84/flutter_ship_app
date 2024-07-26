@@ -11,6 +11,11 @@ class AnalyticsFacade implements AnalyticsClient {
   final List<AnalyticsClient> clients;
 
   @override
+  Future<void> setAnalyticsCollectionEnabled(bool enabled) => _dispatch(
+        (c) => c.setAnalyticsCollectionEnabled(enabled),
+      );
+
+  @override
   Future<void> trackScreenView(String routeName, String action) => _dispatch(
         (c) => c.trackScreenView(routeName, action),
       );
