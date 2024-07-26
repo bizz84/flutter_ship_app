@@ -1,3 +1,12 @@
+## 0.2.1
+
+- Pass `settings` to `MaterialPageRoute` inside `onGenerateRoute`
+- Split `createEditApp` into two routes: `createApp`, `editApp`
+- Add `name`, `error`, `stackTrace` to `AppLogger`
+- Rename `LoggerInterceptor` to `LoggerDioInterceptor` and move it to `monitoring` folder
+- Add optional `routeName` argument to `showAlertDialog`
+- Lightweight stateless `CreateEditAppController` and `TasksChecklistController`
+
 ## 0.2.0
 
 - Update the app to use named routes (Navigator 1.0)
