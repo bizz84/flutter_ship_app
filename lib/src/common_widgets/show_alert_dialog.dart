@@ -10,6 +10,7 @@ Future<bool?> showAlertDialog({
   String? cancelActionText,
   required String defaultActionText,
   bool isDestructive = false,
+  String? routeName,
 }) {
   if (kIsWeb ||
       defaultTargetPlatform != TargetPlatform.iOS &&
@@ -17,6 +18,7 @@ Future<bool?> showAlertDialog({
     return showDialog(
       context: context,
       barrierDismissible: false,
+      routeSettings: RouteSettings(name: routeName),
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(content),
@@ -36,6 +38,7 @@ Future<bool?> showAlertDialog({
   }
   return showCupertinoDialog(
     context: context,
+    routeSettings: RouteSettings(name: routeName),
     builder: (context) => CupertinoAlertDialog(
       title: Text(title),
       content: Text(content),
