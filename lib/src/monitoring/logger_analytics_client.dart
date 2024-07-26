@@ -9,6 +9,11 @@ class LoggerAnalyticsClient implements AnalyticsClient {
   static const _name = 'Event';
 
   @override
+  Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
+    log('setAnalyticsCollectionEnabled($enabled)', name: _name);
+  }
+
+  @override
   Future<void> trackScreenView(String routeName, String action) async {
     log('trackScreenView($routeName, $action)', name: 'Navigation');
   }
