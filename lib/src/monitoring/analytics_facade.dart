@@ -12,6 +12,11 @@ class AnalyticsFacade implements AnalyticsClient {
   final List<AnalyticsClient> clients;
 
   @override
+  Future<void> setAnalyticsCollectionEnabled(bool enabled) => _dispatch(
+        (c) => c.setAnalyticsCollectionEnabled(enabled),
+      );
+
+  @override
   Future<void> trackScreenView(String routeName, String action) async {
     // * Only 'push' and 'replace' actions count as screen views (but not 'pop')
     if (action != 'pop') {
