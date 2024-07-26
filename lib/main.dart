@@ -10,6 +10,8 @@ import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
+import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
+import 'package:flutter_ship_app/src/monitoring/logger_navigator_observer.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
@@ -82,6 +84,7 @@ class MainApp extends ConsumerWidget {
       },
       navigatorObservers: [
         SentryNavigatorObserver(),
+        LoggerNavigatorObserver(ref.read(analyticsFacadeProvider)),
       ],
       onGenerateRoute: (settings) {
         // * This app uses named routes. For more info, read:
