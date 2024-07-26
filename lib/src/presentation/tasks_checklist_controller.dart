@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -22,7 +20,6 @@ class TasksChecklistController extends _$TasksChecklistController {
     required String taskId,
     required bool isCompleted,
   }) async {
-    log('appId: $appId, taskId: $taskId, completed: $isCompleted');
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(appDatabaseProvider).updateTaskCompletionStatus(
