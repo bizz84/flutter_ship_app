@@ -44,24 +44,34 @@ class MainApp extends ConsumerWidget {
         // * This app uses named routes. For more info, read:
         // * https://docs.flutter.dev/cookbook/navigation/navigate-with-arguments
         return switch (settings.name) {
-          AppRoutes.apps =>
-            MaterialPageRoute(builder: (_) => const AppsListScreen()),
+          AppRoutes.apps => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => const AppsListScreen(),
+            ),
           AppRoutes.createEditApp => MaterialPageRoute(
+              settings: settings,
               fullscreenDialog: true,
               builder: (_) {
                 final app = settings.arguments as App?;
                 return CreateOrEditAppScreen(app: app);
               },
             ),
-          AppRoutes.epics => MaterialPageRoute(builder: (_) {
-              final app = settings.arguments as App;
-              return EpicsChecklistScreen(app: app);
-            }),
-          AppRoutes.tasks => MaterialPageRoute(builder: (_) {
-              final args = settings.arguments as ({App app, Epic epic});
-              return TasksChecklistScreen(app: args.app, epic: args.epic);
-            }),
+          AppRoutes.epics => MaterialPageRoute(
+              settings: settings,
+              builder: (_) {
+                final app = settings.arguments as App;
+                return EpicsChecklistScreen(app: app);
+              },
+            ),
+          AppRoutes.tasks => MaterialPageRoute(
+              settings: settings,
+              builder: (_) {
+                final args = settings.arguments as ({App app, Epic epic});
+                return TasksChecklistScreen(app: args.app, epic: args.epic);
+              },
+            ),
           AppRoutes.settings => MaterialPageRoute(
+              settings: settings,
               fullscreenDialog: true,
               builder: (_) => const SettingsScreen(),
             ),
