@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_ship_app/src/utils/logger_dio_interceptor.dart';
+import 'package:flutter_ship_app/src/monitoring/logger_dio_interceptor.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gist_client.g.dart';

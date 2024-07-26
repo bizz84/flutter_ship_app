@@ -27,7 +27,6 @@ class LoggerDioInterceptor implements Interceptor {
       log('Query params: ${response.requestOptions.queryParameters}',
           name: _name);
     }
-    log('-------------------------', name: _name);
     return handler.next(response);
   }
 
