@@ -13,7 +13,8 @@ class AppLogger {
     if (kReleaseMode) {
       // TODO: Error monitoring
     } else {
-      log(exception.toString());
+      log(exception.toString(),
+          name: 'Exception', error: exception, stackTrace: stackTrace);
     }
   }
 }
