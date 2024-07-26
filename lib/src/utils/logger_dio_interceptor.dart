@@ -4,14 +4,16 @@ import 'package:dio/dio.dart';
 
 /// A simple interceptor used to log all network requests
 /// For more details, see: https://github.com/bizz84/flutter-tips-and-tricks/blob/main/tips/0152-log-status-code-emoji/index.md
-class LoggerInterceptor implements Interceptor {
+class LoggerDioInterceptor implements Interceptor {
   final stopwatches = <String, Stopwatch>{};
+
+  static const _name = 'Http';
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final url = '${options.baseUrl}${options.path}';
     stopwatches[url] = Stopwatch()..start();
-    log('🌍 Making request: $url');
+    log('🌍 Making request: $url', name: _name);
     return handler.next(options);
   }
 
@@ -22,9 +24,10 @@ class LoggerInterceptor implements Interceptor {
     _logMessageAndClearStopwatch(
         response.statusCode, url, '⬅️ Received response');
     if (response.requestOptions.queryParameters.isNotEmpty) {
-      log('Query params: ${response.requestOptions.queryParameters}');
+      log('Query params: ${response.requestOptions.queryParameters}',
+          name: _name);
     }
-    log('-------------------------');
+    log('-------------------------', name: _name);
     return handler.next(response);
   }
 
@@ -32,9 +35,9 @@ class LoggerInterceptor implements Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final url = err.requestOptions.uri.toString();
     _logMessageAndClearStopwatch(null, url, '❌ Received error');
-    log('${err.stackTrace}');
+    log('${err.stackTrace}', name: _name);
     if (err.response?.data != null) {
-      log('❌ Response Error: ${err.response?.data}');
+      log('❌ Response Error: ${err.response?.data}', name: _name);
     }
     return handler.next(err);
   }
@@ -47,7 +50,7 @@ class LoggerInterceptor implements Interceptor {
       _logResponse(statusCode, stopwatch.elapsedMilliseconds, url);
       stopwatches.remove(url);
     } else {
-      log(message);
+      log(message, name: _name);
     }
   }
 
@@ -58,9 +61,9 @@ class LoggerInterceptor implements Interceptor {
       _ => '❌'
     };
     if (statusCode != null) {
-      log('$emoji $statusCode $emoji | ${milliseconds}ms | $url');
+      log('$emoji $statusCode $emoji | ${milliseconds}ms | $url', name: _name);
     } else {
-      log('$emoji | ${milliseconds}ms | $url');
+      log('$emoji | ${milliseconds}ms | $url', name: _name);
     }
   }
 }
