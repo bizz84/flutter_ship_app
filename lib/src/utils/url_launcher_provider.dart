@@ -9,18 +9,21 @@ part 'url_launcher_provider.g.dart';
 class UrlLauncher {
   const UrlLauncher();
 
+  static const _name = 'URL Launcher';
+
   Future<bool> launch(Uri uri) async {
     try {
       if (await canLaunchUrl(uri)) {
-        log('Launching URL: $uri');
+        log('Launching URL: $uri', name: _name);
         return await launchUrl(uri, mode: LaunchMode.platformDefault);
       } else {
-        log('Cannot launch URL: $uri');
+        log('Cannot launch URL: $uri', name: _name);
         // TODO: Error monitoring
         return false;
       }
-    } catch (e) {
-      log('Failed launching URL: $uri, $e');
+    } catch (e, st) {
+      log('Failed launching URL: $uri, $e',
+          name: _name, error: e, stackTrace: st);
       // TODO: Error monitoring
       return false;
     }

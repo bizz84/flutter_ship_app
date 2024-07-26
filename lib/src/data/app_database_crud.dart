@@ -49,13 +49,13 @@ extension AppDatabaseCRUD on AppDatabase {
           }
         }
       });
-    } on FormatException catch (e) {
+    } on FormatException catch (e, st) {
       // TODO: Error monitoring
-      log(e.toString());
+      log(e.toString(), name: 'Database', error: e, stackTrace: st);
       rethrow;
-    } on SqliteException catch (e) {
+    } on SqliteException catch (e, st) {
       // TODO: Error monitoring
-      log(e.toString());
+      log(e.toString(), name: 'Database', error: e, stackTrace: st);
       rethrow;
     }
   }
