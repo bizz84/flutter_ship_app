@@ -28,6 +28,7 @@ dependencies:
   sentry_dio: 8.14.2
   feedback: 3.1.0
   feedback_sentry: 3.1.0
+  mixpanel_flutter: 2.4.1
 
 dev_dependencies:
   flutter_test:

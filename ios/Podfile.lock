@@ -2,6 +2,12 @@ PODS:
   - Flutter (1.0.0)
   - flutter_native_splash (2.4.3):
     - Flutter
+  - Mixpanel-swift (5.0.0):
+    - Mixpanel-swift/Complete (= 5.0.0)
+  - Mixpanel-swift/Complete (5.0.0)
+  - mixpanel_flutter (2.4.1):
+    - Flutter
+    - Mixpanel-swift (= 5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -41,6 +47,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - mixpanel_flutter (from `.symlinks/plugins/mixpanel_flutter/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
@@ -49,6 +56,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Mixpanel-swift
     - Sentry
     - sqlite3
 
@@ -57,6 +65,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  mixpanel_flutter:
+    :path: ".symlinks/plugins/mixpanel_flutter/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -71,6 +81,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
+  Mixpanel-swift: e9bef28a9648faff384d5ba6f48ecc2787eb24c0
+  mixpanel_flutter: 701280d2c1f327d5f951d41b0fbe2b1b4916f647
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   Sentry: da60d980b197a46db0b35ea12cb8f39af48d8854
