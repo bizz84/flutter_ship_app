@@ -11,6 +11,7 @@ import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:flutter_ship_app/src/monitoring/logger_navigator_observer.dart';
+import 'package:flutter_ship_app/src/monitoring/mixpanel_analytics_client.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
@@ -53,6 +54,8 @@ void main() async {
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
+  // * Preload MixpanelAnalyticsClient, so we can make unawaited analytics calls
+  await container.read(mixpanelAnalyticsClientProvider.future);
   runApp(UncontrolledProviderScope(
     container: container,
     child: AppStartupWidget(
