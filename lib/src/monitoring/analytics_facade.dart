@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_ship_app/src/monitoring/analytics_client.dart';
 import 'package:flutter_ship_app/src/monitoring/logger_analytics_client.dart';
+import 'package:flutter_ship_app/src/monitoring/mixpanel_analytics_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'analytics_facade.g.dart';
@@ -70,7 +71,10 @@ class AnalyticsFacade implements AnalyticsClient {
 
 @Riverpod(keepAlive: true)
 AnalyticsFacade analyticsFacade(AnalyticsFacadeRef ref) {
-  return const AnalyticsFacade([
-    if (!kReleaseMode) LoggerAnalyticsClient(),
+  final mixpanelAnalyticsClient =
+      ref.watch(mixpanelAnalyticsClientProvider).requireValue;
+  return AnalyticsFacade([
+    mixpanelAnalyticsClient,
+    if (!kReleaseMode) const LoggerAnalyticsClient(),
   ]);
 }
