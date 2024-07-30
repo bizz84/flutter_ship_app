@@ -17,6 +17,16 @@ class AnalyticsFacade implements AnalyticsClient {
       );
 
   @override
+  Future<void> identifyUser(String userId) => _dispatch(
+        (c) => c.identifyUser(userId),
+      );
+
+  @override
+  Future<void> resetUser() => _dispatch(
+        (c) => c.resetUser(),
+      );
+
+  @override
   Future<void> trackScreenView(String routeName, String action) async {
     // * Only 'push' and 'replace' actions count as screen views (but not 'pop')
     if (action != 'pop') {
