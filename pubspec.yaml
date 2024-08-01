@@ -36,6 +36,7 @@ dev_dependencies:
   flutter_launcher_icons: 0.14.1
   flutter_native_splash: 2.4.1
   flutter_flavorizr: 2.2.3
+  sentry_dart_plugin: 2.1.0
 
 flutter:
   uses-material-design: true
@@ -115,3 +116,15 @@ flavorizr:
       ios:
         bundleId: "com.codewithandrea.flutterShipApp"
         icon: "assets/prod/app-icon.png"
+
+# https://docs.sentry.io/platforms/flutter/upload-debug/#available-configuration-fields
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  upload_sources: true
+  project: flutter-ship-app
+  org: andrea-bizzotto
+  wait_for_processing: true
+  log_level: error # possible values: trace, debug, info, warn, error
+  commits: auto
+  ignore_missing: true
