@@ -9,16 +9,16 @@ BUILD_VERSION := $(shell grep 'version:' pubspec.yaml | awk '{print $$2}')
 # Deploy the Flutter web project to GitHub
 deploy:
 	@echo "Clean existing repository"
-#	flutter clean
+	flutter clean
 
 	@echo "Getting packages..."
-#	flutter pub get
+	flutter pub get
 
 	@echo "Running generators..."
-#	dart run build_runner -d
+	dart run build_runner build -d
 
 	@echo "Building for web..."
-	flutter build web --dart-define-from-file=api-keys.prod.json --base-href $(BASE_HREF) --release
+	flutter build web --dart-define-from-file=.env.prod --base-href $(BASE_HREF) --release --source-maps
 
 	@echo "Deploying to git repository"
 	cd build/web && \
@@ -29,6 +29,9 @@ deploy:
 	git branch -M main && \
 	git remote add origin $(GITHUB_REPO) && \
 	git push -u -f origin main
+
+	@echo "Running Sentry Dart plugin..."
+	dart run sentry_dart_plugin
 
 	cd ../..
 	@echo "✅ Finished deploy: $(GITHUB_REPO)"
