@@ -23,6 +23,7 @@ import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:upgrader/upgrader.dart';
 
 Future<void> runMainApp({required FirebaseOptions firebaseOptions}) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +73,8 @@ Future<void> runMainApp({required FirebaseOptions firebaseOptions}) async {
   ));
 }
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
@@ -83,6 +86,19 @@ class MainApp extends ConsumerWidget {
       theme: AppThemeData.light(),
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
+      navigatorKey: _rootNavigatorKey,
+      builder: (context, child) {
+        final dialogStyle = kIsWeb ||
+                defaultTargetPlatform != TargetPlatform.iOS &&
+                    defaultTargetPlatform != TargetPlatform.macOS
+            ? UpgradeDialogStyle.material
+            : UpgradeDialogStyle.cupertino;
+        return UpgradeAlert(
+          navigatorKey: _rootNavigatorKey,
+          dialogStyle: dialogStyle,
+          child: child!,
+        );
+      },
       navigatorObservers: [
         SentryNavigatorObserver(),
         LoggerNavigatorObserver(ref.read(analyticsFacadeProvider)),
