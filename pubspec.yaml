@@ -31,6 +31,7 @@ dependencies:
   mixpanel_flutter: 2.4.1
   firebase_core: 3.13.0
   firebase_analytics: 11.4.5
+  upgrader: 11.3.2
 
 dev_dependencies:
   flutter_test:
