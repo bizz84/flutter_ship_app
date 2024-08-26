@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_ship_app/src/monitoring/logger_dio_interceptor.dart';
+import 'package:flutter_ship_app/src/utils/dio_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gist_client.g.dart';
@@ -40,8 +40,7 @@ class GistClient {
 
 @riverpod
 GistClient gistClient(GistClientRef ref) {
-  final dio = Dio();
-  dio.interceptors.add(LoggerDioInterceptor());
+  final dio = ref.watch(dioProvider);
   return GistClient(dio: dio);
 }
 
