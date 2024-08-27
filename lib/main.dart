@@ -21,6 +21,7 @@ import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
 import 'package:flutter_ship_app/src/presentation/tasks_checklist_screen.dart';
 import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
+import 'package:flutter_ship_app/src/utils/dio_provider.dart';
 import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
@@ -99,8 +100,15 @@ class MainApp extends ConsumerWidget {
           onLoaded: (_) => ForceUpdateWidget(
             navigatorKey: _rootNavigatorKey,
             forceUpdateClient: ForceUpdateClient(
-              // TODO: fetch from an API endpoint or via Firebase Remote Config
-              fetchRequiredVersion: () => Future.value('2.0.0'),
+              fetchRequiredVersion: () async {
+                // TODO: Use the deployment URL in production
+                const baseUrl = 'http://0.0.0.0:8080';
+                final response = await ref
+                    .read(dioProvider)
+                    .get('$baseUrl/required_version');
+                final requiredVersionStr = response.data;
+                return requiredVersionStr;
+              },
               // TODO: Set APP_STORE_ID in the .env files
               iosAppStoreId: Env.appStoreId,
             ),
