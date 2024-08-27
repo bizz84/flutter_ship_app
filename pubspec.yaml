@@ -33,6 +33,7 @@ dependencies:
   mixpanel_flutter: 2.3.3
   firebase_core: 3.3.0
   firebase_analytics: 11.2.1
+  firebase_remote_config: 5.0.4
 
 dev_dependencies:
   flutter_test:
