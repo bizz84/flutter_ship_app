@@ -8,9 +8,11 @@ import 'package:flutter_ship_app/env/firebase.dart';
 import 'package:flutter_ship_app/env/env.dart';
 import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
+import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
+import 'package:flutter_ship_app/src/monitoring/error_logger.dart';
 import 'package:flutter_ship_app/src/monitoring/logger_navigator_observer.dart';
 import 'package:flutter_ship_app/src/monitoring/mixpanel_analytics_client.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
@@ -22,7 +24,11 @@ import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
+import 'package:flutter_ship_app/src/utils/url_launcher_provider.dart';
+import 'package:force_update_helper/force_update_helper.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +77,8 @@ void main() async {
   ));
 }
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
@@ -86,6 +94,37 @@ class MainApp extends ConsumerWidget {
         SentryNavigatorObserver(),
         LoggerNavigatorObserver(ref.read(analyticsFacadeProvider)),
       ],
+      navigatorKey: _rootNavigatorKey,
+      builder: (context, child) {
+        return ForceUpdateWidget(
+          navigatorKey: _rootNavigatorKey,
+          forceUpdateClient: ForceUpdateClient(
+            // TODO: fetch from an API endpoint or via Firebase Remote Config
+            fetchRequiredVersion: () => Future.value('2.0.0'),
+            // TODO: Set APP_STORE_ID in the .env files
+            iosAppStoreId: Env.appStoreId,
+          ),
+          allowCancel: false,
+          showForceUpdateAlert: (context, allowCancel) => showAlertDialog(
+            context: context,
+            title: 'App Update Required'.hardcoded,
+            content: 'Please update to continue using the app.',
+            cancelActionText: allowCancel ? 'Later'.hardcoded : null,
+            defaultActionText: 'Update Now'.hardcoded,
+          ),
+          showStoreListing: (storeUrl) async {
+            ref.read(urlLauncherProvider).launch(
+                  storeUrl,
+                  // * Open app store app directly (or fallback to browser)
+                  mode: LaunchMode.externalApplication,
+                );
+          },
+          onException: (e, st) {
+            ref.read(errorLoggerProvider).logException(e, st);
+          },
+          child: child!,
+        );
+      },
       onGenerateRoute: (settings) {
         // * This app uses named routes. For more info, read:
         // * https://docs.flutter.dev/cookbook/navigation/navigate-with-arguments
