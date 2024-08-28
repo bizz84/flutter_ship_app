@@ -1,3 +1,8 @@
+## 0.2.2
+
+- Update to Dart 3.5, Flutter 3.24
+- Update to latest packages
+
 ## 0.2.1
 
 - Pass `settings` to `MaterialPageRoute` inside `onGenerateRoute`
