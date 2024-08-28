@@ -59,4 +59,10 @@ flutter_launcher_icons:
 # Flutter Native Splash configuration
 flutter_native_splash:
   color: "#ffffff"
+  color_android: "#ffffff"
+  color_dark_android: "#121212"
+  color_ios: "#ffffff"
+  color_dark_ios: "#121212"
+  color_web: "#ffffff"
+  color_dark_web: "#121212"  
   image: "assets/android/app-icon-foreground.png"
