@@ -1,4 +1,3 @@
-//import 'package:accessibility_tools/accessibility_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/app_routes.dart';
@@ -87,8 +86,6 @@ class MainApp extends ConsumerWidget {
         };
       },
       initialRoute: AppRoutes.apps,
-      // * Uncomment this line to perform accessibility checks
-      // builder: (context, child) => AccessibilityTools(child: child),
     );
   }
 }

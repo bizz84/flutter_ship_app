@@ -23,7 +23,6 @@ dependencies:
   shared_preferences: 2.3.2
   auto_size_text: 3.0.0
   package_info_plus: 8.0.2
-  accessibility_tools: 2.2.1
   dio: 5.6.0
 
 dev_dependencies:
