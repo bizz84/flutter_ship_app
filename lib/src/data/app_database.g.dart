@@ -108,6 +108,13 @@ class AppData extends DataClass implements Insertable<AppData> {
         id: id ?? this.id,
         name: name ?? this.name,
       );
+  AppData copyWithCompanion(AppsCompanion data) {
+    return AppData(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('AppData(')
@@ -303,6 +310,14 @@ class EpicData extends DataClass implements Insertable<EpicData> {
         order: order ?? this.order,
         name: name ?? this.name,
       );
+  EpicData copyWithCompanion(EpicsCompanion data) {
+    return EpicData(
+      id: data.id.present ? data.id.value : this.id,
+      order: data.order.present ? data.order.value : this.order,
+      name: data.name.present ? data.name.value : this.name,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('EpicData(')
@@ -555,6 +570,15 @@ class TaskData extends DataClass implements Insertable<TaskData> {
         order: order ?? this.order,
         name: name ?? this.name,
       );
+  TaskData copyWithCompanion(TasksCompanion data) {
+    return TaskData(
+      id: data.id.present ? data.id.value : this.id,
+      epicId: data.epicId.present ? data.epicId.value : this.epicId,
+      order: data.order.present ? data.order.value : this.order,
+      name: data.name.present ? data.name.value : this.name,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('TaskData(')
@@ -798,6 +822,14 @@ class TaskStatusData extends DataClass implements Insertable<TaskStatusData> {
         taskId: taskId ?? this.taskId,
         completed: completed ?? this.completed,
       );
+  TaskStatusData copyWithCompanion(TaskStatusesCompanion data) {
+    return TaskStatusData(
+      appId: data.appId.present ? data.appId.value : this.appId,
+      taskId: data.taskId.present ? data.taskId.value : this.taskId,
+      completed: data.completed.present ? data.completed.value : this.completed,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('TaskStatusData(')
