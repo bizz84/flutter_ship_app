@@ -40,7 +40,8 @@ class SettingsScreen extends ConsumerWidget {
             ),
             gapH8,
             Text(
-              'Version ${packageInfo.version}'.hardcoded,
+              'Version ${packageInfo.version} (${packageInfo.buildNumber})'
+                  .hardcoded,
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
