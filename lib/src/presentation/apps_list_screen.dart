@@ -75,7 +75,10 @@ class AppsListView extends ConsumerWidget {
     return appsListAsync.when(
       data: (appsList) {
         if (appsList.isEmpty) {
-          return WelcomeAppIntro(onNewApp: onNewApp);
+          return SingleChildScrollView(
+            controller: controller,
+            child: WelcomeAppIntro(onNewApp: onNewApp),
+          );
         } else {
           return ListView.separated(
             controller: controller,
