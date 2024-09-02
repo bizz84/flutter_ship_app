@@ -12,6 +12,7 @@ import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:flutter_ship_app/src/utils/in_app_review_provider.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
+import 'package:flutter_ship_app/src/utils/url_launcher_provider.dart';
 
 /// The settings screen of the app
 class SettingsScreen extends ConsumerWidget {
@@ -61,6 +62,30 @@ class SettingsScreen extends ConsumerWidget {
             if (!kIsWeb) ...[
               const RateOnAppStoreTile(),
               const Divider(height: 1),
+              // * No need to show the website links on Flutter web
+              ListTile(
+                title: const Text('Website'),
+                onTap: () => _openLink(
+                    'https://bizz84.github.io/flutter-ship-landing-page/', ref),
+                trailing: const Icon(Icons.chevron_right),
+              ),
+              const Divider(height: 1),
+              ListTile(
+                title: const Text('Privacy Policy'),
+                onTap: () => _openLink(
+                    'https://bizz84.github.io/flutter-ship-landing-page/privacy/',
+                    ref),
+                trailing: const Icon(Icons.chevron_right),
+              ),
+              const Divider(height: 1),
+              ListTile(
+                title: const Text('Terms of Use'),
+                onTap: () => _openLink(
+                    'https://bizz84.github.io/flutter-ship-landing-page/terms/',
+                    ref),
+                trailing: const Icon(Icons.chevron_right),
+              ),
+              const Divider(height: 1),
             ],
             ShowLicensesTile(),
             const Divider(height: 1),
@@ -68,6 +93,11 @@ class SettingsScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _openLink(String url, WidgetRef ref) async {
+    final uri = Uri.parse(url);
+    await ref.read(urlLauncherProvider).launch(uri);
   }
 }
 
