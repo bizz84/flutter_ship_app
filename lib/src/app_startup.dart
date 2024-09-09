@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_ship_app/src/data/gist_client.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
+import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_startup.g.dart';
@@ -39,14 +39,18 @@ class AppStartupNotifier extends _$AppStartupNotifier {
       // * Sync it with the data from the DB
       await db.loadOrUpdateFromTemplate(jsonData);
     } catch (e, st) {
-      // * If there was no response, it means that a connection error occurred
-      if (e is DioException && e.response == null) {
-        // * Fail silently as the app handles offline mode gracefully
-        return;
+      // * If the DB is empty, the initial load failed
+      final isDbEmpty = await db.isEpicsTableEmpty();
+      if (!isDbEmpty) {
+        // * If there was no response, it means that a connection error occurred
+        if (e is DioException && e.response == null) {
+          // * Fail silently as the app handles offline mode gracefully
+          return;
+        }
       }
       // TODO: Add error monitoring
       log(e.toString(), name: 'App Startup', error: e, stackTrace: st);
-      // * Rethrow so we can show an error in the UI if something goes wrong
+      // * Rethrow so we can show an error in the UI if something went wrong
       rethrow;
     }
   }
@@ -55,6 +59,8 @@ class AppStartupNotifier extends _$AppStartupNotifier {
     state = await AsyncValue.guard(_updateDatabaseFromJsonTemplate);
   }
 }
+
+class EmptyDatabaseException implements Exception {}
 
 class AppStartupWidget extends ConsumerWidget {
   const AppStartupWidget({super.key, required this.onLoaded});
@@ -69,11 +75,10 @@ class AppStartupWidget extends ConsumerWidget {
       loading: () => const AppStartupLoadingWidget(),
       // 3. error state
       error: (e, st) {
-        const action = kIsWeb ? 'clear your web cache' : 'try again';
-        final message =
-            'Could not load or sync data. Please $action or contact support if the issue persists.\n\n${e.toString()}';
         return AppStartupErrorWidget(
-          message: message,
+          message:
+              'Could not load or sync data. Check your Internet connection and retry or contact support if the issue persists.'
+                  .hardcoded,
           // 4. invalidate the appStartupProvider
           onRetry: () async {
             await ref.read(appStartupNotifierProvider.notifier).retry();

@@ -19,12 +19,12 @@ extension AppDatabaseCRUD on AppDatabase {
     try {
       await _syncFromTemplate(checklistTemplate);
     } catch (e, st) {
+      // TODO: Error Monitoring
+      log(e.toString(), name: 'Database', error: e, stackTrace: st);
       // * If the update failed, delete all the old epics and tasks
       await _deleteAllEpicsAndTasks();
       // * Then try to recover by inserting again
       await _syncFromTemplate(checklistTemplate);
-      // TODO: Error Monitoring
-      log(e.toString(), name: 'Database', error: e, stackTrace: st);
     }
   }
 
