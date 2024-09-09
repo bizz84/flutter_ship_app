@@ -62,8 +62,6 @@ class AppStartupNotifier extends _$AppStartupNotifier {
   }
 }
 
-class EmptyDatabaseException implements Exception {}
-
 class AppStartupWidget extends ConsumerWidget {
   const AppStartupWidget({super.key, required this.onLoaded});
   final WidgetBuilder onLoaded;
