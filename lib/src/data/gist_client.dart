@@ -20,21 +20,8 @@ class GistClient {
   // * No serialization is done here as the parsing happens when loading the
   // * data in the database
   Future<String> fetchJsonTemplate() async {
-    try {
-      final response = await dio.get(_gistTemplateUrl);
-      final statusCode = response.statusCode;
-      if (statusCode != null && (statusCode < 200 || statusCode >= 300)) {
-        throw HttpException(
-          statusCode: statusCode,
-          message: response.data,
-        );
-      }
-      return response.data;
-    } on DioException catch (e) {
-      throw FailedLookupException(e.message ?? 'Unknown error');
-    } catch (e) {
-      throw FailedLookupException(e.toString());
-    }
+    final response = await dio.get(_gistTemplateUrl);
+    return response.data;
   }
 }
 
@@ -42,46 +29,6 @@ class GistClient {
 GistClient gistClient(GistClientRef ref) {
   final dio = ref.watch(dioProvider);
   return GistClient(dio: dio);
-}
-
-/// Exceptions supported by the GistClient
-sealed class APIException implements Exception {
-  String get message;
-  String get displayMessage;
-  bool get canRetry;
-}
-
-class HttpException extends APIException {
-  HttpException({required this.statusCode, required this.message});
-  final int statusCode;
-  @override
-  final String message;
-
-  @override
-  String get displayMessage => 'Loading failed.\n${toString()}';
-
-  @override
-  bool get canRetry => true;
-
-  @override
-  String toString() => 'HttpException($statusCode, $message)';
-}
-
-class FailedLookupException extends APIException {
-  FailedLookupException(this.message);
-
-  @override
-  final String message;
-
-  @override
-  String get displayMessage =>
-      'Loading failed.\nCheck your Internet connection.';
-
-  @override
-  bool get canRetry => true;
-
-  @override
-  String toString() => 'FailedLookupException($message)';
 }
 
 // ignore_for_file:avoid-throw-in-catch-block

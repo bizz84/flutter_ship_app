@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:drift/drift.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
 import 'package:flutter_ship_app/src/domain/task.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqlite3/common.dart';
 
 part 'app_database_crud.g.dart';
 
@@ -17,47 +14,37 @@ extension AppDatabaseCRUD on AppDatabase {
   /// Insert or update the epics and tasks from the given template data
   Future<void> loadOrUpdateFromTemplate(
       Map<String, dynamic> checklistTemplate) async {
-    try {
-      // * Parse JSON to a List<EpicModel>
-      // ignore:avoid-dynamic
-      final List<dynamic> epicsJson = checklistTemplate['epics'];
-      final epicsData = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
-      // * Sync epics with the DB
-      await transaction(() async {
-        var epicOrder = 1;
-        var taskOrder = 1;
-        for (var epicData in epicsData) {
-          // Insert epic
-          final epic = EpicsCompanion(
-            id: Value(epicData.id),
-            order: Value(epicOrder),
-            name: Value(epicData.name),
-          );
-          await into(epics).insertOnConflictUpdate(epic);
-          epicOrder++;
+    // * Parse JSON to a List<EpicModel>
+    // ignore:avoid-dynamic
+    final List<dynamic> epicsJson = checklistTemplate['epics'];
+    final epicsData = epicsJson.map((epic) => Epic.fromJson(epic)).toList();
+    // * Sync epics with the DB
+    await transaction(() async {
+      var epicOrder = 1;
+      var taskOrder = 1;
+      for (var epicData in epicsData) {
+        // Insert epic
+        final epic = EpicsCompanion(
+          id: Value(epicData.id),
+          order: Value(epicOrder),
+          name: Value(epicData.name),
+        );
+        await into(epics).insertOnConflictUpdate(epic);
+        epicOrder++;
 
-          // Insert tasks for each epic
-          for (var taskData in epicData.tasks) {
-            final task = TasksCompanion(
-              id: Value(taskData.id),
-              epicId: Value(epicData.id),
-              order: Value(taskOrder),
-              name: Value(taskData.name),
-            );
-            await into(tasks).insertOnConflictUpdate(task);
-            taskOrder++;
-          }
+        // Insert tasks for each epic
+        for (var taskData in epicData.tasks) {
+          final task = TasksCompanion(
+            id: Value(taskData.id),
+            epicId: Value(epicData.id),
+            order: Value(taskOrder),
+            name: Value(taskData.name),
+          );
+          await into(tasks).insertOnConflictUpdate(task);
+          taskOrder++;
         }
-      });
-    } on FormatException catch (e, st) {
-      // TODO: Error monitoring
-      log(e.toString(), name: 'Database', error: e, stackTrace: st);
-      rethrow;
-    } on SqliteException catch (e, st) {
-      // TODO: Error monitoring
-      log(e.toString(), name: 'Database', error: e, stackTrace: st);
-      rethrow;
-    }
+      }
+    });
   }
 
   // *************** Apps *****************

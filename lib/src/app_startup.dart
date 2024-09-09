@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +45,8 @@ class AppStartupNotifier extends _$AppStartupNotifier {
       final jsonData = jsonDecode(jsonString);
       await db.loadOrUpdateFromTemplate(jsonData);
     } catch (e, st) {
-      if (e is FailedLookupException) {
+      // * If there was no response, it means that a connection error occurred
+      if (e is DioException && e.response == null) {
         // * Fail silently as the app handles offline mode gracefully
         return;
       }
