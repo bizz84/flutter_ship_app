@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:drift/drift.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
@@ -14,6 +16,20 @@ extension AppDatabaseCRUD on AppDatabase {
   /// Insert or update the epics and tasks from the given template data
   Future<void> loadOrUpdateFromTemplate(
       Map<String, dynamic> checklistTemplate) async {
+    try {
+      await _syncFromTemplate(checklistTemplate);
+    } catch (e, st) {
+      // * If the update failed, delete all the old epics and tasks
+      await _deleteAllEpicsAndTasks();
+      // * Then try to recover by inserting again
+      await _syncFromTemplate(checklistTemplate);
+      // TODO: Error Monitoring
+      log(e.toString(), name: 'Database', error: e, stackTrace: st);
+    }
+  }
+
+  /// Sync the epics and tasks from the given template data
+  Future<void> _syncFromTemplate(Map<String, dynamic> checklistTemplate) async {
     // * Parse JSON to a List<EpicModel>
     // ignore:avoid-dynamic
     final List<dynamic> epicsJson = checklistTemplate['epics'];
@@ -44,6 +60,13 @@ extension AppDatabaseCRUD on AppDatabase {
           taskOrder++;
         }
       }
+    });
+  }
+
+  Future<void> _deleteAllEpicsAndTasks() async {
+    await transaction(() async {
+      await delete(tasks).go();
+      await delete(epics).go();
     });
   }
 

@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
@@ -31,18 +30,13 @@ class AppStartupNotifier extends _$AppStartupNotifier {
   }
 
   Future<void> _updateDatabaseFromJsonTemplate() async {
+    final db = ref.watch(appDatabaseProvider);
     try {
-      final String jsonString;
-      final db = ref.watch(appDatabaseProvider);
-      if (await db.isEpicsTableEmpty()) {
-        // * First time load: sync with JSON data from the local root bundle
-        jsonString = await rootBundle
-            .loadString('assets/common/app_release_template.json');
-      } else {
-        // * Subsequent loads: sync with JSON data from the network
-        jsonString = await ref.watch(gistClientProvider).fetchJsonTemplate();
-      }
+      // * Fetch JSON data template from the network
+      final jsonString =
+          await ref.watch(gistClientProvider).fetchJsonTemplate();
       final jsonData = jsonDecode(jsonString);
+      // * Sync it with the data from the DB
       await db.loadOrUpdateFromTemplate(jsonData);
     } catch (e, st) {
       // * If there was no response, it means that a connection error occurred
