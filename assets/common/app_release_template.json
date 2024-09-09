@@ -1,24 +1,27 @@
 {
   "template": "App Release",
-  "version": 3,
+  "version": 4,
   "epics": [
-    {
-      "id": "ff",
-      "epic": "Flutter Flavors",
-      "tasks": [
-        { "id": "B2A42464", "name": "Add Dev, Stg, Prod flavors on iOS" },
-        { "id": "C9FB1D58", "name": "Add Dev, Stg, Prod flavors on Android" },
-        { "id": "C4F3EEAA", "name": "Flavored API keys (dart-define or Envied)" },
-        { "id": "D88C0DA4", "name": "FlutterFire setup with Flavors" }
-      ]
-    },
     {
       "id": "ai",
       "epic": "App Icons",
       "tasks": [
-        { "id": "7DA5766A", "name": "Design your own icon (IconKitchen, Figma)" },
-        { "id": "0A5EEB63", "name": "Generate it with flutter_launcher_icons" },
-        { "id": "029C2183", "name": "Different icons for each flavor" }
+        { "id": "7DA5766A", "name": "Design your app icon (IconKitchen, Figma)" },
+        { "id": "029C2183", "name": "Different icons for each flavor" },
+        { "id": "0A5EEB63", "name": "Generate launcher icons with flutter_launcher_icons" },
+        { "id": "8678BA0A", "name": "Generate splash screens with flutter_native_splash" }
+      ]
+    },
+    {
+      "id": "ff",
+      "epic": "Flutter Flavors",
+      "tasks": [
+        { "id": "FE3F6F6D", "name": "Install and configure flutter_flavorizr" },
+        { "id": "B2A42464", "name": "Add Dev, Stg, Prod flavors on iOS" },
+        { "id": "C9FB1D58", "name": "Add Dev, Stg, Prod flavors on Android" },
+        { "id": "8301150C", "name": "Configure your IDE to use flavors" },
+        { "id": "C4F3EEAA", "name": "Flavored API keys (dart-define or Envied)" },
+        { "id": "D88C0DA4", "name": "FlutterFire setup with Flavors" }
       ]
     },
     {
@@ -26,11 +29,14 @@
       "epic": "Error Monitoring",
       "tasks": [
         { "id": "0836A3B0", "name": "Install and configure Sentry or Crashlytics" },
-        { "id": "6FEC4658", "name": "Handle uncaught exceptions" },
+        { "id": "6FEC4658", "name": "Report uncaught exceptions" },
+        { "id": "56EAA140", "name": "Explicitly catch and log exceptions" },
+        { "id": "440585FB", "name": "Add breadcrumbs (navigation events, network logs, etc.)" },
+        { "id": "3BF7C4FB", "name": "Event filtering (release mode, production builds only)" },
+        { "id": "2C2C7454", "name": "Source maps configuration with Sentry Dart Plugin" },
         { "id": "75644300", "name": "Capture User Feedback (user_feedback package)" },
-        { "id": "1F7504F6", "name": "Start monitoring and fixing issues after launch" },
-        { "id": "48B9817D", "name": "Enable error monitoring in production builds only (if desired)" },
-        { "id": "1CCBEB7B", "name": "Test your error monitoring logic" }
+        { "id": "1CCBEB7B", "name": "Test your error monitoring logic" },
+        { "id": "1F7504F6", "name": "Monitor and fix issues after launch" }
       ]
     },
     {
@@ -39,8 +45,9 @@
       "tasks": [
         { "id": "364BC976", "name": "Install and configure an analytics SDK of choice" },
         { "id": "0B203CD9", "name": "Make a list of all the events you want to track" },
-        { "id": "DFB4257F", "name": "Add the event tracking code" },
-        { "id": "B93C09F8", "name": "Add custom properties to relevant events" },
+        { "id": "DFB4257F", "name": "Track custom events and their properties" },
+        { "id": "BD661A58", "name": "Track navigation events" },
+        { "id": "28C7E044", "name": "Identify users" },
         { "id": "1E8213E6", "name": "Provide way to opt-out of data collection" },
         { "id": "E873F9CE", "name": "Enable analytics in production builds only (if desired)" },
         { "id": "5A1AF839", "name": "Test your analytics logic" }
@@ -48,11 +55,11 @@
     },
     {
       "id": "fu",
-      "epic": "Force Upgrade",
+      "epic": "Force Update",
       "tasks": [
-        { "id": "062D761A", "name": "Simple Force Upgrade strategy with Upgrader package" },
-        { "id": "6DAE72DE", "name": "Custom Force Upgrade strategy with Firebase Remote Config" },
-        { "id": "5319AF1F", "name": "Advanced Force Upgrade strategy with Rolling Release Window" },
+        { "id": "062D761A", "name": "Choose a force update strategy" },
+        { "id": "6DAE72DE", "name": "Use a package (upgrader, force_update_helper) or roll your own" },
+        { "id": "E6A45538", "name": "Remotely control updates with Firebase Remote Config or custom backend" },
         { "id": "7232501C", "name": "Test your force upgrade logic (dev build)" },
         { "id": "9043CEA1", "name": "Test your force upgrade logic (production build)" }
       ]
@@ -62,7 +69,7 @@
       "epic": "About / Settings page",
       "tasks": [
         { "id": "9AB92F0F", "name": "App configuration settings (light/dark mode, etc)" },
-        { "id": "869E57CA", "name": "Links to your app website / privacy policy / terms of use" },
+        { "id": "869E57CA", "name": "Links to the app website / privacy policy / terms of use" },
         { "id": "A5DD4B1E", "name": "Show OSS licenses" }
       ]
     },  
@@ -71,7 +78,7 @@
       "epic": "In App Review Prompt",
       "tasks": [
         { "id": "A1D55FA9", "name": "Add a button to your about/setting page so users can leave a review" },
-        { "id": "1710AAC8", "name": "Use Analytics to track KPIs related to in-app review" },
+        { "id": "1710AAC8", "name": "Use analytics to track KPIs related to in-app review" },
         { "id": "B9EFA364", "name": "Trigger app store review prompt based on custom logic" }
       ]
     },
@@ -117,8 +124,9 @@
         { "id": "E1D761CF", "name": "Choose a template to create your app website" },
         { "id": "6EEE2634", "name": "Add your app screenshot, icon, metadata" },
         { "id": "9712573F", "name": "Add your privacy policy and terms of use" },
-        { "id": "DCFBB2F9", "name": "Publish your website on a non-branded domain" },
-        { "id": "73C526B8", "name": "Publish your website on your custom domain" },
+        { "id": "917B1F0C", "name": "Add website analytics" },
+        { "id": "DCFBB2F9", "name": "Deploy your website to GitHub Pages or elsewhere" },
+        { "id": "73C526B8", "name": "Register a custom domain and serve your website on it" },
         { "id": "5258B296", "name": "Add the App Store download button (when app is live)" },
         { "id": "79F5D584", "name": "Add the Play Store download button (when app is live)" }
       ]
