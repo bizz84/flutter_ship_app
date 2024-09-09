@@ -41,17 +41,19 @@ class AppStartupNotifier extends _$AppStartupNotifier {
     } catch (e, st) {
       // * If the DB is empty, the initial load failed
       final isDbEmpty = await db.isEpicsTableEmpty();
-      if (!isDbEmpty) {
-        // * If there was no response, it means that a connection error occurred
-        if (e is DioException && e.response == null) {
-          // * Fail silently as the app handles offline mode gracefully
+      // * If there was no response, it means that a connection error occurred
+      if (e is DioException && e.response == null) {
+        // * If the DB is not empty, fail silently and continue normally
+        if (!isDbEmpty) {
           return;
         }
       }
       // TODO: Add error monitoring
       log(e.toString(), name: 'App Startup', error: e, stackTrace: st);
-      // * Rethrow so we can show an error in the UI if something went wrong
-      rethrow;
+      // * If the DB is empty, rethrow so we can show an error and the retry UI
+      if (isDbEmpty) {
+        rethrow;
+      }
     }
   }
 
