@@ -1,3 +1,9 @@
+## 0.3.0
+
+- Delete `app_release_template.json` (this is now only loaded remotely)
+- More robust app startup and DB initialization logic
+- Set iOS 13.0 in Podfile
+
 ## 0.2.2
 
 - Update to Dart 3.5, Flutter 3.24
