@@ -15,7 +15,7 @@ deploy:
 	flutter pub get
 
 	@echo "Running generators..."
-	dart run build_runner -d
+	dart run build_runner build -d
 
 	@echo "Building for web..."
 	flutter build web --dart-define-from-file=.env.prod --base-href $(BASE_HREF) --release
