@@ -2,11 +2,13 @@ import 'package:feedback_sentry/feedback_sentry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/env/env.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/monitoring/collect_usage_statistics_store.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
+import 'package:flutter_ship_app/src/utils/in_app_review_provider.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
@@ -56,6 +58,10 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(height: 1),
             if (!kIsWeb || isCanvasKitRenderer()) ...[
               const SendFeedbackTile(),
+              const Divider(height: 1),
+            ],
+            if (!kIsWeb) ...[
+              const RateOnAppStoreTile(),
               const Divider(height: 1),
             ],
           ],
@@ -139,6 +145,22 @@ class SendFeedbackTile extends StatelessWidget {
       title: Text('Send feedback'.hardcoded),
       onTap: () {
         BetterFeedback.of(context).showAndUploadToSentry();
+      },
+    );
+  }
+}
+
+class RateOnAppStoreTile extends ConsumerWidget {
+  const RateOnAppStoreTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      title: Text('Leave app store review'.hardcoded),
+      onTap: () async {
+        await ref
+            .read(inAppReviewProvider)
+            .openStoreListing(appStoreId: Env.appStoreId);
       },
     );
   }
