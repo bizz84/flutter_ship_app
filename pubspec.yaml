@@ -24,7 +24,8 @@ dependencies:
   auto_size_text: 3.0.0
   package_info_plus: 8.3.0
   url_launcher: 6.3.1
-  force_update_helper: 0.2.1  
+  force_update_helper: 0.2.1
+  in_app_review: 2.0.10
   dio: 5.8.0+1
   sentry_flutter: 8.14.2
   sentry_dio: 8.14.2
