@@ -67,6 +67,18 @@ SENTRY_DSN=https://examplePublicKey@o0.ingest.us.sentry.io/your-dsn
 MIXPANEL_PROJECT_TOKEN=your-mixpanel-project-token-dev
 ```
 
+### Setting the App Store ID
+
+In order for the [force_update_helper](https://pub.dev/packages/force_update_helper) and [in_app_review](https://pub.dev/packages/in_app_review) packages to be correctly configured, the App Store ID should also be set in the `.env` files:
+
+```zsh
+APP_STORE_ID=<app-store-id>
+```
+
+This can be found on your app's page in App Store Connect under **General > App Information > Apple ID**.
+
+See [this lesson](https://pro.codewithandrea.com/flutter-in-production/06-force-update/04-force-update-helper-package) for more info.
+
 ### Note about Flutter Web
 
 To make the app run on Flutter web, I followed some of the steps in [the Drift web guide](https://drift.simonbinder.eu/web/):
