@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
 /// This is the home page for the app
@@ -39,7 +41,10 @@ class AppsListScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: 'Create a new app'.hardcoded,
-            onPressed: () => _createNewApp(context),
+            onPressed: () {
+              unawaited(ref.read(analyticsFacadeProvider).trackNewAppHome());
+              _createNewApp(context);
+            },
             icon: Icon(
               Icons.add,
               semanticLabel: 'Create a new app'.hardcoded,
@@ -50,9 +55,12 @@ class AppsListScreen extends ConsumerWidget {
       body: ResponsiveCenterScrollable(
         controller: scrollController,
         child: AppsListView(
-          controller: scrollController,
-          onNewApp: () => _createNewApp(context),
-        ),
+            controller: scrollController,
+            onNewApp: () {
+              unawaited(
+                  ref.read(analyticsFacadeProvider).trackNewAppOnboarding());
+              _createNewApp(context);
+            }),
       ),
     );
   }

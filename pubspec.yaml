@@ -24,6 +24,11 @@ dependencies:
   auto_size_text: 3.0.0
   package_info_plus: 8.0.2
   dio: 5.7.0
+  sentry_flutter: 8.9.0
+  sentry_dio: 8.9.0
+  feedback: 3.1.0
+  feedback_sentry: 3.0.1
+  mixpanel_flutter: 2.3.3
   firebase_core: 3.6.0
 
 dev_dependencies:
@@ -37,6 +42,7 @@ dev_dependencies:
   flutter_launcher_icons: 0.14.1
   flutter_native_splash: 2.4.1
   flutter_flavorizr: 2.2.3
+  sentry_dart_plugin: 2.1.0
 
 flutter:
   uses-material-design: true
@@ -115,3 +121,15 @@ flavorizr:
       ios:
         bundleId: "com.codewithandrea.flutterShipApp"
         icon: "assets/prod/app-icon.png"
+
+# https://docs.sentry.io/platforms/flutter/upload-debug/#available-configuration-fields
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  upload_sources: true
+  project: flutter-ship-app
+  org: andrea-bizzotto
+  wait_for_processing: true
+  log_level: error # possible values: trace, debug, info, warn, error
+  commits: auto
+  ignore_missing: true
