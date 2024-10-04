@@ -4,3 +4,9 @@ targets:
       drift_dev:
         options:
           generate_manager: false
+
+# https://codewithandrea.com/articles/dart-flutter-code-generation/#control-code-generation-order
+global_options:
+  drift_dev:
+    runs_before:
+      - riverpod_generator
