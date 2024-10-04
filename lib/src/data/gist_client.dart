@@ -25,7 +25,7 @@ class GistClient {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 GistClient gistClient(GistClientRef ref) {
   final dio = ref.watch(dioProvider);
   return GistClient(dio: dio);

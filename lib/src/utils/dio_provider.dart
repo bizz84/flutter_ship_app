@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Dio dio(DioRef ref) {
   final dio = Dio();
   // * Only log network requests in debug mode

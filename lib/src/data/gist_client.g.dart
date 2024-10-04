@@ -6,11 +6,11 @@ part of 'gist_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gistClientHash() => r'a6b57e2a7c0e862975b44f2abcb48418b6e8bdd0';
+String _$gistClientHash() => r'3b157272d6095446f66dbd29b236a480e251c938';
 
 /// See also [gistClient].
 @ProviderFor(gistClient)
-final gistClientProvider = AutoDisposeProvider<GistClient>.internal(
+final gistClientProvider = Provider<GistClient>.internal(
   gistClient,
   name: r'gistClientProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final gistClientProvider = AutoDisposeProvider<GistClient>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef GistClientRef = AutoDisposeProviderRef<GistClient>;
+typedef GistClientRef = ProviderRef<GistClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

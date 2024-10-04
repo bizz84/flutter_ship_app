@@ -15,7 +15,7 @@ class ErrorLogger {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 ErrorLogger errorLogger(ErrorLoggerRef ref) {
   return const ErrorLogger();
 }
