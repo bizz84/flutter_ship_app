@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Update to latest packages
+
 ## 0.3.0
 
 - Delete `app_release_template.json` (this is now only loaded remotely)
