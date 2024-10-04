@@ -30,6 +30,7 @@ dependencies:
   feedback_sentry: 3.0.1
   mixpanel_flutter: 2.3.3
   firebase_core: 3.3.0
+  firebase_analytics: 11.2.1
 
 dev_dependencies:
   flutter_test:
