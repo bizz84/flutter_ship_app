@@ -10,6 +10,7 @@ import 'package:flutter_ship_app/env/env.dart';
 import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
 import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
+import 'package:flutter_ship_app/src/data/remote_config_gist_client.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
@@ -99,8 +100,11 @@ class MainApp extends ConsumerWidget {
           onLoaded: (_) => ForceUpdateWidget(
             navigatorKey: _rootNavigatorKey,
             forceUpdateClient: ForceUpdateClient(
-              // TODO: fetch from an API endpoint or via Firebase Remote Config
-              fetchRequiredVersion: () => Future.value('2.0.0'),
+              fetchRequiredVersion: () async {
+                final client = ref.read(remoteConfigGistClientProvider);
+                final remoteConfig = await client.fetchRemoteConfig();
+                return remoteConfig.requiredVersion;
+              },
               // TODO: Set APP_STORE_ID in the .env files
               iosAppStoreId: Env.appStoreId,
             ),
