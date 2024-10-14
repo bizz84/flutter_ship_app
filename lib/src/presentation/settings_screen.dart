@@ -59,6 +59,8 @@ class SettingsScreen extends ConsumerWidget {
               const RateOnAppStoreTile(),
               const Divider(height: 1),
             ],
+            ShowLicensesTile(),
+            const Divider(height: 1),
           ],
         ),
       ),
@@ -177,6 +179,19 @@ class RateOnAppStoreTile extends ConsumerWidget {
             .read(inAppReviewProvider)
             .openStoreListing(appStoreId: Env.appStoreId);
       },
+    );
+  }
+}
+
+class ShowLicensesTile extends ConsumerWidget {
+  const ShowLicensesTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      title: Text('Show licenses'.hardcoded),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () => showLicensePage(context: context),
     );
   }
 }
