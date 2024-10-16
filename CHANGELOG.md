@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Update to Gradle 8.3
+
 ## 0.3.1
 
 - Update to latest packages
