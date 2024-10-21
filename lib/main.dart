@@ -13,7 +13,7 @@ import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 
-void main() async {
+Future<void> runMainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   final container = ProviderContainer();
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
