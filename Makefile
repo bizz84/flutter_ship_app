@@ -18,7 +18,7 @@ deploy:
 	dart run build_runner build -d
 
 	@echo "Building for web..."
-	flutter build web --dart-define-from-file=.env.prod --base-href $(BASE_HREF) --release
+	flutter build web --flavor prod -t lib/main_prod.dart --dart-define-from-file=.env.prod --base-href $(BASE_HREF) --release
 
 	@echo "Deploying to git repository"
 	cd build/web && \
