@@ -1,3 +1,7 @@
+## 0.3.3
+
+- Settings page: show transparent icon and correct app name on web
+
 ## 0.3.2
 
 - Update to Gradle 8.3
