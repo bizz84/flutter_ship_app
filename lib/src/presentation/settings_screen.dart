@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
@@ -27,17 +28,14 @@ class SettingsScreen extends ConsumerWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(Sizes.p20),
                 child: Image.asset(
-                  'assets/common/app-icon.png',
+                  'assets/common/app-icon-transparent.png',
                   height: 120,
                   semanticLabel: 'App Icon'.hardcoded,
                 ),
               ),
             ),
             gapH12,
-            Text(
-              kIsWeb ? 'Flutter Ship'.hardcoded : packageInfo.appName,
-              textAlign: TextAlign.center,
-            ),
+            AppTitleWidget(appName: packageInfo.appName),
             gapH8,
             Text(
               'Version ${packageInfo.version} (${packageInfo.buildNumber})'
@@ -52,6 +50,26 @@ class SettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AppTitleWidget extends StatelessWidget {
+  const AppTitleWidget({super.key, required this.appName});
+  final String appName;
+
+  @override
+  Widget build(BuildContext context) {
+    // * On web, the PackageInfo.appName will return "flutter_ship_app"
+    // * This code ensures we show the correct app name depending on the flavor
+    final webAppName = switch (getFlavor()) {
+      Flavor.prod => 'Flutter Ship'.hardcoded,
+      Flavor.stg => 'Flutter Ship Stg'.hardcoded,
+      Flavor.dev => 'Flutter Ship Dev'.hardcoded,
+    };
+    return Text(
+      kIsWeb ? webAppName : appName,
+      textAlign: TextAlign.center,
     );
   }
 }
