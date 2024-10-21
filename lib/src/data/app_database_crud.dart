@@ -213,7 +213,7 @@ extension AppDatabaseCRUD on AppDatabase {
     });
   }
 
-  /// Get the completed tasks for a given app
+  /// Get the completed tasks count for a given app
   /// - if epicId is not-null, filter by that epic
   /// - otherwise, filter by the appId only
   Stream<int> watchCompletedTasksCount({required int appId, String? epicId}) {
@@ -237,6 +237,22 @@ extension AppDatabaseCRUD on AppDatabase {
     // Watch the query and map the result to the count of completed tasks
     return query.watch().map((rows) {
       // Count only the rows that have a matching taskId in the taskStatusesTable
+      return rows.where((row) => row.readTable(taskStatuses).completed).length;
+    });
+  }
+
+  /// Get the completed tasks count
+  Future<int> fetchCompletedTasksCount() {
+    final query = select(taskStatuses).join([
+      innerJoin(
+        tasks,
+        tasks.id.equalsExp(taskStatuses.taskId),
+      )
+    ]);
+
+    query.where(taskStatuses.completed.equals(true));
+
+    return query.get().then((rows) {
       return rows.where((row) => row.readTable(taskStatuses).completed).length;
     });
   }

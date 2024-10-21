@@ -18,7 +18,7 @@ deploy:
 	dart run build_runner build -d
 
 	@echo "Building for web..."
-	flutter build web --flavor prod -t lib/main_prod.dart --dart-define-from-file=.env.prod --base-href $(BASE_HREF) --release
+	flutter build web --flavor prod -t lib/main_prod.dart --dart-define-from-file=.env.prod --base-href $(BASE_HREF) --release  --source-maps
 
 	@echo "Deploying to git repository"
 	cd build/web && \
@@ -29,6 +29,9 @@ deploy:
 	git branch -M main && \
 	git remote add origin $(GITHUB_REPO) && \
 	git push -u -f origin main
+
+	@echo "Running Sentry Dart plugin..."
+	dart run sentry_dart_plugin
 
 	cd ../..
 	@echo "✅ Finished deploy: $(GITHUB_REPO)"
