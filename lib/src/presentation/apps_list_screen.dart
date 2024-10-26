@@ -76,7 +76,7 @@ class AppsListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // * The totalTasksCount is the same for all apps, because tasks are loaded
-    // * from the same teplate. So we can watch it here and pass it to each
+    // * from the same template. So we can watch it here and pass it to each
     // * AppListTile below.
     final totalTasksCount = ref.watch(watchTotalTasksCountProvider).valueOrNull;
     final appsListAsync = ref.watch(watchAppsListProvider);
