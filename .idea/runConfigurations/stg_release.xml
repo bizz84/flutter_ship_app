@@ -3,6 +3,7 @@
     <option name="additionalArgs" value="--release" />
     <option name="buildFlavor" value="stg" />
     <option name="filePath" value="$PROJECT_DIR$/lib/main_stg.dart" />
+    <option name="additionalArgs" value="--dart-define=WEB_FLAVOR=stg" />
     <method v="2" />
   </configuration>
 </component>
