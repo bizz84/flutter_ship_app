@@ -22,7 +22,7 @@ dependencies:
   riverpod_annotation: 2.6.1
   shared_preferences: 2.3.2
   auto_size_text: 3.0.0
-  package_info_plus: 8.0.2
+  package_info_plus: 8.1.0
   dio: 5.7.0
 
 dev_dependencies:
