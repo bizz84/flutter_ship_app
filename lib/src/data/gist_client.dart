@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/utils/dio_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,7 +27,7 @@ class GistClient {
 }
 
 @Riverpod(keepAlive: true)
-GistClient gistClient(GistClientRef ref) {
+GistClient gistClient(Ref ref) {
   final dio = ref.watch(dioProvider);
   return GistClient(dio: dio);
 }

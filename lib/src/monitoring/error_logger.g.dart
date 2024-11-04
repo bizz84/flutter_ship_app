@@ -6,7 +6,7 @@ part of 'error_logger.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$errorLoggerHash() => r'a303f2fd073af926d8e2e54e2f7e8ecb843401e9';
+String _$errorLoggerHash() => r'1818bb683c341c96008c6995f3400c42963ead75';
 
 /// See also [errorLogger].
 @ProviderFor(errorLogger)
@@ -19,6 +19,8 @@ final errorLoggerProvider = Provider<ErrorLogger>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ErrorLoggerRef = ProviderRef<ErrorLogger>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

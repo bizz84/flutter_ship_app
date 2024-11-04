@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:drift/drift.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
@@ -263,31 +264,31 @@ extension AppDatabaseCRUD on AppDatabase {
 // *************** Epics *****************
 
 @riverpod
-Future<List<Epic>> fetchAllEpicsAndTasks(FetchAllEpicsAndTasksRef ref) {
+Future<List<Epic>> fetchAllEpicsAndTasks(Ref ref) {
   return ref.watch(appDatabaseProvider).fetchAllEpicsAndTasks();
 }
 
 // *************** Apps *****************
 
 @riverpod
-Stream<List<App>> watchAppsList(WatchAppsListRef ref) {
+Stream<List<App>> watchAppsList(Ref ref) {
   return ref.watch(appDatabaseProvider).watchAppsList();
 }
 
 @riverpod
-Stream<App?> watchAppById(WatchAppByIdRef ref, int id) {
+Stream<App?> watchAppById(Ref ref, int id) {
   return ref.watch(appDatabaseProvider).watchAppById(id);
 }
 
 // *************** Tasks *****************
 
 @riverpod
-Stream<int> watchTotalTasksCount(WatchTotalTasksCountRef ref) {
+Stream<int> watchTotalTasksCount(Ref ref) {
   return ref.watch(appDatabaseProvider).watchTotalTasksCount();
 }
 
 @riverpod
-Stream<List<Task>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
+Stream<List<Task>> watchTasksForAppAndEpic(Ref ref,
     {required int appId, required String epicId}) {
   return ref
       .watch(appDatabaseProvider)
@@ -295,7 +296,7 @@ Stream<List<Task>> watchTasksForAppAndEpic(WatchTasksForAppAndEpicRef ref,
 }
 
 @riverpod
-Stream<int> watchCompletedTasksCount(WatchCompletedTasksCountRef ref,
+Stream<int> watchCompletedTasksCount(Ref ref,
     {required int appId, String? epicId}) {
   return ref
       .watch(appDatabaseProvider)

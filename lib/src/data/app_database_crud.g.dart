@@ -7,7 +7,7 @@ part of 'app_database_crud.dart';
 // **************************************************************************
 
 String _$fetchAllEpicsAndTasksHash() =>
-    r'50bbbca378b07557d0ec3d7ffb4dadff45d75320';
+    r'9f1ae6d89fd82c06d1544e6156b0f78ba83009f7';
 
 /// See also [fetchAllEpicsAndTasks].
 @ProviderFor(fetchAllEpicsAndTasks)
@@ -22,8 +22,10 @@ final fetchAllEpicsAndTasksProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FetchAllEpicsAndTasksRef = AutoDisposeFutureProviderRef<List<Epic>>;
-String _$watchAppsListHash() => r'7011592389f0180cb95870f141200af0b72e9f74';
+String _$watchAppsListHash() => r'87b0024c5992f4c2502cd011093b6e05c53d871b';
 
 /// See also [watchAppsList].
 @ProviderFor(watchAppsList)
@@ -37,8 +39,10 @@ final watchAppsListProvider = AutoDisposeStreamProvider<List<App>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WatchAppsListRef = AutoDisposeStreamProviderRef<List<App>>;
-String _$watchAppByIdHash() => r'740bb7a74220220c5b2d2e493255300e9b997d2c';
+String _$watchAppByIdHash() => r'0bb01b0976509e2d6b5e549523fd80bda5db3de9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -174,6 +178,8 @@ class WatchAppByIdProvider extends AutoDisposeStreamProvider<App?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin WatchAppByIdRef on AutoDisposeStreamProviderRef<App?> {
   /// The parameter `id` of this provider.
   int get id;
@@ -188,7 +194,7 @@ class _WatchAppByIdProviderElement
 }
 
 String _$watchTotalTasksCountHash() =>
-    r'8aefd5280417d21542f0c74a4e18d087aa67e6e7';
+    r'd67fbb7dedd7d558286b762e853128b950f337b0';
 
 /// See also [watchTotalTasksCount].
 @ProviderFor(watchTotalTasksCount)
@@ -202,9 +208,11 @@ final watchTotalTasksCountProvider = AutoDisposeStreamProvider<int>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WatchTotalTasksCountRef = AutoDisposeStreamProviderRef<int>;
 String _$watchTasksForAppAndEpicHash() =>
-    r'6a6a5a60c9b5155c50eeb6dd18326967e1b6348d';
+    r'cecb89be5c9405cdc56bd594f6ca67c672807364';
 
 /// See also [watchTasksForAppAndEpic].
 @ProviderFor(watchTasksForAppAndEpic)
@@ -332,6 +340,8 @@ class WatchTasksForAppAndEpicProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin WatchTasksForAppAndEpicRef on AutoDisposeStreamProviderRef<List<Task>> {
   /// The parameter `appId` of this provider.
   int get appId;
@@ -352,7 +362,7 @@ class _WatchTasksForAppAndEpicProviderElement
 }
 
 String _$watchCompletedTasksCountHash() =>
-    r'1eb480633bc4887c55af38a932ce3b13b35d737d';
+    r'8efea8a3d400879056201c0f1fe8cfd7ed96ffb4';
 
 /// See also [watchCompletedTasksCount].
 @ProviderFor(watchCompletedTasksCount)
@@ -479,6 +489,8 @@ class WatchCompletedTasksCountProvider extends AutoDisposeStreamProvider<int> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin WatchCompletedTasksCountRef on AutoDisposeStreamProviderRef<int> {
   /// The parameter `appId` of this provider.
   int get appId;
@@ -498,4 +510,4 @@ class _WatchCompletedTasksCountProviderElement
   String? get epicId => (origin as WatchCompletedTasksCountProvider).epicId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
