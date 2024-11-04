@@ -10,12 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   # Drift and friends
-  drift: 2.20.3
-  drift_dev: 2.20.3
-  path_provider: 2.1.4
+  drift: 2.21.0
+  drift_dev: 2.21.2
+  path_provider: 2.1.5
   path: 1.9.0
-  sqlite3_flutter_libs: 0.5.24
-  sqlite3: 2.4.6
+  sqlite3_flutter_libs: 0.5.26
+  sqlite3: 2.4.7
   # Other packages
   flex_color_scheme: 7.3.1
   flutter_riverpod: 2.5.1
