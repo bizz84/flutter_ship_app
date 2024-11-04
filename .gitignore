@@ -16,7 +16,7 @@ migrate_working_dir/
 *.iws
 .idea/libraries/
 .idea/*.xml
-android/.idea/*.xml
+android/.idea/**/*.xml
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
