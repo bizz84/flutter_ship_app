@@ -3,6 +3,7 @@
     <option name="additionalArgs" value="--profile" />
     <option name="buildFlavor" value="prod" />
     <option name="filePath" value="$PROJECT_DIR$/lib/main_prod.dart" />
+    <option name="additionalArgs" value="--dart-define=WEB_FLAVOR=prod" />
     <method v="2" />
   </configuration>
 </component>
