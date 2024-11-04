@@ -1,3 +1,10 @@
+## 0.3.4
+
+- Improved web support in `flavor.dart`
+- Update to Drift 2.21.0
+- Update to Riverpod 2.6.1
+- Update to Gradle 8.9
+
 ## 0.3.3
 
 - Settings page: show transparent icon and correct app name on web
