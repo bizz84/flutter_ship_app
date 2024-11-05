@@ -8,7 +8,8 @@ plugins {
 android {
     namespace = "com.codewithandrea.flutter_ship_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // Required by some of the plugins installed in the Flutter project
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
