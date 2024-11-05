@@ -4,6 +4,14 @@ import 'package:flutter/services.dart';
 enum Flavor { dev, stg, prod }
 
 /// Global function to return the current flavor
+///
+/// **How to set the flavor**
+/// When running:
+/// flutter run --flavor dev|stg|prod --dart-define WEB_FLAVOR=dev|stg|prod
+/// When building on Android or iOS:
+/// flutter build appbundle|apk|ipa --flavor dev|stg|prod
+/// When building on web
+/// flutter build web --dart-define WEB_FLAVOR=dev|stg|prod
 Flavor getFlavor() {
   // * On iOS/Android, appFlavor is supported and set with the --flavor option
   // * On web, appFlavor is not supported so we read a separate WEB_FLAVOR
