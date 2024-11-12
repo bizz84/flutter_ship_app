@@ -22,9 +22,7 @@ void main() async {
   // run the app
   runApp(UncontrolledProviderScope(
     container: container,
-    child: AppStartupWidget(
-      onLoaded: (context) => const MainApp(),
-    ),
+    child: MainApp(),
   ));
 }
 
@@ -39,6 +37,13 @@ class MainApp extends ConsumerWidget {
       theme: AppThemeData.light(),
       darkTheme: AppThemeData.dark(),
       themeMode: themeMode,
+      builder: (_, child) {
+        return AppStartupWidget(
+          onLoaded: (_) => AppStartupLoadedWidget(
+            child: child!,
+          ),
+        );
+      },
       onGenerateRoute: (settings) {
         // * This app uses named routes. For more info, read:
         // * https://docs.flutter.dev/cookbook/navigation/navigate-with-arguments

@@ -9,8 +9,6 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
-import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
-import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -91,54 +89,51 @@ class AppStartupWidget extends ConsumerWidget {
   }
 }
 
-class AppStartupLoadingWidget extends ConsumerWidget {
+class AppStartupLoadingWidget extends StatelessWidget {
   const AppStartupLoadingWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(appThemeModeNotifierProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppThemeData.light(),
-      darkTheme: AppThemeData.dark(),
-      themeMode: themeMode,
-      home: Scaffold(
-        appBar: AppBar(),
-        body: const Padding(
-          padding: EdgeInsets.all(Sizes.p16),
-          child: Center(child: CircularProgressIndicator()),
-        ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Padding(
+        padding: EdgeInsets.all(Sizes.p16),
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }
 }
 
-class AppStartupErrorWidget extends ConsumerWidget {
+class AppStartupErrorWidget extends StatelessWidget {
   const AppStartupErrorWidget(
       {super.key, required this.message, required this.onRetry});
   final String message;
   final VoidCallback onRetry;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(appThemeModeNotifierProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppThemeData.light(),
-      darkTheme: AppThemeData.dark(),
-      themeMode: themeMode,
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: ErrorPrompt(
-              message: message,
-              onRetry: onRetry,
-            ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: ErrorPrompt(
+            message: message,
+            onRetry: onRetry,
           ),
         ),
       ),
     );
+  }
+}
+
+class AppStartupLoadedWidget extends StatelessWidget {
+  const AppStartupLoadedWidget({super.key, required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    // * Just a passthrough widget for now. We'll update this later
+    return child;
   }
 }
