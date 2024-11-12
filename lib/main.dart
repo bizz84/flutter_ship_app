@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dio/dio.dart';
-import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +23,6 @@ import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:flutter_ship_app/src/presentation/apps_list_screen.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
-import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:flutter_ship_app/src/utils/url_launcher_provider.dart';
 import 'package:force_update_helper/force_update_helper.dart';
@@ -68,14 +66,7 @@ Future<void> runMainApp({required FirebaseOptions firebaseOptions}) async {
   await container.read(mixpanelAnalyticsClientProvider.future);
   runApp(UncontrolledProviderScope(
     container: container,
-    child: AppStartupWidget(
-      onLoaded: (context) =>
-          // * Don't wrap with BetterFeedback if web HTML renderer is used
-          // https://pub.dev/packages/feedback#-known-issues-and-limitations
-          !kIsWeb || isCanvasKitRenderer()
-              ? const BetterFeedback(child: MainApp())
-              : const MainApp(),
-    ),
+    child: MainApp(),
   ));
 }
 
@@ -127,7 +118,12 @@ class MainApp extends ConsumerWidget {
           onException: (e, st) {
             ref.read(errorLoggerProvider).logException(e, st);
           },
-          child: child!,
+          child: AppStartupWidget(
+            onLoaded: (context) => AppStartupDataWidget(
+              themeMode: themeMode,
+              child: child!,
+            ),
+          ),
         );
       },
       onGenerateRoute: (settings) {

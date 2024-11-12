@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:feedback/feedback.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
@@ -10,7 +12,7 @@ import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
 import 'package:flutter_ship_app/src/monitoring/error_logger.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
-import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
+import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -90,54 +92,72 @@ class AppStartupWidget extends ConsumerWidget {
   }
 }
 
-class AppStartupLoadingWidget extends ConsumerWidget {
+class AppStartupLoadingWidget extends StatelessWidget {
   const AppStartupLoadingWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(appThemeModeNotifierProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppThemeData.light(),
-      darkTheme: AppThemeData.dark(),
-      themeMode: themeMode,
-      home: Scaffold(
-        appBar: AppBar(),
-        body: const Padding(
-          padding: EdgeInsets.all(Sizes.p16),
-          child: Center(child: CircularProgressIndicator()),
-        ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Padding(
+        padding: EdgeInsets.all(Sizes.p16),
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }
 }
 
-class AppStartupErrorWidget extends ConsumerWidget {
+class AppStartupErrorWidget extends StatelessWidget {
   const AppStartupErrorWidget(
       {super.key, required this.message, required this.onRetry});
   final String message;
   final VoidCallback onRetry;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(appThemeModeNotifierProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppThemeData.light(),
-      darkTheme: AppThemeData.dark(),
-      themeMode: themeMode,
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: ErrorPrompt(
-              message: message,
-              onRetry: onRetry,
-            ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: ErrorPrompt(
+            message: message,
+            onRetry: onRetry,
           ),
         ),
       ),
     );
+  }
+}
+
+class AppStartupDataWidget extends StatelessWidget {
+  const AppStartupDataWidget(
+      {super.key, required this.child, required this.themeMode});
+  final Widget child;
+  final ThemeMode themeMode;
+
+  @override
+  Widget build(BuildContext context) {
+    // * Don't wrap with BetterFeedback if web HTML renderer is used
+    // https://pub.dev/packages/feedback#-known-issues-and-limitations
+    if (!kIsWeb || isCanvasKitRenderer()) {
+      return BetterFeedback(
+        // * BetterFeedback alters some theme settings, causing descendant
+        // * widgets to render incorrectly. To prevent this, we reset the theme.
+        child: AnimatedTheme(
+          data: switch (themeMode) {
+            ThemeMode.dark => AppThemeData.dark(),
+            ThemeMode.light => AppThemeData.light(),
+            ThemeMode.system =>
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? AppThemeData.dark()
+                  : AppThemeData.light(),
+          },
+          child: child,
+        ),
+      );
+    } else {
+      return child;
+    }
   }
 }
