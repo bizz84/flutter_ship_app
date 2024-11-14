@@ -8,23 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
-		2B0FA302492DF5E3FECD0549 /* stgProfile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D831202A48E8DD7EF2AD2A53 /* stgProfile.xcconfig */; };
-		3066C6E6C36E7DE04EE47EB9 /* devDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D2F189D3C98C2B2D4241113D /* devDebug.xcconfig */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		581A9AADB843A115C3EC3B11 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D2457926B3E5E805ADA70E /* Pods_Runner.framework */; };
-		5EFAB7382EB976B494B2F147 /* stgDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 11BB5D285FD59A931D9D5379 /* stgDebug.xcconfig */; };
 		650C57432CE3AAD1008C39FB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 650C57422CE3AAD1008C39FB /* PrivacyInfo.xcprivacy */; };
-		662F407A4BCF4F4CD5692787 /* devRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9AB0C3591C2A08FC01E7FFEF /* devRelease.xcconfig */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
-		851111AF5B1C7DBE32A5AC0F /* prodProfile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4562F2CB2AB467E6FA30E6BE /* prodProfile.xcconfig */; };
-		8F2BD3036A7FC4E242A87A02 /* devProfile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC39C6AC6461E47387B39D71 /* devProfile.xcconfig */; };
-		8FCEAF869D02B58AA6CB43B4 /* prodDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028696AAF36E425F9CB2BB95 /* prodDebug.xcconfig */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		A64A1795C66B5EF0A3516BCF /* prodRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 48BE12506B12080EFB411137 /* prodRelease.xcconfig */; };
-		D53159BAA73D15231787D8CB /* stgRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D2FE5D648B44E0F709261844 /* stgRelease.xcconfig */; };
 		DEB06FCCAAA372A53FC730D0 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF33D40B63AD79932668381 /* Pods_RunnerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -246,7 +237,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1510;
+				LastUpgradeCheck = 1610;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					331C8080294A63A400263BE5 = {
@@ -294,16 +285,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				3066C6E6C36E7DE04EE47EB9 /* devDebug.xcconfig in Resources */,
-				8F2BD3036A7FC4E242A87A02 /* devProfile.xcconfig in Resources */,
-				662F407A4BCF4F4CD5692787 /* devRelease.xcconfig in Resources */,
-				5EFAB7382EB976B494B2F147 /* stgDebug.xcconfig in Resources */,
 				650C57432CE3AAD1008C39FB /* PrivacyInfo.xcprivacy in Resources */,
-				2B0FA302492DF5E3FECD0549 /* stgProfile.xcconfig in Resources */,
-				D53159BAA73D15231787D8CB /* stgRelease.xcconfig in Resources */,
-				8FCEAF869D02B58AA6CB43B4 /* prodDebug.xcconfig in Resources */,
-				851111AF5B1C7DBE32A5AC0F /* prodProfile.xcconfig in Resources */,
-				A64A1795C66B5EF0A3516BCF /* prodRelease.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
