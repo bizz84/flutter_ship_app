@@ -47,7 +47,7 @@ dev_dependencies:
   flutter_launcher_icons: 0.14.1
   flutter_native_splash: 2.4.1
   flutter_flavorizr: 2.2.3
-  sentry_dart_plugin: 2.1.0
+  sentry_dart_plugin: 2.2.1
 
 flutter:
   uses-material-design: true
