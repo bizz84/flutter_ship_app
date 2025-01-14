@@ -131,8 +131,8 @@ flavorizr:
 # https://docs.sentry.io/platforms/flutter/upload-debug/#available-configuration-fields
 sentry:
   upload_debug_symbols: true
-  upload_source_maps: true
-  upload_sources: true
+  upload_source_maps: false
+  upload_sources: false
   project: flutter-ship-app
   org: andrea-bizzotto
   wait_for_processing: true

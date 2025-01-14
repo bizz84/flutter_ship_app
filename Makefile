@@ -31,7 +31,7 @@ deploy:
 	git push -u -f origin main
 
 	@echo "Running Sentry Dart plugin..."
-	dart run sentry_dart_plugin
+	dart run sentry_dart_plugin --sentry-define=upload_source_maps=true --sentry-define=upload_sources=true
 
 	cd ../..
 	@echo "✅ Finished deploy: $(GITHUB_REPO)"
