@@ -75,7 +75,7 @@ jobs:
 
     - name: Sign App Bundle
       run: |
-        AAB_PATH="$GITHUB_WORKSPACE/flutter_app/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab"
+        AAB_PATH="$GITHUB_WORKSPACE/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab"
         jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
           -keystore ${{ env.ANDROID_KEYSTORE_PATH }} \
           -storepass ${{ env.ANDROID_KEYSTORE_PASSWORD }} \
