@@ -70,6 +70,13 @@ jobs:
     - name: Decode and save Android Keystore
       run: echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
 
+    - name: Create key.properties
+      run: |
+        echo "storeFile=${{ env.ANDROID_KEYSTORE_PATH }}" > android/key.properties
+        echo "storePassword=${{ env.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+        echo "keyPassword=${{ env.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+        echo "keyAlias=${{ env.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
     - name: Build Android App
       run: flutter build appbundle --release --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define=WEB_FLAVOR=${{ env.DEPLOY_ENV }} --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
 
