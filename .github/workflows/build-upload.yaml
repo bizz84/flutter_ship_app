@@ -1,0 +1,107 @@
+name: Build & Upload (Android, iOS)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+        - dev
+        - stg
+        - prod
+
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    defaults:
+      run:
+        working-directory: flutter_app
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
+      # Required for signing the APK/AAB
+      ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android_keystore.jks
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+    - name: Install Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'      
+        distribution: 'temurin'
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        flutter-version: '3.27.2'
+        # Enable caching (see: https://github.com/subosito/flutter-action?tab=readme-ov-file#caching)
+        cache: true
+        cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+    - name: Install Flutter dependencies
+      run: flutter pub get
+
+    - name: Get package name from Gradle
+      run: |
+        PACKAGE_NAME=$(grep -E "namespace\s*=\s*\"[^\"]+\"" android/app/build.gradle | sed -E 's/.*"([^"]+)".*/\1/')
+        if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
+          PACKAGE_NAME="${PACKAGE_NAME}.${{ env.DEPLOY_ENV }}"
+        fi
+        echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+
+    # Generate .env.<flavor> file as it is gitignored but needed for the build
+    - name: Setup API Keys
+      run: echo "${{ secrets.DART_DEFINES }}" > .env.${{ env.DEPLOY_ENV }}
+    
+    # Write all the gitignored Firebase files that are needed for the build
+    # You can remove this step if you've added them to Git
+    - name: Setup Firebase
+      env:
+        FIREBASE_JSON: ${{ secrets.FIREBASE_JSON }}
+        FIREBASE_OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
+        GOOGLE_SERVICE_PLIST: ${{ secrets.GOOGLE_SERVICE_PLIST }}      
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        echo "$FIREBASE_OPTIONS" > lib/firebase_options_${{ env.DEPLOY_ENV }}.dart        
+        echo "$GOOGLE_SERVICES_JSON" > android/app/src/${{ env.DEPLOY_ENV }}/google-services.json
+        mkdir -p ios/flavors/${{ env.DEPLOY_ENV }}
+        echo "$GOOGLE_SERVICE_PLIST" > ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
+        echo "$FIREBASE_JSON" > firebase.json
+        # Needed by the "flutterfire bundle-service-file" build phase in Xcode
+        dart pub global activate flutterfire_cli 1.0.1 --overwrite
+
+    - name: Decode and save Android Keystore
+      run: echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
+
+    - name: Build Android App
+      run: flutter build appbundle --release --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define=WEB_FLAVOR=${{ env.DEPLOY_ENV }} --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
+
+    - name: Sign App Bundle
+      run: |
+        AAB_PATH="$GITHUB_WORKSPACE/flutter_app/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab"
+        jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+          -keystore ${{ env.ANDROID_KEYSTORE_PATH }} \
+          -storepass ${{ env.ANDROID_KEYSTORE_PASSWORD }} \
+          -keypass ${{ env.ANDROID_KEY_PASSWORD }} \
+          "$AAB_PATH" ${{ env.ANDROID_KEY_ALIAS }}
+        echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
+
+    - name: Upload to Google Play
+      uses: r0adkll/upload-google-play@v1
+      with:
+        # Note: First version should be updated manually.
+        # See: https://github.com/r0adkll/upload-google-play
+        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        packageName: ${{ env.PACKAGE_NAME }}
+        releaseFiles: ${{ env.AAB_PATH }}
+        track: 'production'
+        # Set to false (default) to automatically send for review
+        # changesNotSentForReview: true
