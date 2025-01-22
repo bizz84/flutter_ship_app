@@ -18,9 +18,6 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
-    defaults:
-      run:
-        working-directory: flutter_app
     env:
       DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
       # Required for signing the APK/AAB
