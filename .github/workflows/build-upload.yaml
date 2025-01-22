@@ -67,11 +67,11 @@ jobs:
         # Needed by the "flutterfire bundle-service-file" build phase in Xcode
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
 
-    - name: Decode and save Android Keystore
-      run: echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
-
-    - name: Create key.properties
+    # Generate all the files needed for Android code signing
+    - name: Setup Android Keystore
       run: |
+        echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
+        # TODO: encode the whole file and write it in one go
         echo "storeFile=${{ env.ANDROID_KEYSTORE_PATH }}" > android/key.properties
         echo "storePassword=${{ env.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
         echo "keyPassword=${{ env.ANDROID_KEY_PASSWORD }}" >> android/key.properties
@@ -83,11 +83,6 @@ jobs:
     - name: Sign App Bundle
       run: |
         AAB_PATH="$GITHUB_WORKSPACE/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab"
-        #jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-        #  -keystore ${{ env.ANDROID_KEYSTORE_PATH }} \
-        #  -storepass ${{ env.ANDROID_KEYSTORE_PASSWORD }} \
-        #  -keypass ${{ env.ANDROID_KEY_PASSWORD }} \
-        #  "$AAB_PATH" ${{ env.ANDROID_KEY_ALIAS }}
         echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
 
     - name: Prepare for Upload
