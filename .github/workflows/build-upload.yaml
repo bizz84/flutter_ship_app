@@ -56,7 +56,7 @@ jobs:
 
     # Generate .env.<flavor> file as it is gitignored but needed for the build
     - name: Setup API Keys
-      run: echo "${{ secrets.DART_DEFINES }}" > .env.${{ env.DEPLOY_ENV }}
+      run: echo "${{ secrets.DART_DEFINES }}" | base64 --decode > .env.${{ env.DEPLOY_ENV }}
     
     # Write all the gitignored Firebase files that are needed for the build
     # You can remove this step if you've added them to Git
@@ -67,11 +67,11 @@ jobs:
         GOOGLE_SERVICE_PLIST: ${{ secrets.GOOGLE_SERVICE_PLIST }}      
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
       run: |
-        echo "$FIREBASE_OPTIONS" > lib/firebase_options_${{ env.DEPLOY_ENV }}.dart        
-        echo "$GOOGLE_SERVICES_JSON" > android/app/src/${{ env.DEPLOY_ENV }}/google-services.json
+        echo "$FIREBASE_OPTIONS" | base64 --decode > lib/firebase_options_${{ env.DEPLOY_ENV }}.dart        
+        echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/src/${{ env.DEPLOY_ENV }}/google-services.json
         mkdir -p ios/flavors/${{ env.DEPLOY_ENV }}
-        echo "$GOOGLE_SERVICE_PLIST" > ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
-        echo "$FIREBASE_JSON" > firebase.json
+        echo "$GOOGLE_SERVICE_PLIST" | base64 --decode > ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
+        echo "$FIREBASE_JSON" | base64 --decode > firebase.json
         # Needed by the "flutterfire bundle-service-file" build phase in Xcode
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
 
