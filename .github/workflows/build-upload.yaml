@@ -60,7 +60,7 @@ jobs:
     # Generate all the files needed for Android code signing
     - name: Setup Android Keystore
       env:
-        ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/android_keystore.jks
+        ANDROID_KEYSTORE_PATH: android/android_keystore.jks
         ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
