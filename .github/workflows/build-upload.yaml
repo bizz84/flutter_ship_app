@@ -74,24 +74,24 @@ jobs:
     - name: Build Android App
       run: flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
 
-    # - name: Prepare for Upload
-    #   env:
-    #     GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ github.workspace }}/flutter-ship-service-account.json
-    #   run: |
-    #     PACKAGE_NAME=$(grep -E "namespace\s*=\s*\"[^\"]+\"" android/app/build.gradle | sed -E 's/.*"([^"]+)".*/\1/')
-    #     if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
-    #       PACKAGE_NAME="${PACKAGE_NAME}.${{ env.DEPLOY_ENV }}"
-    #     fi
-    #     echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
-    #     echo "AAB_PATH=${{ github.workspace }}/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab" >> $GITHUB_ENV
-    #     echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" | base64 --decode > ${{ env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+    - name: Prepare for Upload
+      env:
+        GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ github.workspace }}/flutter-ship-service-account.json
+      run: |
+        PACKAGE_NAME=$(grep -E "namespace\s*=\s*\"[^\"]+\"" android/app/build.gradle | sed -E 's/.*"([^"]+)".*/\1/')
+        if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
+          PACKAGE_NAME="${PACKAGE_NAME}.${{ env.DEPLOY_ENV }}"
+        fi
+        echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+        echo "AAB_PATH=${{ github.workspace }}/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab" >> $GITHUB_ENV
+        echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" | base64 --decode > ${{ env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-    # - name: Upload to Google Play
-    #   uses: r0adkll/upload-google-play@v1
-    #   with:
-    #     # Note: First version should be updated manually.
-    #     # See: https://github.com/r0adkll/upload-google-play
-    #     serviceAccountJsonPlainText: ${{ env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-    #     packageName: ${{ env.PACKAGE_NAME }}
-    #     releaseFiles: ${{ env.AAB_PATH }}
-    #     track: 'production'
+    - name: Upload to Google Play
+      uses: r0adkll/upload-google-play@v1
+      with:
+        # Note: First version should be updated manually.
+        # See: https://github.com/r0adkll/upload-google-play
+        serviceAccountJsonPlainText: ${{ env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        packageName: ${{ env.PACKAGE_NAME }}
+        releaseFiles: ${{ env.AAB_PATH }}
+        track: 'production'
