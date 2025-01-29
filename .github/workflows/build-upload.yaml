@@ -1,6 +1,7 @@
 name: Build & Upload (Android, iOS)
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       environment:
@@ -15,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: self-hosted
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
     env:
