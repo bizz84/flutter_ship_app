@@ -36,6 +36,16 @@ jobs:
         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
 
+    - name: Print cache outputs
+      run: |
+        echo CACHE-PATH=${{ steps.flutter-action.outputs.CACHE-PATH }}
+        echo CACHE-KEY=${{ steps.flutter-action.outputs.CACHE-KEY }}
+        echo CHANNEL=${{ steps.flutter-action.outputs.CHANNEL }}
+        echo VERSION=${{ steps.flutter-action.outputs.VERSION }}
+        echo ARCHITECTURE=${{ steps.flutter-action.outputs.ARCHITECTURE }}
+        echo PUB-CACHE-PATH=${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}
+        echo PUB-CACHE-KEY=${{ steps.flutter-action.outputs.PUB-CACHE-KEY }}
+
     # Generate .env.<flavor> file as it is gitignored but needed for the build
     - name: Setup Dart Defines
       run: echo "${{ secrets.DART_DEFINES }}" | base64 --decode > .env.${{ env.DEPLOY_ENV }}
