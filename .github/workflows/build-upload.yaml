@@ -31,7 +31,8 @@ jobs:
       with:
         channel: 'stable'
         flutter-version: '3.27.2'
-        # Enable caching: https://github.com/subosito/flutter-action?tab=readme-ov-file#caching
+        # * Reminder: enable caching on GitHub-hosted runners, disable on self-hosted runners
+        # Syntax reference: https://github.com/subosito/flutter-action?tab=readme-ov-file#caching
         # cache: true
         # cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
         # cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
