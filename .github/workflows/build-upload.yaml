@@ -78,10 +78,7 @@ jobs:
 
     - name: Build Android App
       run:
-        flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} \
-          -t lib/main_${{ env.DEPLOY_ENV }}.dart \
-          --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} \
-          --obfuscate --split-debug-info=build
+        flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --obfuscate --split-debug-info=build
 
     - name: Prepare for Upload
       run: |
@@ -118,12 +115,9 @@ jobs:
     - name: Set up signing certificate
       run: keychain add-certificates
 
-    - name: Build ipa for distribution
+    - name: Build iOS App
       run:
-        flutter build ipa --flavor ${{ env.DEPLOY_ENV }} \
-          -t lib/main_${{ env.DEPLOY_ENV }}.dart \
-          --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} \
-          --obfuscate --split-debug-info=build
+        flutter build ipa --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --obfuscate --split-debug-info=build
 
     - name: Upload to App Store Connect
       run: |
