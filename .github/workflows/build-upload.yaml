@@ -125,6 +125,13 @@ jobs:
         releaseFiles: ${{ env.AAB_PATH }}
         track: 'production'
 
+    - name: Upload debug symbols
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-symbols-android
+        path: |
+          build/app.android*.symbols
+
   ###################################
   # Build and Upload iOS app
   ###################################
@@ -178,13 +185,20 @@ jobs:
         IPA_FILE=$(find build/ios/ipa -name "*.ipa")
         app-store-connect publish --path "$IPA_FILE"
 
+    - name: Upload debug symbols
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-symbols-ios
+        path: |
+          build/ios/archive/Runner.xcarchive/dSYMs/        
+
   ###################################
   # Upload Debug Symbols to Sentry
   ###################################
   upload-sentry:
     needs:
       - build-android
-      # - build-ios
+      #- build-ios
     runs-on: self-hosted
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
@@ -192,5 +206,14 @@ jobs:
       DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
     
     steps:
+    - name: Download Android debug symbols
+      uses: actions/download-artifact@v4
+      with:
+        name: debug-symbols-android
+        
+    # - name: Download iOS debug symbols
+    #   uses: actions/download-artifact@v4
+    #   with:
+    #     name: debug-symbols-ios    
     - name: Upload Debug Symbols to Sentry
       run: dart run sentry_dart_plugin
