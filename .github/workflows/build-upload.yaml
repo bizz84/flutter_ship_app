@@ -62,7 +62,6 @@ jobs:
       - setup
     runs-on: self-hosted
     timeout-minutes: 20
-    secrets: inherit
 
     steps:
     # Generate all the files needed for Android code signing
@@ -106,7 +105,6 @@ jobs:
       - setup
     runs-on: self-hosted
     timeout-minutes: 20
-    secrets: inherit
     env:
       APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
       APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ vars.APP_STORE_CONNECT_KEY_IDENTIFIER }}
@@ -152,7 +150,6 @@ jobs:
       - build-ios
     runs-on: self-hosted
     timeout-minutes: 20
-    secrets: inherit
     
     steps:
     - name: Upload Debug Symbols to Sentry
