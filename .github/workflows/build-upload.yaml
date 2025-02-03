@@ -124,7 +124,7 @@ jobs:
 
     - name: Build iOS App
       run:
-        flutter build ipa --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --obfuscate --split-debug-info=build
+        flutter build ipa --export-options-plist=$HOME/export_options.plist --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --obfuscate --split-debug-info=build
 
     - name: Upload to App Store Connect
       run: |
