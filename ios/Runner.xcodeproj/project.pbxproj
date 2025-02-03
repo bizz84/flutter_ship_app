@@ -695,6 +695,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7633701D5F2C9BF03DA3262F /* Pods-Runner.debug-dev.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -710,6 +711,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44783D83B4F8CDA5CF86471F /* Pods-Runner.profile-dev.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -725,6 +727,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DCDC5DFACE3BE96EC29725C3 /* Pods-Runner.release-dev.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -740,6 +743,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 91EFC560701DB7AF5408102F /* Pods-Runner.debug-stg.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -755,6 +759,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0F4ED0ED077D74D8D992DFF8 /* Pods-Runner.profile-stg.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -770,6 +775,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 143A988F321DCE0C97F6765D /* Pods-Runner.release-stg.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -785,6 +791,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CCB6CDD01C33D4FC4A61C571 /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -800,6 +807,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20566319BF4B9E555268325D /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
@@ -815,6 +823,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3A239FE637D9C8B54F302ECD /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = M54ZVB688G;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				PRODUCT_NAME = Runner;
