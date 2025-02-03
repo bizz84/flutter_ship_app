@@ -107,8 +107,12 @@ jobs:
       run: keychain initialize
 
     - name: Fetch signing files
-      run:
-        app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+      run: |
+        BUNDLE_ID=$(xcode-project detect-bundle-id)
+        if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
+          BUNDLE_ID="${BUNDLE_ID}.${{ env.DEPLOY_ENV }}"
+        fi        
+        app-store-connect fetch-signing-files $BUNDLE_ID \
           --type IOS_APP_STORE \
           --create
 
