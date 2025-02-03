@@ -1,7 +1,7 @@
 name: Build & Upload (Android, iOS)
  
 on:
-  # push:
+  push:
   workflow_dispatch:
     inputs:
       environment:
@@ -56,6 +56,21 @@ jobs:
         echo "$FIREBASE_JSON" | base64 --decode > firebase.json
         # Needed by the "flutterfire bundle-service-file" build phase in Xcode
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
+
+        # Check if files are empty
+        for file in \
+          "lib/firebase_options_${{ env.DEPLOY_ENV }}.dart" \
+          "android/app/src/${{ env.DEPLOY_ENV }}/google-services.json" \
+          "ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist" \
+          "firebase.json"
+        do
+          if [ ! -s "$file" ]; then
+            echo "ERROR: $file is empty!"
+            exit 1
+          else
+            echo "$file exists and is not empty ($(wc -c < "$file") bytes)"
+          fi
+        done
 
   build-android:
     needs:
