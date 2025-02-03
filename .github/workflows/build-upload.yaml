@@ -15,6 +15,9 @@ on:
         - prod
  
 jobs:
+  ###################################
+  # Initial Setup
+  ###################################
   setup:
     runs-on: self-hosted
     timeout-minutes: 20
@@ -68,6 +71,9 @@ jobs:
           ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
           firebase.json
 
+  ###################################
+  # Build and Upload Android app
+  ###################################
   build-android:
     needs:
       - setup
@@ -119,6 +125,9 @@ jobs:
         releaseFiles: ${{ env.AAB_PATH }}
         track: 'production'
 
+  ###################################
+  # Build and Upload iOS app
+  ###################################
   build-ios:
     needs:
       - setup
@@ -169,10 +178,13 @@ jobs:
         IPA_FILE=$(find build/ios/ipa -name "*.ipa")
         app-store-connect publish --path "$IPA_FILE"
 
+  ###################################
+  # Upload Debug Symbols to Sentry
+  ###################################
   upload-sentry:
     needs:
       - build-android
-      - build-ios
+      # - build-ios
     runs-on: self-hosted
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
