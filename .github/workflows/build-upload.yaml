@@ -73,6 +73,9 @@ jobs:
       - setup
     runs-on: self-hosted
     timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
 
     steps:
     - name: Download build files
@@ -121,7 +124,9 @@ jobs:
       - setup
     runs-on: self-hosted
     timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
     env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
       APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
       APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ vars.APP_STORE_CONNECT_KEY_IDENTIFIER }}
       APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
@@ -170,6 +175,9 @@ jobs:
       - build-ios
     runs-on: self-hosted
     timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
     
     steps:
     - name: Upload Debug Symbols to Sentry
