@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-runner
+    runs-on: self-hosted
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
     env:
