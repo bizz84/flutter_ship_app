@@ -198,7 +198,7 @@ jobs:
   upload-sentry:
     needs:
       - build-android
-      #- build-ios
+      - build-ios
     runs-on: self-hosted
     timeout-minutes: 20
     
@@ -208,9 +208,10 @@ jobs:
       with:
         name: debug-symbols-android
         
-    # - name: Download iOS debug symbols
-    #   uses: actions/download-artifact@v4
-    #   with:
-    #     name: debug-symbols-ios    
+    - name: Download iOS debug symbols
+      uses: actions/download-artifact@v4
+      with:
+        name: debug-symbols-ios
+
     - name: Upload Debug Symbols to Sentry
       run: dart run sentry_dart_plugin
