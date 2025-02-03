@@ -119,6 +119,9 @@ jobs:
     - name: Set up signing certificate
       run: keychain add-certificates
 
+    - name: Set up code signing settings on Xcode project
+      run: xcode-project use-profiles
+
     - name: Build iOS App
       run:
         flutter build ipa --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --obfuscate --split-debug-info=build
