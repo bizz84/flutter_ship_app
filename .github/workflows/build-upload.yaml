@@ -15,16 +15,12 @@ on:
         - prod
  
 jobs:
-  build:
+  setup:
     runs-on: self-hosted
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
     env:
       DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
-      APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
-      APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ vars.APP_STORE_CONNECT_KEY_IDENTIFIER }}
-      APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
-      CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
 
     steps:
     - name: Clone repository
@@ -60,6 +56,13 @@ jobs:
         echo "$FIREBASE_JSON" | base64 --decode > firebase.json
         # Needed by the "flutterfire bundle-service-file" build phase in Xcode
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
+
+  build-android:
+    needs:
+      - setup
+    runs-on: self-hosted
+    timeout-minutes: 20
+    secrets: inherit
 
     # Generate all the files needed for Android code signing
     - name: Setup Android Keystore
@@ -97,6 +100,19 @@ jobs:
         releaseFiles: ${{ env.AAB_PATH }}
         track: 'production'
 
+  build-ios:
+    needs:
+      - setup
+    runs-on: self-hosted
+    timeout-minutes: 20
+    secrets: inherit
+    env:
+      APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
+      APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ vars.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+      APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+      CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
+
+
     # https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/
     - name: Install Codemagic CLI tools
       run: pip install codemagic-cli-tools
@@ -129,5 +145,13 @@ jobs:
         IPA_FILE=$(find build/ios/ipa -name "*.ipa")
         app-store-connect publish --path "$IPA_FILE"
 
+  upload-sentry:
+    needs:
+      - build-android
+      - build-ios
+    runs-on: self-hosted
+    timeout-minutes: 20
+    secrets: inherit
+          
     - name: Upload Debug Symbols to Sentry
       run: dart run sentry_dart_plugin
