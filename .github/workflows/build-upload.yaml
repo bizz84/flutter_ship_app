@@ -56,21 +56,17 @@ jobs:
         echo "$FIREBASE_JSON" | base64 --decode > firebase.json
         # Needed by the "flutterfire bundle-service-file" build phase in Xcode
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
-
-        # Check if files are empty
-        for file in \
-          "lib/firebase_options_${{ env.DEPLOY_ENV }}.dart" \
-          "android/app/src/${{ env.DEPLOY_ENV }}/google-services.json" \
-          "ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist" \
-          "firebase.json"
-        do
-          if [ ! -s "$file" ]; then
-            echo "ERROR: $file is empty!"
-            exit 1
-          else
-            echo "$file exists and is not empty ($(wc -c < "$file") bytes)"
-          fi
-        done
+        
+    - name: Upload build files
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: |
+          .env.${{ env.DEPLOY_ENV }}
+          lib/firebase_options_${{ env.DEPLOY_ENV }}.dart
+          android/app/src/${{ env.DEPLOY_ENV }}/google-services.json
+          ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
+          firebase.json
 
   build-android:
     needs:
@@ -79,6 +75,11 @@ jobs:
     timeout-minutes: 20
 
     steps:
+    - name: Download build files
+      uses: actions/download-artifact@v4
+      with:
+        name: build-files
+    
     # Generate all the files needed for Android code signing
     - name: Setup Android Keystore
       env:
@@ -127,6 +128,10 @@ jobs:
       CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
 
     steps:
+    - name: Download build files
+      uses: actions/download-artifact@v4
+      with:
+        name: build-files    
     # https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/
     - name: Install Codemagic CLI tools
       run: pip install codemagic-cli-tools
