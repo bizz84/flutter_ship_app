@@ -201,9 +201,6 @@ jobs:
       #- build-ios
     runs-on: self-hosted
     timeout-minutes: 20
-    environment: ${{ github.event.inputs.environment || 'prod' }}
-    env:
-      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
     
     steps:
     - name: Download Android debug symbols
