@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:feedback/feedback.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/src/common_widgets/error_prompt.dart';
@@ -9,6 +10,9 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
+import 'package:flutter_ship_app/src/monitoring/error_logger.dart';
+import 'package:flutter_ship_app/src/utils/app_theme_data.dart';
+import 'package:flutter_ship_app/src/utils/canvas_kit/is_canvas_kit.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -46,8 +50,7 @@ class AppStartupNotifier extends _$AppStartupNotifier {
           return;
         }
       }
-      // TODO: Add error monitoring
-      log(e.toString(), name: 'App Startup', error: e, stackTrace: st);
+      ref.read(errorLoggerProvider).logException(e, st);
       // * If the DB is empty, rethrow so we can show an error and the retry UI
       if (isDbEmpty) {
         rethrow;
@@ -128,12 +131,39 @@ class AppStartupErrorWidget extends StatelessWidget {
 }
 
 class AppStartupLoadedWidget extends StatelessWidget {
-  const AppStartupLoadedWidget({super.key, required this.child});
+  const AppStartupLoadedWidget(
+      {super.key, required this.themeMode, required this.child});
+  final ThemeMode themeMode;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    // * Just a passthrough widget for now. We'll update this later
-    return child;
+    // * Don't wrap with BetterFeedback if web HTML renderer is used
+    // https://pub.dev/packages/feedback#-known-issues-and-limitations
+    if (!kIsWeb || isCanvasKitRenderer()) {
+      return BetterFeedback(
+        // * BetterFeedback alters some theme settings, causing descendant
+        // * widgets to render incorrectly. To prevent this, we reset the theme.
+        child: AnimatedTheme(
+          data: switch (themeMode) {
+            ThemeMode.dark => AppThemeData.dark(),
+            ThemeMode.light => AppThemeData.light(),
+            ThemeMode.system =>
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? AppThemeData.dark()
+                  : AppThemeData.light(),
+          },
+          // * If you use Hero widgets, BetterFeedback causes issue an issue
+          // * that leads to this error:
+          // * A HeroController can not be shared by multiple Navigators
+          // * To prevent this, we wrap the child in HeroControllerScope.none
+          child: HeroControllerScope.none(
+            child: child,
+          ),
+        ),
+      );
+    } else {
+      return child;
+    }
   }
 }
