@@ -28,7 +28,16 @@ The app uses three separate flavors: `dev`, `stg`, and `prod`. These are already
 
 The project uses Firebase Analytics and Remote Config. As such, it needs to be configured with the FlutterFire CLI as shown in [this lesson](https://pro.codewithandrea.com/flutter-in-production/03-flavors/18-firebase-setup-flutterfire-cli).
 
-To make life easier, run the `flutterfire-config.sh` script for each flavor:
+To make life easier, run this:
+
+```zsh
+# flutterfire-config.sh is gitignored
+cp flutterfire-config-template.sh flutterfire-config.sh
+```
+
+Then, edit the `flutterfire-config.sh` file to set the correct Firebase project ID for each flavor (Firebase project IDs are globally unique).
+
+Finally, run the `flutterfire-config.sh` script for each flavor:
 
 ```zsh
 ./flutterfire-config.sh dev
