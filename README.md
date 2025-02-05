@@ -26,7 +26,7 @@ The app uses three separate flavors: `dev`, `stg`, and `prod`. These are already
 
 ### Configuring Firebase with FlutterFire CLI
 
-The project uses Firebase Analytics and Remote Config. As such, it needs to be configured with the FlutterFire CLI as shown in [this lesson](https://pro.codewithandrea.com/flutter-in-production/03-flavors/16-firebase-setup-flutterfire-cli).
+The project uses Firebase Analytics and Remote Config. As such, it needs to be configured with the FlutterFire CLI as shown in [this lesson](https://pro.codewithandrea.com/flutter-in-production/03-flavors/18-firebase-setup-flutterfire-cli).
 
 To make life easier, run the `flutterfire-config.sh` script for each flavor:
 
