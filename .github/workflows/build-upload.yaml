@@ -57,6 +57,20 @@ jobs:
         echo "$FIREBASE_JSON" | base64 --decode > firebase.json
         # Needed by the "flutterfire bundle-service-file" build phase in Xcode
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
- 
+
+    # Generate all the files needed for Android code signing
+    - name: Setup Android Keystore
+      env:
+        ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/android_keystore.jks
+        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      run: |
+        echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
+        echo "storeFile=${{ env.ANDROID_KEYSTORE_PATH }}" > android/key.properties
+        echo "storePassword=${{ env.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+        echo "keyPassword=${{ env.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+        echo "keyAlias=${{ env.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
     - name: Build Android App
       run: flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
