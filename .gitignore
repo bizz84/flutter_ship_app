@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -46,6 +48,7 @@ app.*.map.json
 /android/app/release
 
 # Firebase configuration files
+firebase.json
 lib/firebase_options*.dart
 ios/Runner/GoogleService-Info.plist
 ios/flavors/*/GoogleService-Info.plist
@@ -55,16 +58,13 @@ macos/flavors/*/GoogleService-Info.plist
 macos/firebase_app_id_file.json
 android/app/google-services.json
 android/app/src/*/google-services.json
+flutterfire-config.sh
 
-# Firebase hosting
+# Firebase (other)
 .firebase/
-firebase*.json
 
 # Environments
 *.env
 *.env.dev
 *.env.stg
 *.env.prod
-api-keys.dev.json
-api-keys.stg.json
-api-keys.prod.json
