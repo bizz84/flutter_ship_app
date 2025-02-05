@@ -21,7 +21,11 @@ jobs:
     environment: ${{ github.event.inputs.environment || 'prod' }}
     env:
       DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
- 
+      APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
+      APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ vars.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+      APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+      CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
+
     steps:
     - name: Clone repository
       uses: actions/checkout@v4
@@ -59,37 +63,69 @@ jobs:
         dart pub global activate flutterfire_cli 1.0.1 --overwrite
 
     # Generate all the files needed for Android code signing
-    - name: Setup Android Keystore
-      env:
-        ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/android_keystore.jks
-        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-      run: |
-        echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
-        echo "storeFile=${{ env.ANDROID_KEYSTORE_PATH }}" > android/key.properties
-        echo "storePassword=${{ env.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
-        echo "keyPassword=${{ env.ANDROID_KEY_PASSWORD }}" >> android/key.properties
-        echo "keyAlias=${{ env.ANDROID_KEY_ALIAS }}" >> android/key.properties
+    # - name: Setup Android Keystore
+    #   env:
+    #     ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/android_keystore.jks
+    #     ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+    #     ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+    #     ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    #   run: |
+    #     echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
+    #     echo "storeFile=${{ env.ANDROID_KEYSTORE_PATH }}" > android/key.properties
+    #     echo "storePassword=${{ env.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+    #     echo "keyPassword=${{ env.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+    #     echo "keyAlias=${{ env.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
-    - name: Build Android App
-      run: flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
+    # - name: Build Android App
+    #   run: flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
 
-    - name: Prepare for Upload
-      run: |
-        PACKAGE_NAME=$(grep -E "namespace\s*=\s*\"[^\"]+\"" android/app/build.gradle | sed -E 's/.*"([^"]+)".*/\1/')
-        if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
-          PACKAGE_NAME="${PACKAGE_NAME}.${{ env.DEPLOY_ENV }}"
-        fi
-        echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
-        echo "AAB_PATH=${{ github.workspace }}/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab" >> $GITHUB_ENV
+    # - name: Prepare for Upload
+    #   run: |
+    #     PACKAGE_NAME=$(grep -E "namespace\s*=\s*\"[^\"]+\"" android/app/build.gradle | sed -E 's/.*"([^"]+)".*/\1/')
+    #     if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
+    #       PACKAGE_NAME="${PACKAGE_NAME}.${{ env.DEPLOY_ENV }}"
+    #     fi
+    #     echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+    #     echo "AAB_PATH=${{ github.workspace }}/build/app/outputs/bundle/${{ env.DEPLOY_ENV }}Release/app-${{ env.DEPLOY_ENV }}-release.aab" >> $GITHUB_ENV
  
-    - name: Upload to Google Play
-      uses: r0adkll/upload-google-play@v1
-      with:
-        # Note: First version should be updated manually.
-        # See: https://github.com/r0adkll/upload-google-play
-        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        packageName: ${{ env.PACKAGE_NAME }}
-        releaseFiles: ${{ env.AAB_PATH }}
-        track: 'production'
+    # - name: Upload to Google Play
+    #   uses: r0adkll/upload-google-play@v1
+    #   with:
+    #     # Note: First version should be updated manually.
+    #     # See: https://github.com/r0adkll/upload-google-play
+    #     serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+    #     packageName: ${{ env.PACKAGE_NAME }}
+    #     releaseFiles: ${{ env.AAB_PATH }}
+    #     track: 'production'
+
+    # https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/
+    - name: Install Codemagic CLI tools
+      run: pip install codemagic-cli-tools
+ 
+    - name: Set up keychain
+      run: keychain initialize
+ 
+    - name: Fetch signing files
+      run: |
+        BUNDLE_ID=$(xcode-project detect-bundle-id)
+        if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
+          BUNDLE_ID="${BUNDLE_ID}.${{ env.DEPLOY_ENV }}"
+        fi        
+        app-store-connect fetch-signing-files $BUNDLE_ID \
+          --type IOS_APP_STORE \
+          --create
+ 
+    - name: Set up signing certificate
+      run: keychain add-certificates
+ 
+    - name: Set up code signing settings on Xcode project
+      run: xcode-project use-profiles
+ 
+    - name: Build iOS App
+      run:
+        flutter build ipa --export-options-plist=$HOME/export_options.plist --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
+ 
+    - name: Upload to App Store Connect
+      run: |
+        IPA_FILE=$(find build/ios/ipa -name "*.ipa")
+        app-store-connect publish --path "$IPA_FILE"
