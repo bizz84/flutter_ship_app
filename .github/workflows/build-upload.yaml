@@ -33,3 +33,27 @@ jobs:
         cache: true
         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+ 
+    # Generate .env.<flavor> file as it is gitignored but needed for the build
+    - name: Setup Dart Defines
+      run: echo "${{ secrets.DART_DEFINES }}" | base64 --decode > .env.${{ env.DEPLOY_ENV }}
+    
+    # Write all the gitignored Firebase files that are needed for the build
+    # You can remove this step if you've added them to Git
+    - name: Setup Firebase
+      env:
+        FIREBASE_JSON: ${{ secrets.FIREBASE_JSON }}
+        FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        GOOGLE_SERVICE_PLIST: ${{ secrets.GOOGLE_SERVICE_PLIST }}      
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        echo "$FIREBASE_OPTIONS_DART" | base64 --decode > lib/firebase_options_${{ env.DEPLOY_ENV }}.dart        
+        echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/src/${{ env.DEPLOY_ENV }}/google-services.json
+        mkdir -p ios/flavors/${{ env.DEPLOY_ENV }}
+        echo "$GOOGLE_SERVICE_PLIST" | base64 --decode > ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
+        echo "$FIREBASE_JSON" | base64 --decode > firebase.json
+        # Needed by the "flutterfire bundle-service-file" build phase in Xcode
+        dart pub global activate flutterfire_cli
+ 
+    - name: Build Android App
+      run: flutter build appbundle --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }}
