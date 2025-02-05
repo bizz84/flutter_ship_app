@@ -1,6 +1,7 @@
 name: Build & Upload (Android, iOS)
  
 on:
+  push:
   workflow_dispatch:
     inputs:
       environment:
@@ -15,7 +16,7 @@ on:
  
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: self-hosted
     timeout-minutes: 20
     environment: ${{ github.event.inputs.environment || 'prod' }}
     env:
@@ -30,11 +31,12 @@ jobs:
       with:
         channel: 'stable'
         flutter-version: '3.27.3'
-        # Enable caching: https://github.com/subosito/flutter-action?tab=readme-ov-file#caching
-        cache: true
-        cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
-        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
- 
+        # * Reminder: enable caching on GitHub-hosted runners, disable on self-hosted runners
+        # Syntax reference: https://github.com/subosito/flutter-action?tab=readme-ov-file#caching
+        # cache: true
+        # cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+        # cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+
     # Generate .env.<flavor> file as it is gitignored but needed for the build
     - name: Setup Dart Defines
       run: echo "${{ secrets.DART_DEFINES }}" | base64 --decode > .env.${{ env.DEPLOY_ENV }}
