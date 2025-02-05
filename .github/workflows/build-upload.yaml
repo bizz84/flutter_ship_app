@@ -1,0 +1,36 @@
+name: Build & Upload (Android, iOS)
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+        - dev
+        - stg
+        - prod
+ 
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
+ 
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+ 
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        flutter-version: '3.27.3'
+        # Enable caching: https://github.com/subosito/flutter-action?tab=readme-ov-file#caching
+        cache: true
+        cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
