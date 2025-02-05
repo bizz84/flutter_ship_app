@@ -27,7 +27,8 @@ class FirebaseAnalyticsClient implements AnalyticsClient {
   @override
   Future<void> trackScreenView(String routeName, String action) async {
     await _analytics.logScreenView(
-        screenName: 'screen_view', parameters: {'action': action});
+        screenName: 'screen_view',
+        parameters: {'name': routeName, 'action': action});
   }
 
   @override
