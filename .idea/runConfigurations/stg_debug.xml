@@ -2,7 +2,7 @@
   <configuration default="false" name="STG | DEBUG" type="FlutterRunConfigurationType" factoryName="Flutter">
     <option name="buildFlavor" value="stg" />
     <option name="filePath" value="$PROJECT_DIR$/lib/main_stg.dart" />
-    <option name="additionalArgs" value="--dart-define=WEB_FLAVOR=stg" />
+    <option name="additionalArgs" value="--dart-define=WEB_FLAVOR=stg --dart-define-from-file=.env.stg" />
     <method v="2" />
   </configuration>
 </component>
