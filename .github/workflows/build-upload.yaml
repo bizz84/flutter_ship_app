@@ -1,7 +1,7 @@
 name: Build & Upload (Android, iOS)
  
 on:
-  push:
+  # push:
   workflow_dispatch:
     inputs:
       environment:
