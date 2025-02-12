@@ -53,6 +53,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/common/
+    - shorebird.yaml
 
 # Flutter Launcher Icons configuration
 flutter_launcher_icons:
