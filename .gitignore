@@ -69,3 +69,7 @@ flutterfire-config.sh
 *.env.dev
 *.env.stg
 *.env.prod
+
+# FVM Version Cache
+.fvm/
+.fvmrc
