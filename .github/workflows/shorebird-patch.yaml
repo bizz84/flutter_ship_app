@@ -1,0 +1,117 @@
+name: Shorebird Patch (Android, iOS)
+ 
+on:
+  # push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+        - dev
+        - stg
+        - prod
+ 
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
+      APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
+      APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ vars.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+      APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+      CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+ 
+    # No longer needed
+    # - name: Setup Flutter
+    #   uses: subosito/flutter-action@v2
+    #   with:
+    #     channel: 'stable'
+  
+    # Shorebird setup
+    - name: Setup Shorebird
+      uses: shorebirdtech/setup-shorebird@v1
+      # * Reminder: enable caching on GitHub-hosted runners, disable on self-hosted runners
+      # with:
+      #   cache: true
+
+    # Generate .env.<flavor> file as it is gitignored but needed for the build
+    - name: Setup Dart Defines
+      run: echo "${{ secrets.DART_DEFINES }}" | base64 --decode > .env.${{ env.DEPLOY_ENV }}
+    
+    # Write all the gitignored Firebase files that are needed for the build
+    # You can remove this step if you've added them to Git
+    - name: Setup Firebase
+      env:
+        FIREBASE_JSON: ${{ secrets.FIREBASE_JSON }}
+        FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        GOOGLE_SERVICE_PLIST: ${{ secrets.GOOGLE_SERVICE_PLIST }}      
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        echo "$FIREBASE_OPTIONS_DART" | base64 --decode > lib/firebase_options_${{ env.DEPLOY_ENV }}.dart        
+        echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/src/${{ env.DEPLOY_ENV }}/google-services.json
+        mkdir -p ios/flavors/${{ env.DEPLOY_ENV }}
+        echo "$GOOGLE_SERVICE_PLIST" | base64 --decode > ios/flavors/${{ env.DEPLOY_ENV }}/GoogleService-Info.plist
+        echo "$FIREBASE_JSON" | base64 --decode > firebase.json
+        # Needed by the "flutterfire bundle-service-file" build phase in Xcode
+        dart pub global activate flutterfire_cli 1.1.0
+
+    # Generate all the files needed for Android code signing
+    - name: Setup Android Keystore
+      env:
+        ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/android_keystore.jks
+        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      run: |
+        echo "${{ secrets.ANDROID_KEYSTORE_JKS }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PATH }}
+        echo "storeFile=${{ env.ANDROID_KEYSTORE_PATH }}" > android/key.properties
+        echo "storePassword=${{ env.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+        echo "keyPassword=${{ env.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+        echo "keyAlias=${{ env.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
+    - name: Shorebird Android Patch
+      uses: shorebirdtech/shorebird-patch@v0
+      id: shorebird-android-patch
+      with:
+        platform: android
+        args: --release-version=latest --track=staging --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --split-debug-info=build
+
+    # https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/
+    - name: Install Codemagic CLI tools
+      run: pip install codemagic-cli-tools
+ 
+    - name: Set up keychain
+      run: keychain initialize
+ 
+    - name: Fetch signing files
+      run: |
+        BUNDLE_ID=$(xcode-project detect-bundle-id)
+        if [ "${{ env.DEPLOY_ENV }}" != "prod" ]; then
+          BUNDLE_ID="${BUNDLE_ID}.${{ env.DEPLOY_ENV }}"
+        fi        
+        app-store-connect fetch-signing-files $BUNDLE_ID \
+          --type IOS_APP_STORE \
+          --create
+ 
+    - name: Set up signing certificate
+      run: keychain add-certificates
+ 
+    - name: Set up code signing settings on Xcode project
+      run: xcode-project use-profiles
+ 
+    - name: Shorebird iOS Patch
+      uses: shorebirdtech/shorebird-patch@v0
+      id: shorebird-ios-patch
+      with:
+        platform: ios
+        args: --release-version=latest --track=staging --export-options-plist=$HOME/export_options.plist --flavor ${{ env.DEPLOY_ENV }} -t lib/main_${{ env.DEPLOY_ENV }}.dart --dart-define-from-file=.env.${{ env.DEPLOY_ENV }} --split-debug-info=build
+ 
