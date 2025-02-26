@@ -1,3 +1,15 @@
+## 0.3.6
+
+- Made project compatible with Flutter 3.29 (`path: ^1.9.0`)
+- Update to Drift 2.25.2
+- Cleanup `app_colors.dart`
+- Bump platform, ios: '16.0'
+
+## 0.3.5
+
+- Move `AppStartupWidget` inside `MaterialApp.builder`
+- Update to Drift 2.24.0
+
 ## 0.3.4
 
 - Improved web support in `flavor.dart`
