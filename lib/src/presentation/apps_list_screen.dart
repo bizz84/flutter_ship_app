@@ -29,25 +29,32 @@ class AppsListScreen extends ConsumerWidget {
     final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          tooltip: 'Settings'.hardcoded,
-          icon: Icon(
-            Icons.settings,
-            semanticLabel: 'Settings'.hardcoded,
+        leading: Semantics(
+          identifier: 'settings-action',
+          child: IconButton(
+            tooltip: 'Settings'.hardcoded,
+            icon: Icon(
+              Icons.settings,
+              semanticLabel: 'Settings'.hardcoded,
+            ),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(AppRoutes.settings),
           ),
-          onPressed: () => Navigator.of(context).pushNamed(AppRoutes.settings),
         ),
         title: appsListNotEmpty ? Text('My Apps'.hardcoded) : null,
         actions: [
-          IconButton(
-            tooltip: 'Create a new app'.hardcoded,
-            onPressed: () {
-              unawaited(ref.read(analyticsFacadeProvider).trackNewAppHome());
-              _createNewApp(context);
-            },
-            icon: Icon(
-              Icons.add,
-              semanticLabel: 'Create a new app'.hardcoded,
+          Semantics(
+            identifier: 'create-new-app-action',
+            child: IconButton(
+              tooltip: 'Create a new app'.hardcoded,
+              onPressed: () {
+                unawaited(ref.read(analyticsFacadeProvider).trackNewAppHome());
+                _createNewApp(context);
+              },
+              icon: Icon(
+                Icons.add,
+                semanticLabel: 'Create a new app'.hardcoded,
+              ),
             ),
           )
         ],
@@ -94,9 +101,12 @@ class AppsListView extends ConsumerWidget {
             separatorBuilder: (_, __) => const Divider(height: 0.5),
             itemBuilder: (_, index) {
               final app = appsList[index];
-              return AppListTile(
-                totalTasksCount: totalTasksCount,
-                app: app,
+              return Semantics(
+                identifier: 'app-$index',
+                child: AppListTile(
+                  totalTasksCount: totalTasksCount,
+                  app: app,
+                ),
               );
             },
           );
