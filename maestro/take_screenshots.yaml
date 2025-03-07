@@ -1,0 +1,40 @@
+# Run via take_screenshots_ios.sh or take_screenshots_android.sh
+appId: ${APP_ID}
+name: "Take screenshots"
+
+---
+- launchApp:
+    # Note: only run this workflow after create_apps.yaml
+    clearState: false
+
+- takeScreenshot:
+    path: screenshots/${MAESTRO_LANG}/2_my_apps
+
+# Open Flutter Tips app
+- tapOn:
+    id: "app-0"
+    label: "Select app #1"
+
+- takeScreenshot:
+    path: screenshots/${MAESTRO_LANG}/3_app
+
+# Open Error Monitoring epic
+- tapOn:
+    id: "epic-2"
+    label: "Select epic #3"
+
+- takeScreenshot:
+    path: screenshots/${MAESTRO_LANG}/4_epic
+
+- tapOn: "Back"
+- tapOn: "Back"
+
+# Open Settings
+- tapOn:
+    id: "settings-action"
+    label: "Tap on Settings button"
+
+- takeScreenshot:
+    path: screenshots/${MAESTRO_LANG}/5_settings
+
+- tapOn: "Back"
