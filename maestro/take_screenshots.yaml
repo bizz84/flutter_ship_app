@@ -4,9 +4,35 @@ name: "Take screenshots"
 
 ---
 - launchApp:
-    # Note: only run this workflow after create_apps.yaml
-    clearState: false
+    clearState: true # Clears the local storage, DB
 
+# Wait until main app UI is loaded
+- extendedWaitUntil:
+    visible:
+        id: "welcome-to-flutter-ship"
+
+# Take first screenshot when DB is empty
+- takeScreenshot:
+    path: screenshots/${MAESTRO_LANG}/1_welcome
+
+# Open Settings and reset the test data
+- tapOn:
+    id: "settings-action"
+    label: "Tap on Settings button"
+
+- scrollUntilVisible:
+    element:
+      id: "reset-test-data-tile"
+    direction: DOWN
+
+- tapOn:
+    id: "reset-test-data-tile"
+    label: "Tap on Reset test data"
+
+- tapOn: "OK"
+- tapOn: "Close"
+
+# Take second screenshot with test data
 - takeScreenshot:
     path: screenshots/${MAESTRO_LANG}/2_my_apps
 
@@ -37,4 +63,4 @@ name: "Take screenshots"
 - takeScreenshot:
     path: screenshots/${MAESTRO_LANG}/5_settings
 
-- tapOn: "Back"
+- tapOn: "Close"
