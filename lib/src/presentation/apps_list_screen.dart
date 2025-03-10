@@ -157,9 +157,12 @@ class WelcomeAppIntro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'Welcome to Flutter Ship'.hardcoded,
-            style: Theme.of(context).textTheme.headlineSmall,
+          Semantics(
+            identifier: 'welcome-to-flutter-ship',
+            child: Text(
+              'Welcome to Flutter Ship'.hardcoded,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           ),
           gapH4,
           Text(
