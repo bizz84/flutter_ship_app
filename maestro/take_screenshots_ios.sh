@@ -1,3 +1,3 @@
 #! /bin/bash
 
-MAESTRO_LANG=en-GB maestro test -e APP_ID=com.codewithandrea.flutterShipApp.stg take_screenshots.yaml
+maestro test -e APP_ID=com.codewithandrea.flutterShipApp.stg -e LANG=en-GB -e DEVICE=iPhone15Pro take_screenshots.yaml

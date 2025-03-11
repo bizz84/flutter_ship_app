@@ -13,7 +13,7 @@ name: "Take screenshots"
 
 # Take first screenshot when DB is empty
 - takeScreenshot:
-    path: screenshots/${MAESTRO_LANG}/1_welcome
+    path: screenshots/${LANG}/${DEVICE}/1_welcome
 
 # Open Settings and reset the test data
 - tapOn:
@@ -34,7 +34,7 @@ name: "Take screenshots"
 
 # Take second screenshot with test data
 - takeScreenshot:
-    path: screenshots/${MAESTRO_LANG}/2_my_apps
+    path: screenshots/${LANG}/${DEVICE}/2_my_apps
 
 # Open Flutter Tips app
 - tapOn:
@@ -42,7 +42,7 @@ name: "Take screenshots"
     label: "Select app #1"
 
 - takeScreenshot:
-    path: screenshots/${MAESTRO_LANG}/3_app
+    path: screenshots/${LANG}/${DEVICE}/3_app
 
 # Open Error Monitoring epic
 - tapOn:
@@ -50,7 +50,7 @@ name: "Take screenshots"
     label: "Select epic #3"
 
 - takeScreenshot:
-    path: screenshots/${MAESTRO_LANG}/4_epic
+    path: screenshots/${LANG}/${DEVICE}/4_epic
 
 - tapOn: "Back"
 - tapOn: "Back"
@@ -61,6 +61,6 @@ name: "Take screenshots"
     label: "Tap on Settings button"
 
 - takeScreenshot:
-    path: screenshots/${MAESTRO_LANG}/5_settings
+    path: screenshots/${LANG}/${DEVICE}/5_settings
 
 - tapOn: "Close"
