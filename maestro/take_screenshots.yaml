@@ -60,7 +60,18 @@ name: "Take screenshots"
     id: "settings-action"
     label: "Tap on Settings button"
 
-- takeScreenshot:
-    path: screenshots/${LANG}/${DEVICE}/5_settings
+- tapOn:
+    id: "theme-dark"
+    label: "Tap on Dark theme"
 
 - tapOn: "Close"
+
+# Open Flutter Tips app
+- tapOn:
+    id: "app-0"
+    label: "Select app #1"
+
+- takeScreenshot:
+    path: screenshots/${LANG}/${DEVICE}/5_dark
+
+- tapOn: "Back"

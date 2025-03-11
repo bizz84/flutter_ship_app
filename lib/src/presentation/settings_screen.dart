@@ -160,7 +160,10 @@ class ThemeSelectorListTile extends ConsumerWidget {
                   theme.name[0].toUpperCase() + theme.name.substring(1);
               return ButtonSegment<ThemeMode>(
                 value: theme,
-                label: Text(label),
+                label: Semantics(
+                  identifier: 'theme-${theme.name}',
+                  child: Text(label),
+                ),
               );
             }).toList(),
           ),
