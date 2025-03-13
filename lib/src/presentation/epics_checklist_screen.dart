@@ -78,7 +78,10 @@ class EpicsChecklistListView extends ConsumerWidget {
         separatorBuilder: (_, __) => const Divider(height: 0.5),
         itemBuilder: (_, index) {
           final epic = epics[index];
-          return EpicListTile(app: app, epic: epic);
+          return Semantics(
+            identifier: 'epic-$index',
+            child: EpicListTile(app: app, epic: epic),
+          );
         },
       ),
       loading: () => const Center(child: CircularProgressIndicator()),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/utils/in_app_review_provider.dart';
 import 'package:flutter_ship_app/src/utils/shared_preferences_provider.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -32,6 +33,10 @@ class InAppRatingService {
   Future<void> requestReviewIfNeeded({required int completedTasksCount}) async {
     // * Don't show rating prompt on web (not supported)
     if (kIsWeb) {
+      return;
+    }
+    // * Don't show rating prompt on dev, staging (reduce UI test flakiness)
+    if (getFlavor() != Flavor.prod) {
       return;
     }
     // * If we can show a review dialog

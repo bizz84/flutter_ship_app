@@ -38,16 +38,19 @@ class TasksChecklistScreen extends ConsumerWidget {
           separatorBuilder: (_, __) => const Divider(height: 0.5),
           itemBuilder: (_, index) {
             final task = tasks[index];
-            return CheckboxTaskListTile(
-              task: task,
-              completed: task.completed,
-              onChanged: (completed) => ref
-                  .read(tasksChecklistControllerProvider.notifier)
-                  .updateTaskCompletionStatus(
-                    appId: app.id,
-                    taskId: task.id,
-                    isCompleted: completed,
-                  ),
+            return Semantics(
+              identifier: 'task-$index',
+              child: CheckboxTaskListTile(
+                task: task,
+                completed: task.completed,
+                onChanged: (completed) => ref
+                    .read(tasksChecklistControllerProvider.notifier)
+                    .updateTaskCompletionStatus(
+                      appId: app.id,
+                      taskId: task.id,
+                      isCompleted: completed,
+                    ),
+              ),
             );
           },
         ),

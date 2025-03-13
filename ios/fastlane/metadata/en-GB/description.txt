@@ -1,0 +1,7 @@
+Introducing Flutter Ship - your Flutter App Release Checklist.
+
+Never miss a step when launching your Flutter app! With Flutter Ship, you can easily track your progress for every app. Get your app ready for release with confidence!
+
+---
+
+Note: Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
