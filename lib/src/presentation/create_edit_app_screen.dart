@@ -125,21 +125,27 @@ class _CreateOrEditAppScreenState extends ConsumerState<CreateOrEditAppScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'App name'.hardcoded),
-                keyboardAppearance: Theme.of(context).brightness,
-                textCapitalization: TextCapitalization.words,
-                initialValue: _name,
-                validator: (value) => (value ?? '').isNotEmpty
-                    ? null
-                    : 'Name can\'t be empty'.hardcoded,
-                onSaved: (value) => _name = value ?? '',
-                onEditingComplete: _submit,
+              Semantics(
+                identifier: 'app-name-input',
+                child: TextFormField(
+                  decoration: InputDecoration(labelText: 'App name'.hardcoded),
+                  keyboardAppearance: Theme.of(context).brightness,
+                  textCapitalization: TextCapitalization.words,
+                  initialValue: _name,
+                  validator: (value) => (value ?? '').isNotEmpty
+                      ? null
+                      : 'Name can\'t be empty'.hardcoded,
+                  onSaved: (value) => _name = value ?? '',
+                  onEditingComplete: _submit,
+                ),
               ),
               gapH16,
-              ElevatedButton(
-                onPressed: _submit,
-                child: Text('Save'.hardcoded),
+              Semantics(
+                identifier: 'save-button',
+                child: ElevatedButton(
+                  onPressed: _submit,
+                  child: Text('Save'.hardcoded),
+                ),
               ),
             ],
           ),

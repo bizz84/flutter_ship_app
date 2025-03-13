@@ -1,0 +1,77 @@
+# Run via take_screenshots_ios.sh or take_screenshots_android.sh
+appId: ${APP_ID}
+name: "Take screenshots"
+
+---
+- launchApp:
+    clearState: true # Clears the local storage, DB
+
+# Wait until main app UI is loaded
+- extendedWaitUntil:
+    visible:
+        id: "welcome-to-flutter-ship"
+
+# Take first screenshot when DB is empty
+- takeScreenshot:
+    path: screenshots/${LANG}/${DEVICE}/1_welcome
+
+# Open Settings and reset the test data
+- tapOn:
+    id: "settings-action"
+    label: "Tap on Settings button"
+
+- scrollUntilVisible:
+    element:
+      id: "reset-test-data-tile"
+    direction: DOWN
+
+- tapOn:
+    id: "reset-test-data-tile"
+    label: "Tap on Reset test data"
+
+- tapOn: "OK"
+- tapOn: "Close"
+
+# Take second screenshot with test data
+- takeScreenshot:
+    path: screenshots/${LANG}/${DEVICE}/2_my_apps
+
+# Open Flutter Tips app
+- tapOn:
+    id: "app-0"
+    label: "Select app #1"
+
+- takeScreenshot:
+    path: screenshots/${LANG}/${DEVICE}/3_app
+
+# Open Error Monitoring epic
+- tapOn:
+    id: "epic-2"
+    label: "Select epic #3"
+
+- takeScreenshot:
+    path: screenshots/${LANG}/${DEVICE}/4_epic
+
+- tapOn: "Back"
+- tapOn: "Back"
+
+# Open Settings
+- tapOn:
+    id: "settings-action"
+    label: "Tap on Settings button"
+
+- tapOn:
+    id: "theme-dark"
+    label: "Tap on Dark theme"
+
+- tapOn: "Close"
+
+# Open Flutter Tips app
+- tapOn:
+    id: "app-0"
+    label: "Select app #1"
+
+- takeScreenshot:
+    path: screenshots/${LANG}/${DEVICE}/5_dark
+
+- tapOn: "Back"

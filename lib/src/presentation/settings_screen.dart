@@ -5,7 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/env/env.dart';
 import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable.dart';
+import 'package:flutter_ship_app/src/common_widgets/show_alert_dialog.dart';
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
+import 'package:flutter_ship_app/src/data/app_database.dart';
+import 'package:flutter_ship_app/src/data/app_database_crud.dart';
+import 'package:flutter_ship_app/src/data/app_database_seed.dart';
 import 'package:flutter_ship_app/src/monitoring/collect_usage_statistics_store.dart';
 import 'package:flutter_ship_app/src/utils/app_theme_mode.dart';
 import 'package:flutter_ship_app/src/utils/in_app_review_provider.dart';
@@ -86,6 +90,10 @@ class SettingsScreen extends ConsumerWidget {
             ],
             ShowLicensesTile(),
             const Divider(height: 1),
+            if (getFlavor() != Flavor.prod) ...[
+              ResetTestDataTile(),
+              const Divider(height: 1),
+            ],
           ],
         ),
       ),
@@ -149,7 +157,10 @@ class ThemeSelectorListTile extends ConsumerWidget {
                   theme.name[0].toUpperCase() + theme.name.substring(1);
               return ButtonSegment<ThemeMode>(
                 value: theme,
-                label: Text(label),
+                label: Semantics(
+                  identifier: 'theme-${theme.name}',
+                  child: Text(label),
+                ),
               );
             }).toList(),
           ),
@@ -222,6 +233,32 @@ class ShowLicensesTile extends ConsumerWidget {
       title: Text('Show licenses'.hardcoded),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => showLicensePage(context: context),
+    );
+  }
+}
+
+class ResetTestDataTile extends ConsumerWidget {
+  const ResetTestDataTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Semantics(
+      identifier: 'reset-test-data-tile',
+      child: ListTile(
+        title: Text('Reset test data'.hardcoded),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () async {
+          await ref.read(appDatabaseProvider).deleteAllApps();
+          await ref.read(appDatabaseProvider).seedDatabase();
+          await showAlertDialog(
+            // ignore: use_build_context_synchronously
+            context: context,
+            title: 'Data Updated'.hardcoded,
+            content: 'All the data has been reset'.hardcoded,
+            defaultActionText: 'OK'.hardcoded,
+          );
+        },
+      ),
     );
   }
 }

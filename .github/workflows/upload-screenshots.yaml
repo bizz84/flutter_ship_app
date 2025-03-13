@@ -1,0 +1,41 @@
+name: Upload Screenshots (Android, iOS)
+ 
+on:
+  # push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+        - dev
+        - stg
+        - prod
+ 
+jobs:
+  upload-screenshots:
+    runs-on: self-hosted
+    timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+ 
+    - name: Upload Android screenshots
+      run: |
+        cd android
+        echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 --decode > google-service-account-${{ env.DEPLOY_ENV }}.json
+        echo "${{ secrets.FASTLANE_ANDROID_APPFILE }}" | base64 --decode > fastlane/Appfile
+        fastlane upload_screenshots_and_metadata
+
+    - name: Upload iOS screenshots
+      run: |
+        cd ios
+        echo "${{ secrets.FASTLANE_IOS_APPFILE }}" | base64 --decode > fastlane/Appfile
+        echo "${{ secrets.FASTLANE_APP_STORE_CONNECT_API_KEY_JSON }}" | base64 --decode > fastlane/app-store-connect-api-key.json
+        fastlane upload_screenshots_and_metadata_ci
