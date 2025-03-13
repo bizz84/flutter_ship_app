@@ -30,10 +30,11 @@ jobs:
       run: |
         cd android
         echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 --decode > flutter-ship-${{ env.DEPLOY_ENV }}.json
-        echo "${{ vars.FASTLANE_ANDROID_APPFILE }}" | base64 --decode > fastlane/Appfile
+        echo "${{ secrets.FASTLANE_ANDROID_APPFILE }}" | base64 --decode > fastlane/Appfile
         fastlane upload_screenshots_and_metadata
 
     - name: Upload iOS screenshots
       run: |
         cd ios
+        echo "${{ secrets.FASTLANE_IOS_APPFILE }}" | base64 --decode > fastlane/Appfile
         fastlane upload_screenshots_and_metadata
