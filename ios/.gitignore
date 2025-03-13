@@ -32,3 +32,12 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+
+# Fastlane
+fastlane/metadata/review_information/
+# fastlane/screenshots/
+fastlane/Appfile
+fastlane/Preview.html
+fastlane/report.xml
+Gemfile
+Gemfile.lock

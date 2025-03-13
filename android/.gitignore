@@ -11,3 +11,12 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Google service account key
+flutter-ship*.json
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+# fastlane/metadata/
+fastlane/Appfile
