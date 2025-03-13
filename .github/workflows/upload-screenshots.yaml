@@ -1,0 +1,37 @@
+name: Upload Screenshots (Android, iOS)
+ 
+on:
+  # push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+        - dev
+        - stg
+        - prod
+ 
+jobs:
+  upload-screenshots:
+    runs-on: self-hosted
+    timeout-minutes: 20
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    env:
+      DEPLOY_ENV: ${{ github.event.inputs.environment || 'prod' }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+ 
+    - name: Upload Android screenshots
+      run: |
+        cd android
+        fastlane upload_screenshots_and_metadata
+
+    - name: Upload iOS screenshots
+      run: |
+        cd ios
+        fastlane upload_screenshots_and_metadata
