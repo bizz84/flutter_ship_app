@@ -34,6 +34,7 @@ Runner/GeneratedPluginRegistrant.*
 !default.perspectivev3
 
 # Fastlane
+fastlane/app_store_connect_api_key.json
 fastlane/metadata/review_information/
 # fastlane/screenshots/
 fastlane/Appfile

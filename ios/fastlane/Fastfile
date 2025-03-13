@@ -24,6 +24,8 @@ platform :ios do
       skip_screenshots: false,
       skip_metadata: false,
       skip_binary_upload: true,
+      api_key_path: "./fastlane/app_store_connect_api_key.json",
+      precheck_include_in_app_purchases: false,
     )
   end
 end

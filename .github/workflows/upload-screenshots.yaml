@@ -37,4 +37,5 @@ jobs:
       run: |
         cd ios
         echo "${{ secrets.FASTLANE_IOS_APPFILE }}" | base64 --decode > fastlane/Appfile
+        echo "${{ secrets.FASTLANE_APP_STORE_CONNECT_API_KEY_JSON }}" | base64 --decode > fastlane/app_store_connect_api_key.json
         fastlane upload_screenshots_and_metadata --force
