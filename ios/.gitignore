@@ -34,8 +34,8 @@ Runner/GeneratedPluginRegistrant.*
 !default.perspectivev3
 
 # Fastlane
-fastlane/metadata/
-fastlane/screenshots/
+fastlane/metadata/review_information/
+# fastlane/screenshots/
 fastlane/Appfile
 fastlane/Preview.html
 fastlane/report.xml

@@ -18,5 +18,5 @@ flutter-ship*.json
 # Fastlane
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/metadata/
+# fastlane/metadata/
 fastlane/Appfile
