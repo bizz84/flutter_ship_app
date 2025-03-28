@@ -29,8 +29,8 @@ class LoggerAnalyticsClient implements AnalyticsClient {
   }
 
   @override
-  Future<void> trackNewAppHome() async {
-    log('trackNewAppHome', name: _name);
+  Future<void> trackNewAppHome({required bool usingFAB}) async {
+    log('trackNewAppHome(usingFAB: $usingFAB)', name: _name);
   }
 
   @override
