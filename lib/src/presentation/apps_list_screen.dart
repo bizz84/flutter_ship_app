@@ -53,7 +53,7 @@ class AppsListScreen extends ConsumerWidget {
                 onPressed: () {
                   unawaited(ref
                       .read(analyticsFacadeProvider)
-                      .trackNewAppHome(usingFAB: false));
+                      .trackNewApp(usingFAB: false));
                   _createNewApp(context);
                 },
                 icon: Icon(
@@ -82,7 +82,7 @@ class AppsListScreen extends ConsumerWidget {
                 onPressed: () {
                   unawaited(ref
                       .read(analyticsFacadeProvider)
-                      .trackNewAppHome(usingFAB: true));
+                      .trackNewApp(usingFAB: true));
                   _createNewApp(context);
                 },
                 child: Icon(
