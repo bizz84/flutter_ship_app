@@ -36,8 +36,8 @@ class MixpanelAnalyticsClient implements AnalyticsClient {
   }
 
   @override
-  Future<void> trackNewAppHome() async {
-    await _mixpanel.track('New App (Home)');
+  Future<void> trackNewApp({required bool usingFAB}) async {
+    await _mixpanel.track('New App', properties: {'using_fab': usingFAB});
   }
 
   @override

@@ -22,6 +22,7 @@ Future<FirebaseRemoteConfig> firebaseRemoteConfig(Ref ref) async {
   // Set default values (useful if app is offline on first launch)
   await remoteConfig.setDefaults({
     'required_version': '0.1.0',
+    'new_app_using_fab': false,
   });
   // Strategy 3: Load new values for next startup
   // https://firebase.google.com/docs/remote-config/loading

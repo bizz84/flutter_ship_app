@@ -39,8 +39,8 @@ class AnalyticsFacade implements AnalyticsClient {
   }
 
   @override
-  Future<void> trackNewAppHome() => _dispatch(
-        (c) => c.trackNewAppHome(),
+  Future<void> trackNewApp({required bool usingFAB}) => _dispatch(
+        (c) => c.trackNewApp(usingFAB: usingFAB),
       );
 
   @override
