@@ -12,6 +12,7 @@ import 'package:flutter_ship_app/src/common_widgets/responsive_center_scrollable
 import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
+import 'package:flutter_ship_app/src/monitoring/ab_testing/ab_test_repository.dart';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 
@@ -26,6 +27,7 @@ class AppsListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appsListAsync = ref.watch(watchAppsListProvider);
     final appsListNotEmpty = appsListAsync.valueOrNull?.isNotEmpty == true;
+    final usingFAB = ref.watch(abTestRepositoryProvider).addNewAppUsingFAB();
     final scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
@@ -43,20 +45,23 @@ class AppsListScreen extends ConsumerWidget {
         ),
         title: appsListNotEmpty ? Text('My Apps'.hardcoded) : null,
         actions: [
-          Semantics(
-            identifier: 'create-new-app-action',
-            child: IconButton(
-              tooltip: 'Create a new app'.hardcoded,
-              onPressed: () {
-                unawaited(ref.read(analyticsFacadeProvider).trackNewAppHome());
-                _createNewApp(context);
-              },
-              icon: Icon(
-                Icons.add,
-                semanticLabel: 'Create a new app'.hardcoded,
+          if (!usingFAB)
+            Semantics(
+              identifier: 'create-new-app-action',
+              child: IconButton(
+                tooltip: 'Create a new app'.hardcoded,
+                onPressed: () {
+                  unawaited(ref
+                      .read(analyticsFacadeProvider)
+                      .trackNewApp(usingFAB: false));
+                  _createNewApp(context);
+                },
+                icon: Icon(
+                  Icons.add,
+                  semanticLabel: 'Create a new app'.hardcoded,
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
       body: ResponsiveCenterScrollable(
@@ -69,6 +74,24 @@ class AppsListScreen extends ConsumerWidget {
               _createNewApp(context);
             }),
       ),
+      floatingActionButton: usingFAB
+          ? Semantics(
+              identifier: 'create-new-app-action',
+              child: FloatingActionButton(
+                tooltip: 'Create a new app'.hardcoded,
+                onPressed: () {
+                  unawaited(ref
+                      .read(analyticsFacadeProvider)
+                      .trackNewApp(usingFAB: true));
+                  _createNewApp(context);
+                },
+                child: Icon(
+                  Icons.add,
+                  semanticLabel: 'Create a new app'.hardcoded,
+                ),
+              ),
+            )
+          : null,
     );
   }
 }
