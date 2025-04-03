@@ -1,3 +1,9 @@
+## 0.3.7
+
+- Regenerate android project with Flutter 3.29 (new `.gradle.kts` syntax)
+- Update to Drift 2.26.0
+- Updated to latest packages
+
 ## 0.3.6
 
 - Made project compatible with Flutter 3.29 (`path: ^1.9.0`)
