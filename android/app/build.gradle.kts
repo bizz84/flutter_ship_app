@@ -42,3 +42,5 @@ android {
 flutter {
     source = "../.."
 }
+
+apply { from("flavors.gradle.kts") }
