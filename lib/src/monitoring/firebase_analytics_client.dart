@@ -32,8 +32,9 @@ class FirebaseAnalyticsClient implements AnalyticsClient {
   }
 
   @override
-  Future<void> trackNewAppHome() async {
-    await _analytics.logEvent(name: 'new_app_home');
+  Future<void> trackNewApp({required bool usingFAB}) async {
+    await _analytics
+        .logEvent(name: 'new_app', parameters: {'using_fab': usingFAB});
   }
 
   @override

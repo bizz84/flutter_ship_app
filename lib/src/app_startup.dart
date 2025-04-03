@@ -9,6 +9,7 @@ import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
 import 'package:flutter_ship_app/src/monitoring/error_logger.dart';
+import 'package:flutter_ship_app/src/utils/firebase_remote_config_provider.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -25,6 +26,7 @@ class AppStartupNotifier extends _$AppStartupNotifier {
     await _updateDatabaseFromJsonTemplate();
     // Preload any other FutureProviders what will be used with requireValue later
     await ref.watch(packageInfoProvider.future);
+    await ref.watch(firebaseRemoteConfigProvider.future);
   }
 
   Future<void> _updateDatabaseFromJsonTemplate() async {

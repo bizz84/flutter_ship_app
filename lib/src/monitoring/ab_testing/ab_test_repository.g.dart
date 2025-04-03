@@ -1,29 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'firebase_remote_config_provider.dart';
+part of 'ab_test_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$firebaseRemoteConfigHash() =>
-    r'9db28d640a7ea325168d271e34f07c70ba96d45b';
+String _$abTestRepositoryHash() => r'23ba90597747ceffdf11e9a7b38daecbb0d35367';
 
-/// See also [firebaseRemoteConfig].
-@ProviderFor(firebaseRemoteConfig)
-final firebaseRemoteConfigProvider =
-    FutureProvider<FirebaseRemoteConfig>.internal(
-  firebaseRemoteConfig,
-  name: r'firebaseRemoteConfigProvider',
+/// See also [abTestRepository].
+@ProviderFor(abTestRepository)
+final abTestRepositoryProvider = Provider<ABTestRepository>.internal(
+  abTestRepository,
+  name: r'abTestRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$firebaseRemoteConfigHash,
+      : _$abTestRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef FirebaseRemoteConfigRef = FutureProviderRef<FirebaseRemoteConfig>;
+typedef AbTestRepositoryRef = ProviderRef<ABTestRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
