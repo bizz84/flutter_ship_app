@@ -25,6 +25,7 @@ dependencies:
   package_info_plus: 8.3.0
   dio: 5.8.0+1
   firebase_core: 3.13.0
+  firebase_crashlytics: 4.3.5
 
 dev_dependencies:
   flutter_test:
