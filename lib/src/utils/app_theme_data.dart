@@ -7,9 +7,11 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 /// For more details, see: https://docs.flexcolorscheme.com/
 extension AppThemeData on ThemeData {
   static ThemeData light() =>
-      FlexThemeData.light(scheme: AppColors.flexScheme)._customAppTheme();
+      FlexThemeData.light(scheme: AppColors.flexScheme, useMaterial3: false)
+          ._customAppTheme();
   static ThemeData dark() =>
-      FlexThemeData.dark(scheme: AppColors.flexScheme)._customAppTheme();
+      FlexThemeData.dark(scheme: AppColors.flexScheme, useMaterial3: false)
+          ._customAppTheme();
 
   ThemeData _customAppTheme() {
     // An updated theme with bigger text sizes
