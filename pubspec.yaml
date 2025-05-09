@@ -13,7 +13,7 @@ dependencies:
   drift: 2.26.1
   drift_dev: 2.26.1
   path_provider: 2.1.5
-  path: ^1.9.0
+  path: ^1.9.1
   sqlite3_flutter_libs: 0.5.32
   sqlite3: 2.7.5
   # Other packages
