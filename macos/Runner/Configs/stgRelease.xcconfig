@@ -1,0 +1,6 @@
+#include "../../Flutter/stgRelease.xcconfig"
+#include "Warnings.xcconfig"
+
+ASSET_PREFIX=stg
+BUNDLE_NAME=Flutter Ship Stg
+BUNDLE_DISPLAY_NAME=Flutter Ship Stg

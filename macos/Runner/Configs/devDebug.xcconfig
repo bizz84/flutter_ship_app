@@ -1,0 +1,6 @@
+#include "../../Flutter/devDebug.xcconfig"
+#include "Warnings.xcconfig"
+
+ASSET_PREFIX=dev
+BUNDLE_NAME=Flutter Ship Dev
+BUNDLE_DISPLAY_NAME=Flutter Ship Dev
