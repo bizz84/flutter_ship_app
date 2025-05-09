@@ -1,56 +1,37 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Helper function for showing an adaptive alert dialog
+/// Returns:
+/// - true if the default action was selected
+/// - false if the cancel action was selected
+/// - null if the dialog was dismissed
 Future<bool?> showAlertDialog({
   required BuildContext context,
   required String title,
   required String content,
   String? cancelActionText,
   required String defaultActionText,
+  bool barrierDismissible = true,
   bool isDestructive = false,
-  String? routeName,
 }) {
-  if (kIsWeb ||
-      defaultTargetPlatform != TargetPlatform.iOS &&
-          defaultTargetPlatform != TargetPlatform.macOS) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      routeSettings: RouteSettings(name: routeName),
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(content),
-        actions: [
-          if (cancelActionText != null)
-            TextButton(
-              child: Text(cancelActionText),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-          TextButton(
-            child: Text(defaultActionText),
-            onPressed: () => Navigator.of(context).pop(true),
-          ),
-        ],
-      ),
-    );
-  }
-  return showCupertinoDialog(
+  return showAdaptiveDialog<bool?>(
     context: context,
-    routeSettings: RouteSettings(name: routeName),
-    builder: (context) => CupertinoAlertDialog(
+    barrierDismissible: barrierDismissible,
+    builder: (BuildContext context) => AlertDialog.adaptive(
       title: Text(title),
       content: Text(content),
-      actions: [
+      actions: <Widget>[
         if (cancelActionText != null)
-          CupertinoDialogAction(
+          _adaptiveAction(
+            context: context,
+            onPressed: () => Navigator.pop(context, false),
             child: Text(cancelActionText),
-            onPressed: () => Navigator.of(context).pop(false),
           ),
-        CupertinoDialogAction(
-          isDestructiveAction: isDestructive,
-          onPressed: () => Navigator.of(context).pop(true),
+        _adaptiveAction(
+          context: context,
+          isDestructive: isDestructive,
+          onPressed: () => Navigator.pop(context, true),
           child: Text(defaultActionText),
         ),
       ],
@@ -58,4 +39,24 @@ Future<bool?> showAlertDialog({
   );
 }
 
-// ignore_for_file:avoid-shadowing
+/// Helper function for showing an adaptive action
+/// Returns:
+/// - TextButton if the platform is not iOS or macOS
+/// - CupertinoDialogAction if the platform is iOS or macOS
+Widget _adaptiveAction({
+  required BuildContext context,
+  required VoidCallback onPressed,
+  required Widget child,
+  bool isDestructive = false,
+}) {
+  final platform = Theme.of(context).platform;
+  if (platform != TargetPlatform.iOS && platform != TargetPlatform.macOS) {
+    return TextButton(onPressed: onPressed, child: child);
+  } else {
+    return CupertinoDialogAction(
+      onPressed: onPressed,
+      isDestructiveAction: isDestructive,
+      child: child,
+    );
+  }
+}
