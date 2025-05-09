@@ -7,7 +7,7 @@ part of 'app_startup.dart';
 // **************************************************************************
 
 String _$appStartupNotifierHash() =>
-    r'0171b2ec59657b7ea45fe4285700e130a8b1eb74';
+    r'7e727bb4142e1516b6339c821044694da8f414c0';
 
 /// App startup provider and widget (below)
 /// For more info, read: https://codewithandrea.com/articles/robust-app-initialization-riverpod/

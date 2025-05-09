@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_ship_app/src/constants/app_sizes.dart';
 import 'package:flutter_ship_app/src/data/app_database.dart';
 import 'package:flutter_ship_app/src/data/app_database_crud.dart';
 import 'package:flutter_ship_app/src/data/gist_client.dart';
+import 'package:flutter_ship_app/src/monitoring/error_logger.dart';
 import 'package:flutter_ship_app/src/utils/package_info_provider.dart';
 import 'package:flutter_ship_app/src/utils/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -46,8 +46,7 @@ class AppStartupNotifier extends _$AppStartupNotifier {
           return;
         }
       }
-      // TODO: Add error monitoring
-      log(e.toString(), name: 'App Startup', error: e, stackTrace: st);
+      ref.read(errorLoggerProvider).logException(e, st);
       // * If the DB is empty, rethrow so we can show an error and the retry UI
       if (isDbEmpty) {
         rethrow;
