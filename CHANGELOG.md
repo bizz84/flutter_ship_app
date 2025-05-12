@@ -1,3 +1,10 @@
+## 0.3.8
+
+- Updated `showAlertDialog` helper
+- Updated `IPHONEOS_DEPLOYMENT_TARGET` to 13.0
+- Updated to `flex_color_scheme` 8.2.0
+- Updated to work with Flutter 3.32 beta
+
 ## 0.3.7
 
 - Regenerate android project with Flutter 3.29 (new `.gradle.kts` syntax)
